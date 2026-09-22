@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens (Phase 3A, corrected in Phase 3B).
+ *
+ * Everything below is scoped to the whole app because these are the
+ * neutral/brand-default tokens. Per-style accent tokens (StyleTheme) are
+ * NOT defined here — they arrive in M1+ as data in content/styles/*.ts and
+ * get applied by a StyleThemeScope wrapper that overrides just the
+ * `--color-accent*` and `--color-focus-ring` variables on a scoped element.
+ * Because every Tailwind utility below (bg-accent, text-accent, etc.)
+ * compiles to `var(--color-accent)`, that override cascades to any
+ * component using these utilities with zero per-component changes —
+ * this is the mechanism behind "style theming only applies inside
+ * style-scoped areas" from the Phase 3B corrections.
+ */
+@theme inline {
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+
+  /* Neutrals */
+  --color-paper: #faf7f2;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f2eee7;
+  --color-ink-900: #211d18;
+  --color-ink-700: #4a443c;
+  --color-ink-500: #7a7266;
+  --color-ink-300: #b3aa9c;
+  --color-border: #e4dfd5;
+  --color-border-strong: #d2cabb;
+
+  /*
+   * Brand default accent — used everywhere no style is selected (nav,
+   * footer, legal pages, general company pages) and as the fallback theme
+   * once the quiz/style system exists. accent-contrast defaults to dark
+   * ink text: this accent's exact luminance is a starting value and needs
+   * a real contrast-ratio check before shipping (see Phase 3B corrections),
+   * so ink text is the safe default rather than assuming white text works.
+   */
+  --color-accent: #8a6a4b;
+  --color-accent-hover: #74573c;
+  --color-accent-tint: #efe9e1;
+  --color-accent-strong-tint: #e4dbd1;
+  --color-accent-contrast: #211d18;
+  --color-focus-ring: #5f4a34;
+
+  /* Semantic */
+  --color-success: #5b7a5e;
+  --color-warning: #b08a3e;
+  --color-error: #b0503e;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* Shadow */
+  --shadow-xs: 0 1px 2px rgba(33, 29, 24, 0.04);
+  --shadow-sm: 0 2px 6px rgba(33, 29, 24, 0.06);
+  --shadow-md: 0 8px 20px rgba(33, 29, 24, 0.08);
+  --shadow-lg: 0 16px 40px rgba(33, 29, 24, 0.12);
+
+  /*
+   * Type scale. Tailwind's default spacing scale (4px per step) already
+   * matches the Phase 3A spacing tokens exactly, so no custom --spacing-*
+   * tokens are needed — p-4/gap-6/py-24 etc. are used directly throughout.
+   * Sizes below are the desktop values; a smaller size class plus a
+   * `md:` variant is used in markup for the mobile step where one is
+   * needed, rather than encoding two sizes into one token.
+   */
+  --text-display: 4rem;
+  --text-display--line-height: 1.05;
+  --text-h1: 3rem;
+  --text-h1--line-height: 1.1;
+  --text-h2: 2.125rem;
+  --text-h2--line-height: 1.2;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.3;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.5;
+}
+
+/* No dark mode in v1 (Phase 3A) — light only, deliberately. */
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  /*
+   * Dedicated, fully-resolved focus-ring color per theme — not a nested
+   * CSS-variable/opacity string. `outline` (rather than box-shadow) is
+   * used because it's simpler, doesn't need radius-matching, and isn't
+   * affected by a parent's `overflow: hidden`.
+   */
+  .focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  .focus-ring:focus-visible {
+    outline-color: var(--color-focus-ring);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
