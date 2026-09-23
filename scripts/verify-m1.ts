@@ -1,0 +1,17 @@
+import { scandinavianStyle } from "../src/content/styles/scandinavian";
+import { materials } from "../src/content/materials";
+import { projectIdeas } from "../src/content/project-ideas";
+import { adaptiveQuestions } from "../src/content/adaptive-questions";
+import { projectCategories } from "../src/content/project-categories";
+import { imageRegistry } from "../src/images/registry";
+import { buildPublicMessage, deriveDefaultStatus } from "../src/lib/service-area/public-message";
+import { adaptiveQuestionSchema,imageAssetSchema,materialSchema,projectIdeaSchema,styleDefinitionSchema } from "../src/validation/m1-schemas";
+import type { ServiceAreaEntry } from "../src/types";
+function assert(ok:unknown,message:string):asserts ok { if(!ok) throw new Error(message); }
+imageRegistry.forEach(x=>imageAssetSchema.parse(x)); materials.forEach(x=>materialSchema.parse(x)); projectIdeas.forEach(x=>projectIdeaSchema.parse(x)); adaptiveQuestions.forEach(x=>adaptiveQuestionSchema.parse(x)); styleDefinitionSchema.parse(scandinavianStyle);
+const imageIds=new Set(imageRegistry.map(x=>x.id)); const materialIds=new Set(materials.map(x=>x.id)); const ideaIds=new Set(projectIdeas.map(x=>x.id)); const questionIds=new Set(adaptiveQuestions.map(x=>x.id));
+[scandinavianStyle.heroImageId,scandinavianStyle.heroImageIdMobile,...scandinavianStyle.galleryImageIds].forEach(id=>assert(imageIds.has(id),`Missing image: ${id}`)); materials.forEach(x=>assert(imageIds.has(x.imageId),`Missing material image: ${x.imageId}`)); projectIdeas.forEach(x=>{assert(imageIds.has(x.imageId),`Missing idea image: ${x.imageId}`);x.materialIds.forEach(id=>assert(materialIds.has(id),`Missing idea material: ${id}`));}); projectCategories.forEach(x=>assert(imageIds.has(x.imageId),`Missing category image: ${x.imageId}`)); scandinavianStyle.materialIds.forEach(id=>assert(materialIds.has(id),`Missing style material: ${id}`)); scandinavianStyle.projectIdeaIds.forEach(id=>assert(ideaIds.has(id),`Missing project idea: ${id}`)); scandinavianStyle.adaptiveQuestionIds.forEach(id=>assert(questionIds.has(id),`Missing question: ${id}`));
+const make=(caps:Partial<ServiceAreaEntry>):ServiceAreaEntry=>({countryCode:"XX",countryName:"Testland",status:"not-available",discoveryAvailable:false,remoteDesignAvailable:false,scopeDefinitionAvailable:false,partnerCoordinationAvailable:false,executionCoordinationAvailable:false,additionalPublicNote:null,internalNote:"",...caps});
+const available=make({partnerCoordinationAvailable:true,status:"available"}); const review=make({remoteDesignAvailable:true,status:"review-required"}); const unavailable=make({}); const noted=make({remoteDesignAvailable:true,status:"review-required",additionalPublicNote:"Additional confirmed note."});
+assert(deriveDefaultStatus(available)==="available","available status failed"); assert(deriveDefaultStatus(review)==="review-required","review status failed"); assert(deriveDefaultStatus(unavailable)==="not-available","unavailable status failed"); assert(buildPublicMessage(available).includes("local partner coordination"),"available message failed"); assert(buildPublicMessage(review).includes("remote design"),"review message failed"); assert(buildPublicMessage(unavailable).includes("not yet able"),"unavailable message failed"); const notedMessage=buildPublicMessage(noted); assert(notedMessage.includes("remote design")&&notedMessage.endsWith("Additional confirmed note."),"append-only note failed");
+console.log("M1 verification passed: schemas, references, statuses and append-only messaging.");

@@ -1,0 +1,2 @@
+import type { LegalConfiguration } from "@/types";
+export const legalConfig:LegalConfiguration={privacyPolicyVersion:"draft-v1",termsVersion:"draft-v1",imprintText:"PLACEHOLDER — professional legal review required",cookiePolicyText:"PLACEHOLDER — professional legal review required",dataProcessingRegion:"EU",retention:{draftRetentionDays:30,submittedBriefRetentionDays:365,autoDeleteEnabled:false}};
