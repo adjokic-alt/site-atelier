@@ -1,39 +1,48 @@
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "tertiary";
+type ButtonVariant = "primary" | "secondary" | "tertiary" | "style";
+type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
   variant?: ButtonVariant;
+  size?: ButtonSize;
+  isLoading?: boolean;
 }
 
-/**
- * Shared, non-conflicting styles only: no property here is also set inside
- * a variant string. Tailwind utilities have equal CSS specificity, so two
- * classes targeting the same property (e.g. a height in the base string and
- * a different height in a variant string) would resolve by stylesheet
- * order, not by which one is "more specific" — mixing them is how utilities
- * silently cancel each other out. Each variant below owns its own sizing.
- */
-const baseStyles =
-  "inline-flex items-center justify-center gap-2 rounded-sm font-sans text-sm font-medium transition-opacity focus-ring disabled:pointer-events-none disabled:opacity-40";
+const variants: Record<ButtonVariant, string> = {
+  primary: "bg-ink-900 text-white hover:opacity-90",
+  secondary: "border-[1.5px] border-ink-900 bg-transparent text-ink-900 hover:bg-surface-sunken",
+  tertiary: "bg-transparent text-accent underline-offset-4 hover:underline",
+  style: "bg-accent text-accent-contrast hover:bg-accent-hover",
+};
 
-const variantStyles: Record<ButtonVariant, string> = {
-  primary:
-    "h-12 md:h-11 px-5 bg-ink-900 text-white hover:opacity-90 active:opacity-80",
-  secondary:
-    "h-12 md:h-11 px-5 border-[1.5px] border-ink-900 bg-transparent text-ink-900 hover:bg-surface-sunken",
-  tertiary: "h-auto px-0 text-accent underline-offset-4 hover:underline",
+const sizes: Record<ButtonSize, string> = {
+  sm: "min-h-12 px-4 text-sm",
+  md: "min-h-12 px-5 text-sm",
+  lg: "min-h-[52px] px-6 text-base",
 };
 
 export function Button({
+  children,
   variant = "primary",
+  size = "md",
+  isLoading = false,
+  disabled,
   className = "",
+  type = "button",
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      type={type}
+      disabled={disabled || isLoading}
+      aria-busy={isLoading || undefined}
+      className={`focus-ring inline-flex items-center justify-center gap-2 rounded-sm font-sans font-medium transition-[background-color,opacity,transform] active:scale-[0.99] disabled:pointer-events-none disabled:opacity-40 ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
-    />
+    >
+      {isLoading ? <span aria-hidden="true" className="size-4 animate-spin rounded-full border-2 border-current border-r-transparent" /> : null}
+      <span>{isLoading ? "Loading" : children}</span>
+    </button>
   );
 }
