@@ -2,15 +2,10 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BriefProvider } from "@/providers/BriefProvider";
 import { siteConfig } from "@/config/site.config";
 import "./globals.css";
 
-/*
- * Fraunces for display headings only, Inter for body text, navigation,
- * buttons and form controls — applied via the --font-display / --font-sans
- * theme tokens in globals.css. Both are variable Google Fonts, self-hosted
- * at build time by next/font (no runtime request to fonts.googleapis.com).
- */
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
@@ -32,9 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col antialiased">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <BriefProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </BriefProvider>
       </body>
     </html>
   );

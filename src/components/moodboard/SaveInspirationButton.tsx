@@ -1,0 +1,3 @@
+"use client";
+import { useBrief } from "@/providers/BriefProvider";
+export function SaveInspirationButton({itemId}:{itemId:string}){const{brief,dispatch}=useBrief();const saved=brief.visuals.moodboardItemIds.includes(itemId);return <button type="button" aria-pressed={saved} onClick={()=>dispatch({type:saved?"REMOVE_MOODBOARD_ITEM":"ADD_MOODBOARD_ITEM",itemId})} className={`focus-ring inline-flex min-h-12 items-center gap-2 rounded-full px-4 text-sm font-medium shadow-sm ${saved?"bg-accent text-accent-contrast":"bg-paper/95 text-ink-900 hover:bg-white"}`}><span aria-hidden="true">{saved?"♥":"♡"}</span>{saved?"Saved":"Save"}</button>}
