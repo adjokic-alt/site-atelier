@@ -14,10 +14,7 @@ import {
 } from "react";
 import type { ClientBrief } from "@/types";
 import { createEmptyBrief } from "@/lib/brief/create-empty-brief";
-import {
-  briefReducer,
-  type BriefAction,
-} from "@/lib/brief/reducer";
+import { briefReducer, type BriefAction } from "@/lib/brief/reducer";
 import {
   clearBrief,
   loadBrief,
@@ -36,65 +33,37 @@ interface BriefContextValue {
 
 const BriefContext = createContext<BriefContextValue | null>(null);
 
-export function BriefProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function BriefProvider({ children }: { children: ReactNode }) {
   const [brief, baseDispatch] = useReducer(
     briefReducer,
     undefined,
     createEmptyBrief,
   );
-
   const [hydrated, setHydrated] = useState(false);
   const [saved, setSaved] = useState(true);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const saveTimer =
-    useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const hydrationStarted = useRef(false);
-
-  const dispatch = useCallback<Dispatch<BriefAction>>(
-    (action) => {
-      if (action.type !== "HYDRATE") {
-        setSaved(false);
-      }
-
-      baseDispatch(action);
-    },
-    [],
-  );
-
-  useEffect(() => {
-    if (hydrationStarted.current) {
-      return;
+  const dispatch = useCallback<Dispatch<BriefAction>>((action) => {
+    if (action.type !== "HYDRATE") {
+      setSaved(false);
     }
-
-    hydrationStarted.current = true;
-
-    const hydrationTimer = window.setTimeout(() => {
-      const storedBrief = loadBrief();
-
-      if (storedBrief) {
-        baseDispatch({
-          type: "HYDRATE",
-          brief: storedBrief,
-        });
-      }
-
-      setHydrated(true);
-    }, 0);
-
-    return () => {
-      window.clearTimeout(hydrationTimer);
-    };
+    baseDispatch(action);
   }, []);
 
   useEffect(() => {
-    if (!hydrated) {
-      return;
-    }
+    const hydrationTimer = window.setTimeout(() => {
+      const storedBrief = loadBrief();
+      if (storedBrief) {
+        baseDispatch({ type: "HYDRATE", brief: storedBrief });
+      }
+      setHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(hydrationTimer);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
 
     if (saveTimer.current) {
       clearTimeout(saveTimer.current);
@@ -115,11 +84,7 @@ export function BriefProvider({
   const resetBrief = useCallback(() => {
     clearBrief();
     setSaved(false);
-
-    baseDispatch({
-      type: "RESET",
-      brief: createEmptyBrief(),
-    });
+    baseDispatch({ type: "RESET", brief: createEmptyBrief() });
   }, []);
 
   const value = useMemo(
@@ -131,30 +96,18 @@ export function BriefProvider({
       strength: getBriefStrength(brief),
       resetBrief,
     }),
-    [
-      brief,
-      dispatch,
-      hydrated,
-      saved,
-      resetBrief,
-    ],
+    [brief, dispatch, hydrated, saved, resetBrief],
   );
 
   return (
-    <BriefContext.Provider value={value}>
-      {children}
-    </BriefContext.Provider>
+    <BriefContext.Provider value={value}>{children}</BriefContext.Provider>
   );
 }
 
 export function useBrief() {
   const context = useContext(BriefContext);
-
   if (!context) {
-    throw new Error(
-      "useBrief must be used within BriefProvider",
-    );
+    throw new Error("useBrief must be used within BriefProvider");
   }
-
   return context;
 }
