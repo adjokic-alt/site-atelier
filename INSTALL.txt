@@ -1,0 +1,3 @@
+Copy the complete src folder over the existing project and replace files.
+Required image: public/images/inspiration/inspiration-hero.png
+Then run npm run lint, npx tsc --noEmit, and npm run build.

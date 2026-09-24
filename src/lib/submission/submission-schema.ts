@@ -4,6 +4,7 @@ import { clientBriefSchema } from "@/lib/brief/validation";
 export const submissionPayloadSchema = z.object({
   brief: clientBriefSchema,
   companyWebsite: z.string().max(0, "Spam check failed.").default(""),
+  turnstileToken: z.string().default(""),
 });
 
 export function validateSubmission(payload: unknown) {

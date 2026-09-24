@@ -1,0 +1,2 @@
+Add this export to src/components/inspiration/index.ts if that file exists:
+export * from "./InspirationHero";
