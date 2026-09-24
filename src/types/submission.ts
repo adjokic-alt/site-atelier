@@ -23,7 +23,7 @@ export interface SubmissionSuccessResponse {
   submittedAt: string;
   strengthLevel: SubmissionStrengthLevel;
   clientFlags: ClientFitFlag[];
-  demoMode: true;
+  demoMode: boolean;
   duplicate: boolean;
 }
 

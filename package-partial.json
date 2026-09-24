@@ -1,3 +1,6 @@
 {
-  "dependenciesToAdd": { "pdf-lib": "^1.17.1" }
+  "dependenciesToAdd": {
+    "@supabase/supabase-js": "latest",
+    "resend": "latest"
+  }
 }

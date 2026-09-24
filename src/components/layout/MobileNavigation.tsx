@@ -9,22 +9,33 @@ interface NavigationItem {
   href: string;
 }
 
-interface MobileNavigationProps {
-  items: NavigationItem[];
-}
+const focusableSelector = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  '[tabindex]:not([tabindex="-1"])',
+].join(",");
 
-export function MobileNavigation({ items }: MobileNavigationProps) {
+export function MobileNavigation({ items }: { items: NavigationItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousPathname = useRef(pathname);
+
+  const closeMenu = (restoreFocus = true) => {
+    setOpen(false);
+    if (restoreFocus) window.setTimeout(() => triggerRef.current?.focus(), 0);
+  };
 
   useEffect(() => {
     if (previousPathname.current !== pathname) {
       previousPathname.current = pathname;
-      const closeTimer = window.setTimeout(() => setOpen(false), 0);
-      return () => window.clearTimeout(closeTimer);
+      const timer = window.setTimeout(() => setOpen(false), 0);
+      return () => window.clearTimeout(timer);
     }
   }, [pathname]);
 
@@ -37,8 +48,26 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
-        triggerRef.current?.focus();
+        event.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialogRef.current) return;
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(focusableSelector),
+      ).filter((element) => !element.hasAttribute("disabled"));
+
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
@@ -68,28 +97,28 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
       </button>
 
       {open ? (
-        <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Main menu">
+        <div className="fixed inset-0 z-50">
           <button
             type="button"
             aria-label="Close main menu"
             className="absolute inset-0 bg-ink-900/45 backdrop-blur-[2px]"
-            onClick={() => setOpen(false)}
+            onClick={() => closeMenu()}
           />
-
           <div
+            ref={dialogRef}
             id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-menu-title"
             className="absolute inset-y-0 right-0 flex w-[min(88vw,390px)] flex-col overflow-y-auto bg-paper p-5 shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
-              <p className="font-display text-lg text-ink-900">Menu</p>
+              <h2 id="mobile-menu-title" className="font-display text-lg text-ink-900">Menu</h2>
               <button
                 ref={closeButtonRef}
                 type="button"
                 aria-label="Close main menu"
-                onClick={() => {
-                  setOpen(false);
-                  triggerRef.current?.focus();
-                }}
+                onClick={() => closeMenu()}
                 className="focus-ring inline-flex min-h-12 min-w-12 items-center justify-center rounded-sm border border-border-strong text-2xl text-ink-900"
               >
                 <span aria-hidden="true">×</span>
@@ -107,8 +136,7 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
                         aria-current={active ? "page" : undefined}
                         className={`focus-ring flex min-h-14 items-center justify-between rounded-sm px-2 text-base font-medium ${active ? "text-accent" : "text-ink-900"}`}
                       >
-                        {item.label}
-                        <span aria-hidden="true">→</span>
+                        {item.label}<span aria-hidden="true">→</span>
                       </Link>
                     </li>
                   );
@@ -117,18 +145,8 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
             </nav>
 
             <div className="mt-auto grid gap-3 border-t border-border pt-6">
-              <Link
-                href="/inquiry/style"
-                className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm bg-ink-900 px-5 text-sm font-medium text-white"
-              >
-                Start your project
-              </Link>
-              <Link
-                href="/brief"
-                className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm border border-ink-900 px-5 text-sm font-medium text-ink-900"
-              >
-                Open my brief
-              </Link>
+              <Link href="/inquiry/style" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm bg-ink-900 px-5 text-sm font-medium text-white">Start your project</Link>
+              <Link href="/brief" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm border border-ink-900 px-5 text-sm font-medium text-ink-900">Open my brief</Link>
               <p className="text-center text-xs text-ink-500">Your draft is stored in this browser.</p>
             </div>
           </div>
