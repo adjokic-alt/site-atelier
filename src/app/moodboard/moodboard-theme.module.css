@@ -1,0 +1,63 @@
+.page {
+  --mood-page: #f5f1ea;
+  --mood-hero: #eee8de;
+  --mood-surface: #fbfaf7;
+  --mood-surface-strong: #e9e1d6;
+  --mood-border: #d7cbbc;
+  --mood-accent: #776958;
+  --mood-ink: #2a2520;
+  --mood-button: #29231e;
+  --mood-button-text: #ffffff;
+
+  min-height: 100%;
+  color: var(--mood-ink);
+  background:
+    radial-gradient(circle at 92% 9%, color-mix(in srgb, var(--mood-accent) 10%, transparent), transparent 30rem),
+    var(--mood-page);
+  transition: background-color 400ms ease, color 400ms ease;
+}
+
+.hero {
+  border-bottom: 1px solid var(--mood-border);
+  background: color-mix(in srgb, var(--mood-hero) 88%, white);
+}
+
+.surface :global(.mood-surface) {
+  border-color: var(--mood-border) !important;
+  background: var(--mood-surface) !important;
+}
+
+.surface :global(.mood-surface-strong) {
+  background: var(--mood-surface-strong) !important;
+}
+
+.surface :global(.mood-accent) {
+  color: var(--mood-accent) !important;
+}
+
+.surface :global(.mood-border) {
+  border-color: var(--mood-border) !important;
+}
+
+.buttonPrimary {
+  color: var(--mood-button-text);
+  background: var(--mood-button);
+}
+
+.buttonSecondary {
+  color: var(--mood-ink);
+  border-color: var(--mood-button);
+  background: color-mix(in srgb, var(--mood-surface) 80%, transparent);
+}
+
+.cta {
+  color: var(--mood-button-text);
+  background:
+    linear-gradient(135deg, var(--mood-button), color-mix(in srgb, var(--mood-button) 78%, var(--mood-accent)));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    transition: none;
+  }
+}
