@@ -1,3 +1,16 @@
-Copy the complete src folder over the existing project and replace files.
-Required image: public/images/inspiration/inspiration-hero.png
-Then run npm run lint, npx tsc --noEmit, and npm run build.
+Copy the complete src folder over the existing project and choose Replace files in destination.
+
+Keep this import in src/app/layout.tsx:
+import "@/styles/inspiration-grid.css";
+
+The new CSS replaces the previous oversized editorial grid rules using the same file name.
+
+Responsive behavior:
+- phone: 1 column
+- tablet: 2 equal columns
+- desktop: 3 equal compact columns
+
+Run:
+npm run lint
+npx tsc --noEmit
+npm run build
