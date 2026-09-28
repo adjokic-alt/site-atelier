@@ -22,25 +22,19 @@ export function StyleCard({ style, priority = false }: StyleCardProps) {
           style={{ background: style.gradient }}
         />
 
-        {style.image ? (
-          <Image
-            src={style.image}
-            alt={style.altText ?? `${style.name} interior style direction`}
-            fill
-            priority={priority}
-            sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 48vw, 32vw"
-            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          />
-        ) : (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-25 [background-image:radial-gradient(circle_at_25%_25%,white_0,transparent_35%),linear-gradient(115deg,transparent_48%,white_49%,transparent_51%)] transition-transform duration-500 group-hover:scale-105"
-          />
-        )}
+        <Image
+          src={style.image}
+          alt={style.altText}
+          fill
+          priority={priority}
+          sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 48vw, 32vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          style={{ objectPosition: style.imagePosition ?? "center" }}
+        />
 
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-ink-900/95 via-ink-900/20 to-black/5"
+          className="absolute inset-0 bg-gradient-to-t from-ink-900/95 via-ink-900/18 to-black/5"
         />
 
         <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-3 py-1 text-xs text-ink-700 shadow-sm backdrop-blur-sm">

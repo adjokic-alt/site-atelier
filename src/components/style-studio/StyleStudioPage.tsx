@@ -1,0 +1,22 @@
+import type { StyleStudioData } from "@/content/style-studios";
+import { StudioCta } from "./StudioCta";
+import { StudioFit } from "./StudioFit";
+import { StudioHero } from "./StudioHero";
+import { StudioInspiration } from "./StudioInspiration";
+import { StudioMaterials } from "./StudioMaterials";
+import { StudioPairings } from "./StudioPairings";
+import { StudioPrinciples } from "./StudioPrinciples";
+
+export function StyleStudioPage({ studio }: { studio: StyleStudioData }) {
+  return (
+    <main>
+      <StudioHero name={studio.name} eyebrow={studio.eyebrow} tagline={studio.tagline} description={studio.description} image={studio.heroImage} alt={studio.heroAlt} facts={studio.heroFacts} />
+      <StudioPrinciples intro={studio.principlesIntro} principles={studio.principles} />
+      <StudioMaterials heading={studio.materialHeading} description={studio.materialDescription} palette={studio.palette} materials={studio.materials} />
+      <StudioFit bestForTitle={studio.bestForTitle} strengthsTitle={studio.strengthsTitle} cautionsTitle={studio.cautionsTitle} bestFor={studio.bestFor} strengths={studio.strengths} cautions={studio.cautions} />
+      <StudioInspiration itemIds={studio.inspirationIds} />
+      <StudioPairings styleName={studio.name} heading={studio.pairingsHeading} pairings={studio.pairings} />
+      <StudioCta title={studio.ctaTitle} description={studio.ctaDescription} />
+    </main>
+  );
+}

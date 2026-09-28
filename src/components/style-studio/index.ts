@@ -1,3 +1,4 @@
+export * from "./StyleStudioPage";
 export * from "./StudioCta";
 export * from "./StudioFit";
 export * from "./StudioHero";

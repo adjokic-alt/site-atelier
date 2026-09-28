@@ -1,0 +1,393 @@
+import type { StyleId } from "@/types";
+
+export interface StyleStudioData {
+  id: StyleId;
+  name: string;
+  eyebrow: string;
+  tagline: string;
+  description: string;
+  heroImage: string;
+  heroAlt: string;
+  heroFacts: { label: string; value: string }[];
+  principlesIntro: string;
+  principles: { number: string; title: string; description: string }[];
+  materialHeading: string;
+  materialDescription: string;
+  palette: { name: string; hex: string }[];
+  materials: { name: string; note: string; color: string }[];
+  bestForTitle: string;
+  strengthsTitle: string;
+  cautionsTitle: string;
+  bestFor: string[];
+  strengths: string[];
+  cautions: string[];
+  inspirationIds: string[];
+  pairingsHeading: string;
+  pairings: { name: string; href: `/styles/${string}`; description: string }[];
+  ctaTitle: string;
+  ctaDescription: string;
+}
+
+export const styleStudios: Record<StyleId, StyleStudioData> = {
+  scandinavian: {
+    id: "scandinavian",
+    name: "Scandinavian",
+    eyebrow: "Style Studio",
+    tagline: "Light, calm and intentionally simple.",
+    description: "A practical interior direction built around daylight, pale timber, soft texture and layouts that make everyday living feel easier.",
+    heroImage: "/images/inspiration/daylight-living-room.png",
+    heroAlt: "Scandinavian living room with natural daylight, pale timber, soft textiles and clear circulation",
+    heroFacts: [
+      { label: "Character", value: "Calm" },
+      { label: "Light", value: "Natural" },
+      { label: "Materials", value: "Tactile" },
+      { label: "Layout", value: "Functional" },
+    ],
+    principlesIntro: "Scandinavian interiors work best when simplicity supports daily life rather than becoming decoration on its own.",
+    principles: [
+      { number: "01", title: "Natural daylight", description: "Pale surfaces and restrained window treatments help daylight travel deeper into the home." },
+      { number: "02", title: "Pale timber", description: "Light oak and ash introduce warmth without making compact rooms feel visually heavy." },
+      { number: "03", title: "Soft textiles", description: "Linen, wool and tactile upholstery balance clean architecture with comfort." },
+      { number: "04", title: "Clear circulation", description: "Fewer, better-positioned pieces protect movement, storage access and daily routines." },
+    ],
+    materialHeading: "Warm neutrals, honest texture and quiet contrast.",
+    materialDescription: "The palette stays restrained, while grain, weave and matte mineral finishes provide depth.",
+    palette: [
+      { name: "Warm white", hex: "#F3F0E9" },
+      { name: "Soft sand", hex: "#D8D0C4" },
+      { name: "Light oak", hex: "#C5A77D" },
+      { name: "Stone grey", hex: "#979A91" },
+      { name: "Forest grey", hex: "#47504B" },
+    ],
+    materials: [
+      { name: "Light oak", note: "Flooring, joinery and furniture with a quiet, consistent grain.", color: "#C5A77D" },
+      { name: "Natural linen", note: "Curtains and upholstery that soften daylight and add relaxed texture.", color: "#DDD3C5" },
+      { name: "Wool", note: "Rugs and throws that add warmth, comfort and acoustic control.", color: "#B5ADA0" },
+      { name: "Honed stone", note: "Matte mineral surfaces without visual glare.", color: "#999B93" },
+    ],
+    bestForTitle: "Real homes and practical routines.",
+    strengthsTitle: "Why this direction lasts.",
+    cautionsTitle: "How to avoid a flat result.",
+    bestFor: ["Small and medium European apartments", "Open-plan kitchen and living areas", "Family homes that need practical storage", "Renovations with limited natural light"],
+    strengths: ["Makes compact rooms feel calmer and more open", "Uses durable and widely available materials", "Adapts as furniture and family needs change", "Balances restraint with everyday comfort"],
+    cautions: ["Avoid using only pale beige tones without darker anchors", "Do not remove useful storage in the name of minimalism", "Add texture and warm lighting so the result does not feel clinical"],
+    inspirationIds: ["scandi-living-daylight", "scandi-kitchen-storage", "scandi-bedroom-linen"],
+    pairingsHeading: "Add contrast without losing the calm foundation.",
+    pairings: [
+      { name: "Minimalist", href: "/styles/minimalist", description: "Creates a cleaner architectural result with fewer objects and stronger visual order." },
+      { name: "Modern", href: "/styles/modern", description: "Adds stronger geometry, darker accents and a more structured character." },
+    ],
+    ctaTitle: "Ready to build a Scandinavian project brief?",
+    ctaDescription: "Use this style as a starting point, add visual references and keep the direction editable as the project becomes clearer.",
+  },
+  modern: {
+    id: "modern",
+    name: "Modern",
+    eyebrow: "Style Studio",
+    tagline: "Architectural clarity with deliberate contrast.",
+    description: "A confident direction shaped by strong geometry, integrated details, layered neutrals and a controlled balance of light and dark.",
+    heroImage: "/images/inspiration/architectural-living-space.png",
+    heroAlt: "Modern architectural living room with defined geometry and dark accents",
+    heroFacts: [
+      { label: "Character", value: "Confident" },
+      { label: "Lines", value: "Crisp" },
+      { label: "Contrast", value: "Deliberate" },
+      { label: "Detail", value: "Integrated" },
+    ],
+    principlesIntro: "Modern spaces feel resolved when architecture, storage, lighting and furniture follow the same visual logic.",
+    principles: [
+      { number: "01", title: "Strong geometry", description: "Clear horizontal and vertical lines give the room structure and visual confidence." },
+      { number: "02", title: "Integrated details", description: "Lighting, storage and technology are planned as part of the architecture." },
+      { number: "03", title: "Layered neutrals", description: "Stone, greige, charcoal and timber create depth without relying on decoration." },
+      { number: "04", title: "Controlled contrast", description: "Dark focal elements anchor lighter surfaces and guide attention through the room." },
+    ],
+    materialHeading: "Mineral surfaces, refined timber and dark architectural accents.",
+    materialDescription: "Modern interiors gain character from precise junctions, matte finishes and materials used in large, confident planes.",
+    palette: [
+      { name: "Chalk", hex: "#E8E5DF" },
+      { name: "Greige", hex: "#B8B5AF" },
+      { name: "Taupe", hex: "#7B7770" },
+      { name: "Charcoal", hex: "#4A4B4D" },
+      { name: "Ink", hex: "#25282B" },
+    ],
+    materials: [
+      { name: "Limestone", note: "Quiet natural variation for floors, walls and monolithic elements.", color: "#C8C2B8" },
+      { name: "Microcement", note: "A seamless matte backdrop for strong architectural forms.", color: "#A8A6A1" },
+      { name: "Dark timber", note: "Used selectively to add depth and visual weight.", color: "#55483E" },
+      { name: "Blackened metal", note: "Slim frames, lighting and details that sharpen the composition.", color: "#383A3B" },
+    ],
+    bestForTitle: "Structured spaces with architectural intent.",
+    strengthsTitle: "Why modern feels resolved.",
+    cautionsTitle: "How to keep it liveable.",
+    bestFor: ["Open-plan apartments", "New-build homes", "Renovations with integrated joinery", "Clients who prefer clear visual order"],
+    strengths: ["Creates strong spatial hierarchy", "Supports integrated storage and technology", "Handles contrast without clutter", "Works across compact and larger spaces"],
+    cautions: ["Avoid too many hard surfaces without acoustic softness", "Do not confuse modern with cold or monochrome", "Keep proportions human and furniture comfortable"],
+    inspirationIds: ["modern-living-geometry"],
+    pairingsHeading: "Soften the structure or intensify the edge.",
+    pairings: [
+      { name: "Scandinavian", href: "/styles/scandinavian", description: "Adds natural warmth, softer textiles and a more relaxed everyday quality." },
+      { name: "Industrial", href: "/styles/industrial", description: "Introduces raw texture, darker metal and a more expressive material character." },
+    ],
+    ctaTitle: "Ready to shape a Modern project direction?",
+    ctaDescription: "Use architecture, contrast and integrated details as the foundation for a clear and confident brief.",
+  },
+  minimalist: {
+    id: "minimalist",
+    name: "Minimalist",
+    eyebrow: "Style Studio",
+    tagline: "Quiet spaces with nothing unnecessary.",
+    description: "A warm, reduced direction based on visual order, concealed storage, tactile surfaces and careful decisions rather than emptiness.",
+    heroImage: "/images/inspiration/warm-minimal-bathroom.png",
+    heroAlt: "Warm minimalist bathroom with quiet natural surfaces and concealed storage",
+    heroFacts: [
+      { label: "Character", value: "Quiet" },
+      { label: "Objects", value: "Reduced" },
+      { label: "Storage", value: "Concealed" },
+      { label: "Texture", value: "Tactile" },
+    ],
+    principlesIntro: "Warm minimalism removes visual noise while protecting comfort, storage and the practical details of everyday life.",
+    principles: [
+      { number: "01", title: "Visual restraint", description: "A limited number of forms and finishes creates calm without becoming empty." },
+      { number: "02", title: "Concealed storage", description: "Everyday objects have a logical place behind clean, integrated fronts." },
+      { number: "03", title: "Tactile surfaces", description: "Limewash, timber, linen and stone prevent simplicity from feeling sterile." },
+      { number: "04", title: "Precise proportion", description: "Scale, spacing and alignment carry more visual weight when decoration is reduced." },
+    ],
+    materialHeading: "Soft mineral tones and tactile, low-gloss finishes.",
+    materialDescription: "Minimalist spaces rely on subtle material differences, shadow lines and carefully controlled transitions.",
+    palette: [
+      { name: "Ivory", hex: "#F2EFE8" },
+      { name: "Sand", hex: "#DDD5C9" },
+      { name: "Mushroom", hex: "#BBAE9E" },
+      { name: "Stone", hex: "#8F877E" },
+      { name: "Earth", hex: "#57534E" },
+    ],
+    materials: [
+      { name: "Lime plaster", note: "Adds depth through a soft, hand-finished mineral surface.", color: "#E6DED2" },
+      { name: "Pale oak", note: "Warms concealed joinery and simple furniture forms.", color: "#C7AD88" },
+      { name: "Honed limestone", note: "Provides calm, continuous surfaces with subtle variation.", color: "#B9B0A3" },
+      { name: "Brushed bronze", note: "Used sparingly for quiet warmth and precise details.", color: "#8B735D" },
+    ],
+    bestForTitle: "Homes that need calm and better organisation.",
+    strengthsTitle: "Why reduction can feel generous.",
+    cautionsTitle: "How to avoid sterile minimalism.",
+    bestFor: ["Compact apartments", "Bathrooms and kitchens", "Clients sensitive to visual clutter", "Homes with strong custom storage"],
+    strengths: ["Makes daily routines feel more ordered", "Creates a timeless visual foundation", "Highlights quality and proportion", "Supports easy maintenance"],
+    cautions: ["Do not eliminate useful objects or personal character", "Avoid flat white surfaces without texture", "Budget correctly for precise joinery and details"],
+    inspirationIds: ["minimalist-bath-calm"],
+    pairingsHeading: "Warm the restraint or sharpen the architecture.",
+    pairings: [
+      { name: "Scandinavian", href: "/styles/scandinavian", description: "Adds softer textiles, pale timber and a more relaxed everyday layer." },
+      { name: "Modern", href: "/styles/modern", description: "Adds stronger geometry, contrast and integrated architectural details." },
+    ],
+    ctaTitle: "Ready to create a calmer Minimalist brief?",
+    ctaDescription: "Start with storage, proportion and material quality, then add only what supports the way the home is used.",
+  },
+  industrial: {
+    id: "industrial",
+    name: "Industrial",
+    eyebrow: "Style Studio",
+    tagline: "Raw character, refined for real living.",
+    description: "A grounded direction combining honest structure, dark metal, textured surfaces and warm lighting with precise contemporary detailing.",
+    heroImage: "/images/inspiration/refined-industrial-kitchen.png",
+    heroAlt: "Refined industrial kitchen with raw textures and warm integrated lighting",
+    heroFacts: [
+      { label: "Character", value: "Grounded" },
+      { label: "Texture", value: "Raw" },
+      { label: "Metal", value: "Dark" },
+      { label: "Light", value: "Warm" },
+    ],
+    principlesIntro: "Refined industrial interiors expose material character without sacrificing comfort, storage or visual discipline.",
+    principles: [
+      { number: "01", title: "Honest structure", description: "Brick, concrete and visible framing contribute character when used intentionally." },
+      { number: "02", title: "Dark metal", description: "Blackened steel and slim frames create definition and a strong visual rhythm." },
+      { number: "03", title: "Warm lighting", description: "Layered amber light balances darker materials and prevents the space feeling severe." },
+      { number: "04", title: "Refined joinery", description: "Precise storage and work surfaces keep raw texture from becoming visual chaos." },
+    ],
+    materialHeading: "Weathered texture balanced by precision and warmth.",
+    materialDescription: "Industrial character works best when rough and smooth surfaces are deliberately paired rather than randomly mixed.",
+    palette: [
+      { name: "Concrete", hex: "#C8BDB1" },
+      { name: "Rust", hex: "#9B6243" },
+      { name: "Umber", hex: "#685247" },
+      { name: "Graphite", hex: "#44413E" },
+      { name: "Black", hex: "#222323" },
+    ],
+    materials: [
+      { name: "Aged brick", note: "Adds rhythm, warmth and a strong sense of material history.", color: "#9B6243" },
+      { name: "Blackened steel", note: "Frames storage, glazing and lighting with graphic precision.", color: "#343536" },
+      { name: "Concrete", note: "Provides a neutral mineral base with visible depth and variation.", color: "#AAA39B" },
+      { name: "Smoked oak", note: "Introduces warmth and makes darker schemes more liveable.", color: "#655044" },
+    ],
+    bestForTitle: "Spaces that benefit from texture and definition.",
+    strengthsTitle: "Why industrial can feel sophisticated.",
+    cautionsTitle: "How to avoid a themed result.",
+    bestFor: ["Open-plan kitchens", "Loft-like apartments", "Homes with exposed structural features", "Clients who prefer darker grounded spaces"],
+    strengths: ["Adds immediate material identity", "Pairs well with durable finishes", "Creates strong contrast and depth", "Makes technical details part of the design"],
+    cautions: ["Avoid decorative factory clichés", "Balance hard materials with textiles and acoustics", "Use warm light to prevent a cold atmosphere"],
+    inspirationIds: ["industrial-kitchen-raw"],
+    pairingsHeading: "Refine the rawness or soften the atmosphere.",
+    pairings: [
+      { name: "Modern", href: "/styles/modern", description: "Adds precise geometry, integrated storage and a more architectural finish." },
+      { name: "Rustic", href: "/styles/rustic", description: "Adds natural timber, crafted details and a warmer lived-in character." },
+    ],
+    ctaTitle: "Ready to define an Industrial project brief?",
+    ctaDescription: "Use texture, structure and warm contrast to create an industrial direction that feels intentional rather than themed.",
+  },
+  luxury: {
+    id: "luxury",
+    name: "Luxury",
+    eyebrow: "Style Studio",
+    tagline: "Rich materials, expressed with restraint.",
+    description: "A tailored direction built around bespoke details, tactile layers, precise lighting and a small number of exceptional finishes.",
+    heroImage: "/images/inspiration/layered-bedroom-details.png",
+    heroAlt: "Luxury bedroom with bespoke details, tactile surfaces and restrained contrast",
+    heroFacts: [
+      { label: "Character", value: "Tailored" },
+      { label: "Detail", value: "Bespoke" },
+      { label: "Texture", value: "Layered" },
+      { label: "Finish", value: "Precise" },
+    ],
+    principlesIntro: "Contemporary luxury comes from proportion, craftsmanship and material control rather than visible excess.",
+    principles: [
+      { number: "01", title: "Bespoke detail", description: "Custom joinery and carefully resolved junctions make the space feel considered." },
+      { number: "02", title: "Tactile layers", description: "Velvet, wool, timber and stone create depth through touch and subtle reflection." },
+      { number: "03", title: "Controlled lighting", description: "Indirect, task and decorative lighting work together to shape atmosphere." },
+      { number: "04", title: "Restrained contrast", description: "A few rich dark tones anchor softer surfaces without overwhelming the room." },
+    ],
+    materialHeading: "Deep tones, crafted surfaces and measured reflection.",
+    materialDescription: "Luxury is strongest when each material has a purpose and enough visual space to be appreciated.",
+    palette: [
+      { name: "Pearl", hex: "#E9E1D6" },
+      { name: "Champagne", hex: "#B49A75" },
+      { name: "Taupe", hex: "#71685D" },
+      { name: "Forest", hex: "#3E473F" },
+      { name: "Deep green", hex: "#202722" },
+    ],
+    materials: [
+      { name: "Veined stone", note: "Used selectively as a focal surface rather than throughout the room.", color: "#C9BEB1" },
+      { name: "Dark timber", note: "Provides depth, warmth and a tailored furniture-like quality.", color: "#51433A" },
+      { name: "Brushed brass", note: "Adds controlled warmth through slim details and lighting.", color: "#A8895F" },
+      { name: "Wool velvet", note: "Introduces tactile softness and rich, low-sheen colour.", color: "#536057" },
+    ],
+    bestForTitle: "Rooms where detail and atmosphere matter most.",
+    strengthsTitle: "Why restraint feels more luxurious.",
+    cautionsTitle: "How to avoid visual excess.",
+    bestFor: ["Primary bedrooms", "Formal living spaces", "High-detail renovations", "Clients investing in bespoke joinery"],
+    strengths: ["Creates a highly personal result", "Rewards material quality and craftsmanship", "Builds atmosphere through lighting", "Works with both light and dark palettes"],
+    cautions: ["Avoid combining too many statement finishes", "Prioritise proportion before decorative detail", "Use reflective materials selectively"],
+    inspirationIds: ["luxury-bedroom-layered"],
+    pairingsHeading: "Ground the richness or sharpen the form.",
+    pairings: [
+      { name: "Modern", href: "/styles/modern", description: "Adds architectural discipline and cleaner geometry to rich materials." },
+      { name: "Minimalist", href: "/styles/minimalist", description: "Reduces decorative noise and lets craftsmanship become the focal point." },
+    ],
+    ctaTitle: "Ready to define a refined Luxury direction?",
+    ctaDescription: "Build the brief around craftsmanship, atmosphere and a controlled selection of rich, enduring materials.",
+  },
+  rustic: {
+    id: "rustic",
+    name: "Rustic",
+    eyebrow: "Style Studio",
+    tagline: "Natural texture with a lived-in warmth.",
+    description: "A grounded direction shaped by timber, mineral surfaces, crafted details and materials that become more beautiful with use.",
+    heroImage: "/images/inspiration/natural-rustic-living-room.png",
+    heroAlt: "Natural rustic living room with timber, mineral texture and warm atmosphere",
+    heroFacts: [
+      { label: "Character", value: "Warm" },
+      { label: "Texture", value: "Natural" },
+      { label: "Craft", value: "Visible" },
+      { label: "Mood", value: "Lived-in" },
+    ],
+    principlesIntro: "Rustic interiors feel authentic when natural materials, practical comfort and visible craftsmanship lead the design.",
+    principles: [
+      { number: "01", title: "Natural timber", description: "Visible grain, knots and variation bring warmth and a sense of permanence." },
+      { number: "02", title: "Mineral texture", description: "Stone, lime plaster and handmade surfaces add depth without ornament." },
+      { number: "03", title: "Crafted details", description: "Joinery, ceramics and woven pieces introduce human scale and individuality." },
+      { number: "04", title: "Relaxed comfort", description: "Generous seating and durable textiles make the room feel used rather than staged." },
+    ],
+    materialHeading: "Earthy colour, visible grain and surfaces that age well.",
+    materialDescription: "Rustic material choices should feel honest, durable and connected to the way the home is actually used.",
+    palette: [
+      { name: "Chalk", hex: "#E3D5C2" },
+      { name: "Clay", hex: "#BF936C" },
+      { name: "Terracotta", hex: "#916849" },
+      { name: "Timber", hex: "#66503C" },
+      { name: "Earth", hex: "#393229" },
+    ],
+    materials: [
+      { name: "Reclaimed oak", note: "Provides visible history, warm grain and durable character.", color: "#8B6547" },
+      { name: "Lime plaster", note: "Softens walls with mineral depth and natural irregularity.", color: "#D8CDBD" },
+      { name: "Terracotta", note: "Adds warmth and handcrafted variation to floors and accents.", color: "#A66F4F" },
+      { name: "Heavy linen", note: "Brings soft texture while remaining relaxed and practical.", color: "#C9B9A5" },
+    ],
+    bestForTitle: "Homes that need warmth and material character.",
+    strengthsTitle: "Why natural imperfection works.",
+    cautionsTitle: "How to keep rustic contemporary.",
+    bestFor: ["Family living rooms", "Country and suburban homes", "Apartments needing warmth", "Renovations with original features"],
+    strengths: ["Feels comfortable and approachable", "Uses materials that age gracefully", "Supports local and handmade elements", "Creates strong sensory warmth"],
+    cautions: ["Avoid themed farmhouse decoration", "Balance heavy timber with light and open space", "Use a restrained material palette"],
+    inspirationIds: ["rustic-living-natural"],
+    pairingsHeading: "Refine the warmth or add a stronger edge.",
+    pairings: [
+      { name: "Scandinavian", href: "/styles/scandinavian", description: "Lightens the palette and introduces clearer circulation and visual calm." },
+      { name: "Industrial", href: "/styles/industrial", description: "Adds dark metal, raw structure and stronger contrast to natural materials." },
+    ],
+    ctaTitle: "Ready to build a Natural Rustic brief?",
+    ctaDescription: "Start with durable natural materials and let texture, craft and comfort define the project direction.",
+  },
+  mediterranean: {
+    id: "mediterranean",
+    name: "Mediterranean",
+    eyebrow: "Style Studio",
+    tagline: "Filtered light and an easy connection outdoors.",
+    description: "A relaxed architectural direction shaped by pale stone, limewashed surfaces, shaded transitions and warm natural materials.",
+    heroImage: "/images/inspiration/shaded-outdoor-connection.png",
+    heroAlt: "Mediterranean indoor-outdoor living space with pale stone and filtered light",
+    heroFacts: [
+      { label: "Character", value: "Relaxed" },
+      { label: "Light", value: "Filtered" },
+      { label: "Surface", value: "Textured" },
+      { label: "Flow", value: "Indoor-outdoor" },
+    ],
+    principlesIntro: "Contemporary Mediterranean interiors use shade, natural ventilation and tactile local materials to create comfort without visual excess.",
+    principles: [
+      { number: "01", title: "Filtered sunlight", description: "Deep reveals, timber screens and soft curtains shape light rather than simply maximising it." },
+      { number: "02", title: "Pale stone", description: "Continuous mineral surfaces connect interior rooms with terraces and gardens." },
+      { number: "03", title: "Indoor-outdoor flow", description: "Aligned floors, wide openings and shaded thresholds make exterior space feel usable." },
+      { number: "04", title: "Hand-finished texture", description: "Limewash, ceramics and woven fibres add depth through subtle irregularity." },
+    ],
+    materialHeading: "Sun-aged neutrals, pale stone and muted natural colour.",
+    materialDescription: "Mediterranean character comes from light, shade and tactile materials rather than decorative clichés.",
+    palette: [
+      { name: "Limestone", hex: "#EFE5D1" },
+      { name: "Sand", hex: "#D2B98E" },
+      { name: "Olive", hex: "#A6B1A0" },
+      { name: "Sea grey", hex: "#638083" },
+      { name: "Mineral", hex: "#355C64" },
+    ],
+    materials: [
+      { name: "Pale limestone", note: "Creates a continuous, cool and quietly textured architectural base.", color: "#D7CBB7" },
+      { name: "Limewash", note: "Gives walls softness, depth and a hand-finished quality.", color: "#E6DDCF" },
+      { name: "Olive timber", note: "Adds warm natural grain through furniture and crafted details.", color: "#9A8061" },
+      { name: "Handmade ceramic", note: "Introduces restrained colour and visible craftsmanship.", color: "#8AA0A0" },
+    ],
+    bestForTitle: "Homes where light and outdoor living matter.",
+    strengthsTitle: "Why Mediterranean feels effortless.",
+    cautionsTitle: "How to avoid resort clichés.",
+    bestFor: ["Homes with terraces or balconies", "Bright apartments needing softness", "Warm-climate renovations", "Open living and dining spaces"],
+    strengths: ["Connects interiors naturally with outdoor areas", "Uses durable mineral materials", "Feels relaxed without becoming casual", "Handles strong daylight beautifully"],
+    cautions: ["Avoid blue-and-white themed decoration", "Use arches only where architecture supports them", "Balance textured surfaces with clean detailing"],
+    inspirationIds: ["mediterranean-outdoor"],
+    pairingsHeading: "Add clarity or deepen the natural warmth.",
+    pairings: [
+      { name: "Minimalist", href: "/styles/minimalist", description: "Brings cleaner storage, fewer objects and stronger visual order." },
+      { name: "Rustic", href: "/styles/rustic", description: "Adds richer timber, handcrafted detail and a more lived-in atmosphere." },
+    ],
+    ctaTitle: "Ready to shape a Mediterranean project brief?",
+    ctaDescription: "Use light, shade, tactile stone and indoor-outdoor flow as the foundation for a relaxed and contemporary direction.",
+  },
+};
+
+export function getStyleStudio(styleId: StyleId) {
+  return styleStudios[styleId];
+}
