@@ -66,11 +66,7 @@ export const metadata: Metadata = {
   category: "interior design",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang={seoConfig.language} className={`${fraunces.variable} ${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col antialiased">

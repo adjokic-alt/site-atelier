@@ -1,6 +1,7 @@
 export * from "./StyleStudioPage";
 export * from "./StudioCta";
 export * from "./StudioFit";
+export * from "./StudioGallery";
 export * from "./StudioHero";
 export * from "./StudioInspiration";
 export * from "./StudioMaterials";

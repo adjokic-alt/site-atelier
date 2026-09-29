@@ -1,73 +1,31 @@
 import Link from "next/link";
-import { Container, SectionHeading } from "@/components/ui";
 
 const steps = [
-  {
-    number: "01",
-    title: "Discover your direction",
-    description:
-      "Compare styles or take six quick visual choices when you are not sure where to begin.",
-    href: "/styles",
-    link: "Explore styles",
-  },
-  {
-    number: "02",
-    title: "Collect useful references",
-    description:
-      "Save illustrative ideas to a moodboard and see which styles, spaces and materials appear most often.",
-    href: "/inspiration",
-    link: "Browse inspiration",
-  },
-  {
-    number: "03",
-    title: "Build a clear brief",
-    description:
-      "Define the project, location, goals, space, budget and timing through a guided seven-step inquiry.",
-    href: "/inquiry/style",
-    link: "Start the inquiry",
-  },
-  {
-    number: "04",
-    title: "Review and download",
-    description:
-      "Edit everything in one place and download a customer-safe A4 project brief for discussion.",
-    href: "/brief",
-    link: "Open my brief",
-  },
+  { number: "01", title: "Discover your style", text: "Compare seven directions and learn what distinguishes each one.", href: "/styles" },
+  { number: "02", title: "Save what resonates", text: "Collect room references without having to explain every choice.", href: "/inspiration" },
+  { number: "03", title: "Reveal the patterns", text: "Review recurring styles, spaces, materials and colours in your moodboard.", href: "/moodboard" },
+  { number: "04", title: "Build your brief", text: "Bring visual direction, scope, priorities, budget and timeline into one document.", href: "/brief" },
 ];
 
 export function HomeProcess() {
   return (
-    <section className="py-16 md:py-24">
-      <Container>
-        <SectionHeading
-          eyebrow="How it works"
-          title="From a vague idea to a useful project brief."
-          description="Each step adds detail to the same saved draft, so you can explore first and decide later."
-        />
-
-        <ol className="mt-12 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2 xl:grid-cols-4">
+    <section className="border-y border-border bg-surface-sunken py-16 md:py-24">
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">How it works</p>
+          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">Clarity grows one decision at a time.</h2>
+        </div>
+        <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2 xl:grid-cols-4">
           {steps.map((step) => (
-            <li key={step.number} className="flex min-h-72 flex-col bg-surface p-6 md:p-8">
-              <span className="text-xs font-semibold tracking-[0.08em] text-accent">
-                {step.number}
-              </span>
-              <h3 className="mt-6 font-display text-h3 text-ink-900">
-                {step.title}
-              </h3>
-              <p className="mt-4 text-sm leading-7 text-ink-700">
-                {step.description}
-              </p>
-              <Link
-                href={step.href}
-                className="focus-ring mt-auto rounded-sm pt-8 text-sm font-medium text-accent hover:underline"
-              >
-                {step.link} →
-              </Link>
-            </li>
+            <Link key={step.number} href={step.href} className="focus-ring group min-h-72 bg-surface p-6 transition hover:bg-paper md:p-8">
+              <p className="text-xs font-semibold tracking-[.1em] text-accent">{step.number}</p>
+              <h3 className="mt-10 font-display text-h2 text-ink-900">{step.title}</h3>
+              <p className="mt-4 text-sm leading-7 text-ink-700">{step.text}</p>
+              <span className="mt-8 inline-flex text-sm font-semibold text-ink-900">Continue <span aria-hidden="true" className="ml-2 transition-transform group-hover:translate-x-1">→</span></span>
+            </Link>
           ))}
-        </ol>
-      </Container>
+        </div>
+      </div>
     </section>
   );
 }

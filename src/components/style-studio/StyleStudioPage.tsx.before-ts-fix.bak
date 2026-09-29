@@ -30,9 +30,7 @@ export function StyleStudioPage({ studio }: { studio: StyleStudioData }) {
         palette={studio.palette}
         materials={studio.materials}
       />
-      {studio.gallery?.length ? (
-        <StudioGallery styleName={studio.name} images={studio.gallery} />
-      ) : null}
+      <StudioGallery styleName={studio.name} images={studio.gallery} />
       <StudioFit
         bestForTitle={studio.bestForTitle}
         strengthsTitle={studio.strengthsTitle}

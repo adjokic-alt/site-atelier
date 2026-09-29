@@ -8,7 +8,7 @@ export interface StyleStudioData {
   description: string;
   heroImage: string;
   heroAlt: string;
-  gallery?: {
+  gallery: {
   title: string;
   image: string;
   alt: string;
@@ -43,12 +43,7 @@ export const styleStudios: Record<StyleId, StyleStudioData> = {
     description: "A practical interior direction built around daylight, pale timber, soft texture and layouts that make everyday living feel easier.",
     heroImage: "/images/inspiration/daylight-living-room.png",
     heroAlt: "Scandinavian living room with natural daylight, pale timber, soft textiles and clear circulation",
-    gallery: [
-      { title: "Living room", image: "/images/studios/scandinavian/scandinavian-living-room.png", alt: "Scandinavian living room with daylight, pale timber and soft natural textiles" },
-      { title: "Kitchen", image: "/images/studios/scandinavian/scandinavian-kitchen.png", alt: "Scandinavian kitchen with pale joinery and a calm functional layout" },
-      { title: "Bedroom", image: "/images/studios/scandinavian/scandinavian-bedroom.png", alt: "Scandinavian bedroom with natural linen, pale oak and muted neutral colours" },
-      { title: "Workspace", image: "/images/studios/scandinavian/scandinavian-workspace.png", alt: "Scandinavian home workspace with natural daylight and light timber" },
-    ],    heroFacts: [
+    heroFacts: [
       { label: "Character", value: "Calm" },
       { label: "Light", value: "Natural" },
       { label: "Materials", value: "Tactile" },
@@ -99,12 +94,7 @@ export const styleStudios: Record<StyleId, StyleStudioData> = {
     description: "A confident direction shaped by strong geometry, integrated details, layered neutrals and a controlled balance of light and dark.",
     heroImage: "/images/inspiration/architectural-living-space.png",
     heroAlt: "Modern architectural living room with defined geometry and dark accents",
-    gallery: [
-      { title: "Living room", image: "/images/studios/modern/modern-living-room.png", alt: "Modern living room with architectural lines, neutral layers and dark accents" },
-      { title: "Dining space", image: "/images/studios/modern/modern-dining-space.png", alt: "Modern dining space with precise lighting, dark timber and architectural clarity" },
-      { title: "Kitchen", image: "/images/studios/modern/modern-kitchen.png", alt: "Modern kitchen with integrated cabinetry, stone surfaces and dark details" },
-      { title: "Bathroom", image: "/images/studios/modern/modern-bathroom.png", alt: "Modern bathroom with stone surfaces, clean geometry and warm integrated lighting" },
-    ],    heroFacts: [
+    heroFacts: [
       { label: "Character", value: "Confident" },
       { label: "Lines", value: "Crisp" },
       { label: "Contrast", value: "Deliberate" },
@@ -239,7 +229,7 @@ export const styleStudios: Record<StyleId, StyleStudioData> = {
     cautionsTitle: "How to avoid a themed result.",
     bestFor: ["Open-plan kitchens", "Loft-like apartments", "Homes with exposed structural features", "Clients who prefer darker grounded spaces"],
     strengths: ["Adds immediate material identity", "Pairs well with durable finishes", "Creates strong contrast and depth", "Makes technical details part of the design"],
-    cautions: ["Avoid decorative factory clichÃ©s", "Balance hard materials with textiles and acoustics", "Use warm light to prevent a cold atmosphere"],
+    cautions: ["Avoid decorative factory clichés", "Balance hard materials with textiles and acoustics", "Use warm light to prevent a cold atmosphere"],
     inspirationIds: ["industrial-kitchen-raw"],
     pairingsHeading: "Refine the rawness or soften the atmosphere.",
     pairings: [
@@ -373,7 +363,7 @@ export const styleStudios: Record<StyleId, StyleStudioData> = {
       { number: "04", title: "Hand-finished texture", description: "Limewash, ceramics and woven fibres add depth through subtle irregularity." },
     ],
     materialHeading: "Sun-aged neutrals, pale stone and muted natural colour.",
-    materialDescription: "Mediterranean character comes from light, shade and tactile materials rather than decorative clichÃ©s.",
+    materialDescription: "Mediterranean character comes from light, shade and tactile materials rather than decorative clichés.",
     palette: [
       { name: "Limestone", hex: "#EFE5D1" },
       { name: "Sand", hex: "#D2B98E" },
@@ -389,7 +379,7 @@ export const styleStudios: Record<StyleId, StyleStudioData> = {
     ],
     bestForTitle: "Homes where light and outdoor living matter.",
     strengthsTitle: "Why Mediterranean feels effortless.",
-    cautionsTitle: "How to avoid resort clichÃ©s.",
+    cautionsTitle: "How to avoid resort clichés.",
     bestFor: ["Homes with terraces or balconies", "Bright apartments needing softness", "Warm-climate renovations", "Open living and dining spaces"],
     strengths: ["Connects interiors naturally with outdoor areas", "Uses durable mineral materials", "Feels relaxed without becoming casual", "Handles strong daylight beautifully"],
     cautions: ["Avoid blue-and-white themed decoration", "Use arches only where architecture supports them", "Balance textured surfaces with clean detailing"],
@@ -407,5 +397,3 @@ export const styleStudios: Record<StyleId, StyleStudioData> = {
 export function getStyleStudio(styleId: StyleId) {
   return styleStudios[styleId];
 }
-
-
