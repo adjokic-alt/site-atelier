@@ -216,7 +216,7 @@ function SpacesStep() {
       </div>
       {err ? <p id="spaces-error" role="alert" className="text-sm font-medium text-error">{err}</p> : null}
       <div>
-        <p className="mb-2.5 text-sm text-ink-500">Something bigger?</p>
+        <p className="mb-2.5 text-sm text-ink-500">More options</p>
         <div className="flex flex-wrap gap-2">
           {moreSpaceOptions.map((o) => {
             const on = selected.includes(o.value);

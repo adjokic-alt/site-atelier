@@ -11,13 +11,17 @@ export const whoOptions = [
 /** Room cards map onto the existing project categories (no new categories). */
 export const spaceOptions: { value: ProjectCategoryId; label: string; image: string }[] = [
   { value: "whole-home-renovation", label: "Whole home", image: "/images/inspiration/luxury-open-plan-dining.jpg" },
-  { value: "living-bedrooms", label: "Living & bedrooms", image: "/images/inspiration/industrial-brick-living-room.jpg" },
+  { value: "living-room", label: "Living room", image: "/images/inspiration/industrial-brick-living-room.jpg" },
   { value: "kitchen", label: "Kitchen", image: "/images/inspiration/luxury-marble-kitchen.jpg" },
-  { value: "bathroom", label: "Bathroom", image: "/images/studios/modern/modern-bathroom.png" },
-  { value: "outdoor-garden", label: "Balcony & garden", image: "/images/inspiration/mediterranean-olive-balcony.jpg" },
-  { value: "interior-design", label: "Styling & decor", image: "/images/inspiration/rustic-linen-bedroom.jpg" },
+  { value: "bedroom", label: "Bedroom", image: "/images/inspiration/rustic-linen-bedroom.jpg" },
+  // Stand-in picture until a real kids-room photo is added.
+  { value: "kids-room", label: "Kids room", image: "/images/inspiration/soft-bedroom-layers.png" },
+  { value: "outdoor-garden", label: "Balcony", image: "/images/inspiration/mediterranean-olive-balcony.jpg" },
 ];
 export const moreSpaceOptions: { value: ProjectCategoryId; label: string }[] = [
+  { value: "bathroom", label: "Bathroom" },
+  { value: "interior-design", label: "Styling & decor" },
+  { value: "living-bedrooms", label: "Living & bedrooms" },
   { value: "extension-new-build", label: "Extension or new build" },
   { value: "facade-exterior", label: "Facade or exterior" },
   { value: "property-search-prep", label: "Buying or preparing a property" },
