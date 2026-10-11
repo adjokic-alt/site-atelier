@@ -29,6 +29,9 @@ export function HomeHero() {
                 Build a Moodboard
               </Link>
             </div>
+            <Link href="/styles/not-sure" className="atelier-rise focus-ring mt-6 inline-flex min-h-11 items-center gap-2 rounded-sm text-[15px] text-white/90 underline underline-offset-4 [animation-delay:350ms] hover:text-white">
+              Not sure of your style? Take the 45-second quiz <span aria-hidden="true">→</span>
+            </Link>
           </div>
           <p className="text-xs uppercase tracking-[0.12em] text-white/85">Warm minimal · Living room</p>
         </div>

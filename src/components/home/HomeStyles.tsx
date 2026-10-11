@@ -21,7 +21,7 @@ export function HomeStyles() {
           <h2 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-none text-ink-900">Find your style by feel.</h2>
         </div>
         <Link href="/styles/not-sure" className="focus-ring inline-flex min-h-11 items-center text-[15px] font-medium text-ink-900 underline underline-offset-4">
-          Not sure? Take the 2-minute quiz
+          Not sure? Take the 45-second quiz
         </Link>
       </div>
 

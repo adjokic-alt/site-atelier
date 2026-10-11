@@ -23,7 +23,7 @@ export default function StylesPage() {
             />
 
             <Link href="/styles/not-sure" className="focus-ring self-start rounded-sm text-sm font-medium text-accent underline-offset-4 hover:underline md:mb-2">
-              Not sure? Take the visual quiz →
+              Not sure? Take the 45-second quiz →
             </Link>
           </div>
 

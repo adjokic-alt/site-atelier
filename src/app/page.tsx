@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { HomeBrief, HomeFinalCta, HomeHero, HomeInspiration, HomeMoodboard, HomeStyles } from "@/components/home";
+import { HomeBrief, HomeFinalCta, HomeHero, HomeInspiration, HomeMoodboard, HomeQuiz, HomeStyles } from "@/components/home";
 
 export const metadata: Metadata = {
   title: "Site Atelier | Create a home that feels like you",
@@ -11,6 +11,7 @@ export default function HomePage() {
     <>
       <HomeHero />
       <HomeInspiration />
+      <HomeQuiz />
       <HomeStyles />
       <HomeMoodboard />
       <HomeBrief />
