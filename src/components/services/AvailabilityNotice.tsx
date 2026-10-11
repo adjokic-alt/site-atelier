@@ -29,8 +29,8 @@ export function AvailabilityNotice() {
               review-required locations are not treated as confirmed availability.
             </p>
             <Link
-              href="/inquiry/project"
-              className="focus-ring mt-6 inline-flex min-h-12 items-center rounded-sm bg-ink-900 px-5 text-sm font-medium text-white"
+              href="/inquiry"
+              className="focus-ring mt-6 inline-flex min-h-12 items-center rounded-full bg-ink-900 px-5 text-sm font-medium text-white"
             >
               Check through my brief
             </Link>

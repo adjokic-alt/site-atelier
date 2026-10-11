@@ -9,8 +9,8 @@ export function ServicesCta() {
           <h2 className="mx-auto mt-4 max-w-3xl font-display text-3xl leading-tight md:text-h1">Start with what you know and leave the rest as open questions.</h2>
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/75">A useful brief can show uncertainty instead of hiding it. “Not sure yet” is valid where a decision has not been made.</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link href="/inquiry/style" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm bg-white px-6 text-sm font-semibold text-ink-900">Start my brief</Link>
-            <Link href="/how-it-works" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm border border-white/55 px-6 text-sm font-semibold text-white hover:bg-white/10">See how it works</Link>
+            <Link href="/inquiry" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-ink-900">Start my brief</Link>
+            <Link href="/how-it-works" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full border border-white/55 px-6 text-sm font-semibold text-white hover:bg-white/10">See how it works</Link>
           </div>
         </div>
       </div>

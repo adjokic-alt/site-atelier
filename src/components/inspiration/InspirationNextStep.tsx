@@ -22,13 +22,13 @@ export function InspirationNextStep() {
           <div className="mt-8 flex shrink-0 flex-col gap-3 sm:flex-row lg:mt-0 lg:flex-col xl:flex-row">
             <Link
               href="/moodboard"
-              className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm bg-white px-6 text-sm font-semibold text-ink-900"
+              className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-ink-900"
             >
               Open my moodboard
             </Link>
             <Link
               href="/brief"
-              className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm border border-white/55 px-6 text-sm font-semibold text-white hover:bg-white/10"
+              className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full border border-white/55 px-6 text-sm font-semibold text-white hover:bg-white/10"
             >
               Continue to my brief
             </Link>

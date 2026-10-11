@@ -45,7 +45,7 @@ export default function StylesPage() {
               one influence.
             </p>
 
-            <Link href="/inquiry/project" className="focus-ring rounded-sm font-medium text-accent underline-offset-4 hover:underline">
+            <Link href="/inquiry" className="focus-ring rounded-sm font-medium text-accent underline-offset-4 hover:underline">
               Already know what you need? Start with the project →
             </Link>
           </div>

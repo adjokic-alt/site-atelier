@@ -28,10 +28,10 @@ export function InspirationHero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a href="#inspiration-gallery" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm bg-white px-6 text-sm font-semibold text-ink-900 transition hover:bg-white/90">
+            <a href="#inspiration-gallery" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-ink-900 transition hover:bg-white/90">
               Explore inspiration <span aria-hidden="true" className="ml-3">↓</span>
             </a>
-            <Link href="/moodboard" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm border border-white/65 bg-black/10 px-6 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/10">
+            <Link href="/moodboard" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full border border-white/65 bg-black/10 px-6 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/10">
               Open my moodboard
             </Link>
           </div>

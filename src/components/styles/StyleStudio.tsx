@@ -24,7 +24,7 @@ export function StyleStudio({ style, materials, ideas }: StyleStudioProps) {
               <div className="mt-6 flex flex-wrap gap-2">{style.keywords.map((keyword) => <Chip key={keyword}>{keyword}</Chip>)}</div>
               <div className="mt-8 flex flex-wrap gap-4">
                 <SelectStyleButton styleId={style.id}>Start my brief in {style.name}</SelectStyleButton>
-                <Link href="/styles" className="focus-ring inline-flex min-h-[52px] items-center rounded-sm border-[1.5px] border-ink-900 px-6 text-base font-medium text-ink-900 hover:bg-surface-sunken">Compare with another style</Link>
+                <Link href="/styles" className="focus-ring inline-flex min-h-[52px] items-center rounded-full border-[1.5px] border-ink-900 px-6 text-base font-medium text-ink-900 hover:bg-surface-sunken">Compare with another style</Link>
               </div>
             </div>
           </Container>
@@ -38,7 +38,7 @@ export function StyleStudio({ style, materials, ideas }: StyleStudioProps) {
 
         <section className="border-y border-border bg-accent-tint py-16 md:py-24"><Container><SectionHeading eyebrow="Project ideas" title="Turn the style into a useful starting point."/><div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">{styleIdeas.map((idea)=><Card key={idea.id}><div className="aspect-[3/2] rounded-md" style={{background:heroGradient}} role="img" aria-label={`Illustrative concept placeholder for ${idea.title}`}/><h3 className="mt-5 font-display text-h3 text-ink-900">{idea.title}</h3><p className="mt-3 text-sm leading-relaxed text-ink-700">{idea.summary}</p><SelectStyleButton styleId={style.id}>Start with this idea</SelectStyleButton></Card>)}</div></Container></section>
 
-        <section className="py-16 md:py-24"><Container className="text-center"><p className="text-xs font-semibold uppercase tracking-[.08em] text-accent">Your next step</p><h2 className="mx-auto mt-4 max-w-3xl font-display text-3xl leading-tight text-ink-900 md:text-h1">Use {style.name.toLowerCase()} as the starting direction for your brief.</h2><p className="mx-auto mt-5 max-w-2xl text-ink-700">You can change or blend the style later. Nothing on this page creates a contract or automatic professional recommendation.</p><div className="mt-8 flex flex-wrap justify-center gap-4"><SelectStyleButton styleId={style.id}>Start my brief</SelectStyleButton><Link href="/styles" className="focus-ring inline-flex min-h-[52px] items-center rounded-sm border-[1.5px] border-ink-900 px-6 text-base font-medium text-ink-900 hover:bg-surface-sunken">Compare another style</Link></div></Container></section>
+        <section className="py-16 md:py-24"><Container className="text-center"><p className="text-xs font-semibold uppercase tracking-[.08em] text-accent">Your next step</p><h2 className="mx-auto mt-4 max-w-3xl font-display text-3xl leading-tight text-ink-900 md:text-h1">Use {style.name.toLowerCase()} as the starting direction for your brief.</h2><p className="mx-auto mt-5 max-w-2xl text-ink-700">You can change or blend the style later. Nothing on this page creates a contract or automatic professional recommendation.</p><div className="mt-8 flex flex-wrap justify-center gap-4"><SelectStyleButton styleId={style.id}>Start my brief</SelectStyleButton><Link href="/styles" className="focus-ring inline-flex min-h-[52px] items-center rounded-full border-[1.5px] border-ink-900 px-6 text-base font-medium text-ink-900 hover:bg-surface-sunken">Compare another style</Link></div></Container></section>
       </main>
     </StyleThemeScope>
   );

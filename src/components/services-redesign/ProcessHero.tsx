@@ -9,8 +9,8 @@ export function ProcessHero() {
           <h1 className="mt-4 max-w-4xl font-display text-4xl leading-tight text-ink-900 md:text-display">Explore first. Define the project when you are ready.</h1>
           <p className="mt-6 max-w-2xl text-base leading-8 text-ink-700">Style discovery, saved inspiration, the moodboard and guided inquiry all update one central browser draft.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/styles" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm bg-ink-900 px-6 text-sm font-semibold text-white">Explore styles</Link>
-            <Link href="/inquiry/style" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-sm border border-ink-900 px-6 text-sm font-semibold text-ink-900">Start the inquiry</Link>
+            <Link href="/styles" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full bg-ink-900 px-6 text-sm font-semibold text-white">Explore styles</Link>
+            <Link href="/inquiry" className="focus-ring inline-flex min-h-[52px] items-center justify-center rounded-full border border-ink-900 px-6 text-sm font-semibold text-ink-900">Start my brief</Link>
           </div>
         </div>
 

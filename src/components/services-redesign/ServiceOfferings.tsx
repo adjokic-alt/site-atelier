@@ -23,7 +23,7 @@ const services = [
     summary: "Submit the completed brief for an honest review of scope, location and the support requested.",
     outcome: "A reference code, stored inquiry, confirmation email and a clearer next conversation.",
     includes: ["Server-side validation", "Location and completeness review", "PDF attachment", "Human follow-up context"],
-    href: "/inquiry/project",
+    href: "/inquiry",
   },
 ];
 

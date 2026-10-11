@@ -58,8 +58,8 @@ export function HomeServices() {
             </p>
           </div>
           <Link
-            href="/inquiry/project"
-            className="focus-ring mt-5 inline-flex min-h-12 shrink-0 items-center rounded-sm bg-ink-900 px-5 text-sm font-medium text-white md:mt-0"
+            href="/inquiry"
+            className="focus-ring mt-5 inline-flex min-h-12 shrink-0 items-center rounded-full bg-ink-900 px-5 text-sm font-medium text-white md:mt-0"
           >
             Describe my project
           </Link>

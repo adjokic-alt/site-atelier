@@ -37,7 +37,7 @@ export default function ErrorPage({
         </button>
         <Link
           href="/"
-          className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm border border-ink-900 px-5 text-sm font-medium text-ink-900"
+          className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-ink-900 px-5 text-sm font-medium text-ink-900"
         >
           Go home
         </Link>

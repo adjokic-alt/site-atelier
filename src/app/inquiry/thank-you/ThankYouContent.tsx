@@ -37,7 +37,7 @@ export function ThankYouContent() {
             <DownloadBriefButton />
             <Link
               href="/brief"
-              className="focus-ring inline-flex min-h-[52px] items-center rounded-sm border-[1.5px] border-ink-900 px-6 font-medium text-ink-900"
+              className="focus-ring inline-flex min-h-[52px] items-center rounded-full border-[1.5px] border-ink-900 px-6 font-medium text-ink-900"
             >
               Return to my brief
             </Link>

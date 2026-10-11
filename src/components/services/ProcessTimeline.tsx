@@ -17,7 +17,7 @@ const stages = [
     description:
       "Use the guided inquiry to record the project type, location, goals, space, budget, timing and open questions.",
     detail: "Unknown answers can remain clearly marked as open.",
-    href: "/inquiry/style",
+    href: "/inquiry",
     link: "Start the inquiry",
   },
   {

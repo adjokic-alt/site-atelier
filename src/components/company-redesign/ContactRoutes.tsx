@@ -6,7 +6,7 @@ type BusinessConfig = typeof businessConfig;
 export function ContactRoutes({ business, emailIsPlaceholder }: { business: BusinessConfig; emailIsPlaceholder: boolean }) {
   const generalHref = emailIsPlaceholder ? "/about" : `mailto:${business.contactEmail}`;
   const routes = [
-    { eyebrow: "New project", title: "Start with the guided brief", text: "Record the style, location, goals, property, budget, timing and contact details before submission.", href: "/inquiry/style", label: "Start my project brief", primary: true },
+    { eyebrow: "New project", title: "Start with the guided brief", text: "Record the style, location, goals, property, budget, timing and contact details before submission.", href: "/inquiry", label: "Start my project brief", primary: true },
     { eyebrow: "Existing draft", title: "Review or continue your brief", text: "Open the project draft stored in this browser, edit sections and download the current PDF.", href: "/brief", label: "Open my brief" },
     { eyebrow: "General question", title: emailIsPlaceholder ? "Public contact details are not live yet" : "Send a general email", text: emailIsPlaceholder ? "The configured public email is still a placeholder. Project inquiries can already use the guided brief and production submission flow." : `Use ${business.contactEmail} for questions that do not require a project brief.`, href: generalHref, label: emailIsPlaceholder ? "Read about Site Atelier" : "Send an email" },
   ];
