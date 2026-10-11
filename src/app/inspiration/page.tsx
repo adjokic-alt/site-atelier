@@ -1,44 +1,26 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui";
-import {
-  InspirationEditorialGrid,
-  InspirationHero,
-  InspirationNextStep,
-  InspirationPrinciples,
-} from "@/components/inspiration";
+import Link from "next/link";
+import { InspirationMasonry } from "@/components/inspiration/InspirationMasonry";
 
 export const metadata: Metadata = {
   title: "Inspiration | Site Atelier",
-  description:
-    "Browse clearly labelled illustrative style directions and save useful references to your moodboard.",
+  description: "Browse real-looking rooms across seven styles, tap the heart on what you love and let your moodboard find the pattern.",
 };
 
 export default function InspirationPage() {
   return (
-    <main>
-      <InspirationHero />
-
-      <section id="inspiration-gallery" className="scroll-mt-24 py-16 md:py-24">
-        <Container>
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-accent">
-              Curated references
-            </p>
-            <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">
-              Notice what keeps drawing your attention.
-            </h2>
-            <p className="mt-4 text-base leading-8 text-ink-700">
-              Every visual is illustrative. Save useful directions and let your
-              repeated choices shape the visual section of the project brief.
-            </p>
+    <div className="px-5 pb-28 pt-[clamp(56px,8vw,104px)] sm:px-8 lg:px-14">
+      <div className="mx-auto max-w-[1328px]">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="mb-4 text-xs uppercase tracking-[0.12em] text-ink-500">Inspiration</p>
+            <h1 className="max-w-4xl font-display text-[clamp(3.25rem,7vw,6.5rem)] leading-[0.95] text-ink-900">Collect what feels right.</h1>
+            <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-700">Tap the heart on anything you love. Your moodboard notices the pattern. The wall reshuffles every visit.</p>
           </div>
-
-          <InspirationEditorialGrid />
-        </Container>
-      </section>
-
-      <InspirationPrinciples />
-      <InspirationNextStep />
-    </main>
+          <Link href="/moodboard" className="focus-ring inline-flex min-h-[52px] items-center rounded-full bg-ink-900 px-7 text-[15px] font-semibold text-white hover:bg-ink-700">Open my moodboard</Link>
+        </div>
+        <InspirationMasonry showStyleFilter />
+      </div>
+    </div>
   );
 }
