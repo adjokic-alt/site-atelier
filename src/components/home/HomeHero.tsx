@@ -11,22 +11,8 @@ export function HomeHero() {
         priority
         quality={90}
         sizes="100vw"
-        className="object-cover object-[50%_45%]"
+        className="atelier-drift object-cover"
       />
-      {/* Slow camera push into the room, made from the same photo. Hidden for people who prefer reduced motion — the still photo shows instead. */}
-      <video
-        aria-hidden="true"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster="/videos/hero-room-poster.jpg"
-        className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-      >
-        <source src="/videos/hero-room.webm" type="video/webm" />
-        <source src="/videos/hero-room.mp4" type="video/mp4" />
-      </video>
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,17,14,.38)_0%,rgba(20,17,14,0)_28%,rgba(20,17,14,0)_50%,rgba(20,17,14,.6)_100%)]" />
 
       <div className="relative mx-auto flex h-full w-full max-w-[1440px] items-end px-5 pb-12 sm:px-8 md:pb-20 lg:px-14 lg:pb-24">
