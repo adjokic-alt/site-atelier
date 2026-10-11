@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from "next";
+import { QuizButton } from "@/components/ui/QuizButton";
 import Link from "next/link";
 import { Container, SectionHeading } from "@/components/ui";
 import { NotSureCard, StyleCard } from "@/components/styles";
@@ -22,9 +23,7 @@ export default function StylesPage() {
               description="Choose the direction that feels closest. Styles are starting points, not boxes, and blending comes later in the Studio."
             />
 
-            <Link href="/styles/not-sure" className="focus-ring self-start rounded-sm text-sm font-medium text-accent underline-offset-4 hover:underline md:mb-2">
-              Not sure? Take the 45-second quiz →
-            </Link>
+            <QuizButton className="self-start md:mb-1" />
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
