@@ -23,8 +23,8 @@ export async function sendProductionEmails(
   const customer = await resend.emails.send({
     from: integrationConfig.resendFromEmail,
     to: [context.brief.contact.email],
-    subject: `We received your project brief - ${context.result.referenceCode}`,
-    html: `<h1>Thank you, ${name}</h1><p>Your project brief has been received.</p><p><strong>Reference:</strong> ${reference}</p><p>The next step is a human review of scope and availability.</p>`,
+    subject: `Your home brief ${context.result.referenceCode}`,
+    html: `<h1>Thank you, ${name}</h1><p>Your home brief has been received. Everything you chose — your style, moodboard pictures and answers — is in the attached PDF.</p><p><strong>Serial number:</strong> ${reference}</p><p>A designer will read it and get back to you with the next step.</p>`,
     attachments: [{
       content: attachment,
       filename: context.pdfFileName,

@@ -34,7 +34,7 @@ export function ThankYouContent() {
           </Card>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <DownloadBriefButton />
+            <DownloadBriefButton referenceCode={params.get("reference") ?? undefined} />
             <Link
               href="/brief"
               className="focus-ring inline-flex min-h-[52px] items-center rounded-full border-[1.5px] border-ink-900 px-6 font-medium text-ink-900"

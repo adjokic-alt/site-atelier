@@ -35,8 +35,8 @@ export async function submitBrief(
   const strengthLevel = computeSubmissionStrength(brief);
   const clientFlags = computeClientFitFlags(brief);
   const triage = computeInternalTriage(brief, strengthLevel, clientFlags);
-  const pdfBytes = await renderCustomerBriefPdf(brief);
-  const pdfFileName = `project-brief-${referenceCode}.pdf`;
+  const pdfBytes = await renderCustomerBriefPdf(brief, { referenceCode, issuedAt: submittedAt });
+  const pdfFileName = `home-brief-${referenceCode}.pdf`;
 
   const result: SubmissionSuccessResponse = {
     success: true,
