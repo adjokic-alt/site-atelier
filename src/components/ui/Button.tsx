@@ -11,8 +11,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-ink-900 text-white hover:opacity-90",
-  secondary: "border-[1.5px] border-ink-900 bg-transparent text-ink-900 hover:bg-surface-sunken",
+  primary: "bg-ink-900 text-white hover:bg-ink-700",
+  secondary: "border border-ink-900 bg-transparent text-ink-900 hover:bg-surface-sunken",
   tertiary: "bg-transparent text-accent underline-offset-4 hover:underline",
   style: "bg-accent text-accent-contrast hover:bg-accent-hover",
 };
@@ -38,7 +38,7 @@ export function Button({
       type={type}
       disabled={disabled || isLoading}
       aria-busy={isLoading || undefined}
-      className={`focus-ring inline-flex items-center justify-center gap-2 rounded-sm font-sans font-medium transition-[background-color,opacity,transform] active:scale-[0.99] disabled:pointer-events-none disabled:opacity-40 ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`focus-ring inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold transition-[background-color,opacity,transform] active:scale-[0.99] disabled:pointer-events-none disabled:opacity-40 ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {isLoading ? <span aria-hidden="true" className="size-4 animate-spin rounded-full border-2 border-current border-r-transparent" /> : null}

@@ -1,23 +1,10 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BriefProvider } from "@/providers/BriefProvider";
 import { SiteStructuredData } from "@/components/seo";
 import { absoluteUrl, seoConfig } from "@/config/seo.config";
 import "./globals.css";
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(seoConfig.siteUrl),
@@ -72,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang={seoConfig.language} className={`${fraunces.variable} ${inter.variable} h-full`}>
+    <html lang={seoConfig.language} className="h-full">
       <body className="flex min-h-full flex-col antialiased">
         <BriefProvider>
           <SiteStructuredData />

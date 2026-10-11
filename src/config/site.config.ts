@@ -39,20 +39,21 @@ export const siteConfig: SiteConfig = {
     "Placeholder tagline — remote project discovery and design guidance for home renovation and interior projects.",
   contactEmail: "hello@example.com",
   primaryNav: [
-    { label: "Services", href: "/services" },
-    { label: "Styles", href: "/styles" },
     { label: "Inspiration", href: "/inspiration" },
-    { label: "How it works", href: "/how-it-works" },
+    { label: "Styles", href: "/styles" },
+    { label: "Moodboard", href: "/moodboard" },
+    { label: "Services", href: "/services" },
     { label: "About", href: "/about" },
   ],
   footerNav: [
+    { label: "How it works", href: "/how-it-works" },
     { label: "About", href: "/about" },
-    { label: "FAQ", href: "/faq" },
     { label: "Contact", href: "/contact" },
   ],
   legalNav: [
-    { label: "Privacy", href: "/legal/privacy" },
-    { label: "Terms", href: "/legal/terms" },
-    { label: "Imprint", href: "/legal/imprint" },
+    { label: "Privacy", href: "/privacy" },
+    { label: "Terms", href: "/terms" },
+    { label: "Imprint", href: "/imprint" },
+    { label: "Cookies", href: "/cookies" },
   ],
 };

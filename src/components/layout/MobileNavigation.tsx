@@ -18,7 +18,7 @@ const focusableSelector = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(",");
 
-export function MobileNavigation({ items }: { items: NavigationItem[] }) {
+export function MobileNavigation({ items, overPhoto = false }: { items: NavigationItem[]; overPhoto?: boolean }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -87,7 +87,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
         aria-controls="mobile-navigation"
         aria-label="Open main menu"
         onClick={() => setOpen(true)}
-        className="focus-ring inline-flex min-h-12 min-w-12 items-center justify-center rounded-sm border border-border-strong bg-surface text-ink-900"
+        className={`focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border ${overPhoto ? "border-white/60 text-white" : "border-border-strong bg-surface text-ink-900"}`}
       >
         <span aria-hidden="true" className="grid gap-1.5">
           <span className="block h-0.5 w-5 bg-current" />
@@ -113,13 +113,13 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
             className="absolute inset-y-0 right-0 flex w-[min(88vw,390px)] flex-col overflow-y-auto bg-paper p-5 shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
-              <h2 id="mobile-menu-title" className="font-display text-lg text-ink-900">Menu</h2>
+              <h2 id="mobile-menu-title" className="font-display text-2xl text-ink-900">Menu</h2>
               <button
                 ref={closeButtonRef}
                 type="button"
                 aria-label="Close main menu"
                 onClick={() => closeMenu()}
-                className="focus-ring inline-flex min-h-12 min-w-12 items-center justify-center rounded-sm border border-border-strong text-2xl text-ink-900"
+                className="focus-ring inline-flex min-h-12 min-w-12 items-center justify-center rounded-full border border-border-strong text-2xl text-ink-900"
               >
                 <span aria-hidden="true">×</span>
               </button>
@@ -134,7 +134,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
                       <Link
                         href={item.href}
                         aria-current={active ? "page" : undefined}
-                        className={`focus-ring flex min-h-14 items-center justify-between rounded-sm px-2 text-base font-medium ${active ? "text-accent" : "text-ink-900"}`}
+                        className={`focus-ring flex min-h-14 items-center justify-between rounded-sm px-2 font-display text-2xl ${active ? "text-accent" : "text-ink-900"}`}
                       >
                         {item.label}<span aria-hidden="true">→</span>
                       </Link>
@@ -145,8 +145,8 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
             </nav>
 
             <div className="mt-auto grid gap-3 border-t border-border pt-6">
-              <Link href="/inquiry/style" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm bg-ink-900 px-5 text-sm font-medium text-white">Start your project</Link>
-              <Link href="/brief" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-sm border border-ink-900 px-5 text-sm font-medium text-ink-900">Open my brief</Link>
+              <Link href="/inquiry" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-ink-900 px-5 text-sm font-semibold text-white">Start my brief</Link>
+              <Link href="/moodboard" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-ink-900 px-5 text-sm font-medium text-ink-900">Open my moodboard</Link>
               <p className="text-center text-xs text-ink-500">Your draft is stored in this browser.</p>
             </div>
           </div>
