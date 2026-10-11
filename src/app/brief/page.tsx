@@ -37,7 +37,7 @@ export default function BriefPage() {
       ["Home", propertyLabel(brief.space.propertyType) ?? ""],
       ["Condition", conditionLabel(brief.space.condition) ?? ""],
       ["Size", brief.space.approxSize ? `${brief.space.approxSize.value} ${brief.space.approxSize.unit === "m2" ? "m²" : "ft²"}` : ""],
-      ["They have", stageLabel(brief.space.stage) ?? ""],
+      ["Final goal", stageLabel(brief.space.stage) ?? ""],
       ["Flexibility", words(brief.budget.flexibility)],
       ["Start", words(brief.budget.startWindow)],
       ["Avoid", brief.goals.avoid],

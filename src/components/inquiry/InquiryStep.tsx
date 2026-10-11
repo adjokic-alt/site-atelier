@@ -89,7 +89,7 @@ export function InquiryStep({ step }: { step: InquiryStepId }) {
           </div>
         </div>
 
-        <ChipQuestion title="What do you have so far?" value={brief.space.stage} onPick={(v) => setSpace({ stage: v })} options={stageOptions} />
+        <ChipQuestion title="What are your final goals?" value={brief.space.stage} onPick={(v) => setSpace({ stage: v })} options={stageOptions} />
 
         <details className="group border-t border-border pt-4">
           <summary className="focus-ring flex min-h-11 cursor-pointer list-none items-center justify-between rounded-sm text-[15px] font-medium text-ink-900">

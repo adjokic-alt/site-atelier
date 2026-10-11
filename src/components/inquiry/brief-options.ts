@@ -52,9 +52,10 @@ export const conditionOptions = [
   { value: "new-shell", label: "New build, empty" }, { value: "cosmetic", label: "Good, needs a refresh" },
   { value: "partial-updates", label: "Needs partial renovation" }, { value: "full-renovation", label: "Needs full renovation" },
 ];
+/** "What are your final goals?" — the result they expect from the designer (stored in space.stage). */
 export const stageOptions = [
-  { value: "idea", label: "Just an idea" }, { value: "sketches", label: "Sketches" }, { value: "photos", label: "Photos of the space" },
-  { value: "plans", label: "Floor plans" }, { value: "technical-documentation", label: "Full technical documentation" },
+  { value: "ideas", label: "Ideas and direction" }, { value: "sketches", label: "Sketches" },
+  { value: "visualisations", label: "3D visualisations" }, { value: "technical-documentation", label: "Full technical documentation" },
 ];
 
 

@@ -74,7 +74,7 @@ export async function renderCustomerBriefPdf(brief: ClientBrief): Promise<Uint8A
   field("Property type", brief.space.propertyType ? words(brief.space.propertyType) : "Not provided");
   field("Approximate size", brief.space.approxSize ? `${brief.space.approxSize.value} ${brief.space.approxSize.unit}` : "Not provided");
   field("Condition", brief.space.condition ? words(brief.space.condition) : "Not provided");
-  field("Project stage", brief.space.stage ? words(brief.space.stage) : "Not provided");
+  field("Final goal", brief.space.stage ? words(brief.space.stage) : "Not provided");
   field("Notes", brief.space.notes);
 
   heading("Budget and timing");
