@@ -10,7 +10,7 @@ import { getServiceAreaMessage } from "@/lib/inquiry/service-area";
 import type { InquiryStepId } from "@/lib/inquiry/steps";
 import { useBrief } from "@/providers/BriefProvider";
 import type { ClientBrief, CurrencyCode, ProjectCategoryId, StyleId } from "@/types";
-import { goalOptions, moreSpaceOptions, spaceOptions, whoOptions } from "./brief-options";
+import { budgetOptions, conditionOptions, goalOptions, moreSpaceOptions, propertyOptions, spaceOptions, stageOptions, whoOptions } from "./brief-options";
 import { FileDrop } from "./FileDrop";
 import { ProjectErrorSummary, useProjectValidation } from "./ProjectValidationBridge";
 import { StepShell } from "./StepShell";
@@ -40,7 +40,7 @@ export function InquiryStep({ step }: { step: InquiryStepId }) {
 
   if (step === "goals")
     return (
-      <StepShell step={step} title="What should change?" intro="Pick what matters most. This tells us which direction to take.">
+      <StepShell step={step} title="What should change?" intro="Pick what matters most, then a few quick questions about the home.">
         <div role="group" aria-label="Goals" className="flex flex-wrap gap-2.5">
           {goalOptions.map((g) => {
             const on = brief.goals.goalIds.includes(g.value);
@@ -62,32 +62,42 @@ export function InquiryStep({ step }: { step: InquiryStepId }) {
             className="focus-ring w-full resize-y rounded-md border border-border-strong bg-surface p-4 text-base leading-relaxed text-ink-900 placeholder:text-ink-300" />
         </div>
 
+        <ChipQuestion title="What budget do you have in mind?" value={brief.budget.rangeId}
+          onPick={(v) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency ?? "EUR", rangeId: v })}
+          options={budgetOptions}
+          aside={
+            <label className="inline-flex items-center gap-2 text-sm text-ink-500">
+              Currency
+              <select value={brief.budget.currency ?? "EUR"} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: e.target.value as CurrencyCode, rangeId: brief.budget.rangeId })}
+                className="focus-ring min-h-10 rounded-full border border-border-strong bg-surface px-3 text-sm text-ink-900">
+                {["EUR", "GBP", "SEK", "NOK", "DKK", "CHF"].map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </label>
+          } />
+
+        <ChipQuestion title="What kind of home is it?" value={brief.space.propertyType} onPick={(v) => setSpace({ propertyType: v })} options={propertyOptions} />
+
+        <ChipQuestion title="What state is it in now?" value={brief.space.condition} onPick={(v) => setSpace({ condition: v })} options={conditionOptions} />
+
         <div>
-          <h2 className={sub}>Your home as it is today</h2>
-          <p className="mb-4 mt-1.5 text-[15px] text-ink-700">Floor plans, sketches, photos of the current state, or whatever you want to change — rough is perfect.</p>
-          <FileDrop title="Drop files here" hint="JPG, PNG, HEIC, PDF, DWG, DXF, SKP · up to 25 MB each" accept="image/*,.heic,.pdf,.dwg,.dxf,.skp"
-            files={brief.visuals.localFileNames} onAdd={addFiles} onRemove={removeFile} />
+          <label htmlFor="home-size" className={`${sub} mb-3 block`}>How big is it?</label>
+          <div className="flex items-center gap-2.5">
+            <input id="home-size" type="number" min="0" inputMode="numeric" placeholder="70" value={brief.space.approxSize?.value ?? ""}
+              onChange={(e) => setSpace({ approxSize: e.target.value ? { value: Number(e.target.value), unit: "m2" } : null })}
+              className="focus-ring min-h-[52px] w-36 rounded-full border border-border-strong bg-surface px-5 text-base text-ink-900 placeholder:text-ink-300" />
+            <span className="text-[15px] text-ink-700">m²</span>
+          </div>
         </div>
+
+        <ChipQuestion title="What do you have so far?" value={brief.space.stage} onPick={(v) => setSpace({ stage: v })} options={stageOptions} />
 
         <details className="group border-t border-border pt-4">
           <summary className="focus-ring flex min-h-11 cursor-pointer list-none items-center justify-between rounded-sm text-[15px] font-medium text-ink-900">
-            <span>Add size, budget and timing <span className="font-normal text-ink-500">— optional, helps a designer reply faster</span></span>
+            <span>A few more details <span className="font-normal text-ink-500">— optional</span></span>
             <span aria-hidden="true" className="text-xl transition-transform group-open:rotate-45">+</span>
           </summary>
           <div className="grid gap-5 pt-6 sm:grid-cols-2">
-            <Select label="Property type" value={brief.space.propertyType ?? ""} onChange={(e) => setSpace({ propertyType: e.target.value || null })}
-              options={[{ value: "", label: "Select" }, { value: "apartment", label: "Apartment" }, { value: "house", label: "House" }, { value: "townhouse", label: "Townhouse" }, { value: "commercial", label: "Commercial" }, { value: "other", label: "Other" }]} />
-            <Input label="Approximate size (m²)" type="number" min="0" value={brief.space.approxSize?.value ?? ""}
-              onChange={(e) => setSpace({ approxSize: e.target.value ? { value: Number(e.target.value), unit: "m2" } : null })} />
-            <Select label="Current condition" value={brief.space.condition ?? ""} onChange={(e) => setSpace({ condition: e.target.value || null })}
-              options={[{ value: "", label: "Select" }, { value: "full-renovation", label: "Needs full renovation" }, { value: "partial-updates", label: "Needs partial updates" }, { value: "cosmetic", label: "Cosmetic only" }, { value: "new-shell", label: "New-build shell" }]} />
-            <Select label="Where are you now?" value={brief.space.stage ?? ""} onChange={(e) => setSpace({ stage: e.target.value || null })}
-              options={[{ value: "", label: "Select" }, { value: "idea", label: "Just an idea" }, { value: "plans", label: "I have plans" }, { value: "permits", label: "I have permits" }, { value: "quotes", label: "I already have quotes" }]} />
-            <Select label="Budget range" value={brief.budget.rangeId ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency ?? "EUR", rangeId: e.target.value || null })}
-              options={[{ value: "", label: "Select" }, { value: "under-15", label: "Under 15,000" }, { value: "15-30", label: "15,000–30,000" }, { value: "30-60", label: "30,000–60,000" }, { value: "60-120", label: "60,000–120,000" }, { value: "120-plus", label: "120,000+" }, { value: "not-sure", label: "Not sure yet" }]} />
-            <Select label="Currency" value={brief.budget.currency ?? "EUR"} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: e.target.value as CurrencyCode, rangeId: brief.budget.rangeId })}
-              options={["EUR", "GBP", "SEK", "NOK", "DKK", "CHF"].map((value) => ({ value, label: value }))} />
-            <Select label="Flexibility" value={brief.budget.flexibility ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency, rangeId: brief.budget.rangeId, flexibility: (e.target.value || null) as Flex })}
+            <Select label="Budget flexibility" value={brief.budget.flexibility ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency, rangeId: brief.budget.rangeId, flexibility: (e.target.value || null) as Flex })}
               options={[{ value: "", label: "Select" }, { value: "firm", label: "Firm" }, { value: "some-flexibility", label: "Some flexibility" }, { value: "depends", label: "Depends on scope" }]} />
             <Select label="Preferred start" value={brief.budget.startWindow ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency, rangeId: brief.budget.rangeId, startWindow: e.target.value || null })}
               options={[{ value: "", label: "Select" }, { value: "asap", label: "As soon as possible" }, { value: "within-3-months", label: "Within 3 months" }, { value: "3-6-months", label: "3–6 months" }, { value: "6-12-months", label: "6–12 months" }, { value: "just-exploring", label: "Just exploring" }]} />
@@ -283,9 +293,9 @@ function InspirationStep({ addFiles, removeFile }: { addFiles: (n: string[]) => 
       </div>
 
       <div>
-        <p className="mb-3 text-[15px] font-semibold text-ink-900">Or drop your saved pictures</p>
-        <FileDrop icon="image" title="Drop screenshots and photos" hint="JPG, PNG, HEIC, WEBP · up to 25 MB each" accept="image/*,.heic"
-          files={brief.visuals.localFileNames.filter((n) => /\.(jpe?g|png|heic|webp|gif)$/i.test(n))} onAdd={addFiles} onRemove={removeFile} />
+        <p className="mb-3 text-[15px] font-semibold text-ink-900">Or drop your own pictures, sketches or plans</p>
+        <FileDrop title="Drop files here" hint="JPG, PNG, HEIC, PDF, DWG, DXF, SKP · up to 25 MB each" accept="image/*,.heic,.pdf,.dwg,.dxf,.skp"
+          files={brief.visuals.localFileNames} onAdd={addFiles} onRemove={removeFile} />
       </div>
 
       <div>
@@ -318,5 +328,25 @@ function StylePicker() {
         );
       })}
     </div>
+  );
+}
+
+/** One question, answered with a single tap. Tapping the chosen answer again clears it. */
+function ChipQuestion({ title, value, options, onPick, aside }: { title: string; value: string | null; options: { value: string; label: string }[]; onPick: (v: string | null) => void; aside?: React.ReactNode }) {
+  return (
+    <fieldset>
+      <legend className={`${sub} mb-3`}>{title}</legend>
+      {aside ? <div className="-mt-1 mb-3">{aside}</div> : null}
+      <div className="flex flex-wrap gap-2">
+        {options.map((o) => {
+          const on = value === o.value;
+          return (
+            <button key={o.value} type="button" aria-pressed={on} onClick={() => onPick(on ? null : o.value)} className={chip(on).replace("min-h-12", "min-h-11").replace("px-6", "px-5")}>
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
   );
 }

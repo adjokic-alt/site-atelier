@@ -1,85 +1,101 @@
 "use client";
-import { BriefPanel, BriefSection, DownloadBriefButton } from "@/components/brief";
-import { Card, Container, SectionHeading } from "@/components/ui";
+
+import Image from "next/image";
+import Link from "next/link";
+import { DownloadBriefButton } from "@/components/brief";
+import { budgetLabel, conditionLabel, goalLabel, propertyLabel, spaceLabel, stageLabel, whoLabel } from "@/components/inquiry/brief-options";
+import { inspirationItems } from "@/content/inspiration";
+import { styleCatalog } from "@/content/style-catalog";
 import { useBrief } from "@/providers/BriefProvider";
 
-const present = (value: string | null | undefined) => value ? value.replaceAll("-", " ") : "Not provided";
+const styleName = Object.fromEntries(styleCatalog.map((s) => [s.id, s.name]));
+const words = (v: string | null | undefined) => (v ? v.replaceAll("-", " ").replace(/^./, (c) => c.toUpperCase()) : "");
 
 export default function BriefPage() {
-  const { brief, hydrated, strength } = useBrief();
-  if (!hydrated) return <main className="py-16"><Container><p>Loading your brief...</p></Container></main>;
+  const { brief, hydrated, resetBrief } = useBrief();
+  if (!hydrated) return <div className="px-5 py-24 sm:px-8 lg:px-14"><p className="text-sm text-ink-500">Loading your brief…</p></div>;
+
+  const saved = inspirationItems.filter((i) => brief.visuals.moodboardItemIds.includes(i.id));
+  const budget = brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "";
+
+  const sections: { title: string; edit: string; rows: [string, string][] }[] = [
+    { title: "Who and where", edit: "/inquiry/project", rows: [
+      ["For", whoLabel(brief.space.ownership) ?? ""],
+      ["Where", [brief.project.city, brief.project.postcode, brief.project.country].filter(Boolean).join(", ")],
+    ] },
+    { title: "Spaces", edit: "/inquiry/space", rows: [["Spaces", brief.project.projectCategoryIds.map(spaceLabel).join(", ")]] },
+    { title: "Inspiration", edit: "/inquiry/photos", rows: [
+      ["Feels like", brief.style.primaryStyleId ? styleName[brief.style.primaryStyleId] : ""],
+      ["Saved images", saved.length ? String(saved.length) : ""],
+      ["Board links", brief.visuals.inspirationLinks.join(", ")],
+      ["Files", brief.visuals.localFileNames.join(", ")],
+    ] },
+    { title: "Goals and the home", edit: "/inquiry/goals", rows: [
+      ["Goals", brief.goals.goalIds.map(goalLabel).join(", ")],
+      ["In their words", brief.goals.ownWords],
+      ["Budget", budget],
+      ["Home", propertyLabel(brief.space.propertyType) ?? ""],
+      ["Condition", conditionLabel(brief.space.condition) ?? ""],
+      ["Size", brief.space.approxSize ? `${brief.space.approxSize.value} ${brief.space.approxSize.unit === "m2" ? "m²" : "ft²"}` : ""],
+      ["They have", stageLabel(brief.space.stage) ?? ""],
+      ["Flexibility", words(brief.budget.flexibility)],
+      ["Start", words(brief.budget.startWindow)],
+      ["Avoid", brief.goals.avoid],
+      ["Help wanted", brief.project.helpNeeded.map(words).join(", ")],
+    ] },
+    { title: "Contact", edit: "/inquiry/review", rows: [
+      ["Name", brief.contact.name],
+      ["Email", brief.contact.email],
+      ["Phone", brief.contact.phone ?? ""],
+    ] },
+  ];
 
   return (
-    <main className="py-16 md:py-24">
-      <Container>
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <SectionHeading eyebrow="Project brief" title="A clear record of what you have defined so far." description="Review each section, return to the inquiry to edit it, or download a customer-safe A4 PDF." />
-          <DownloadBriefButton />
+    <div className="px-5 pb-28 pt-[clamp(56px,8vw,104px)] sm:px-8 lg:px-14">
+      <div className="mx-auto max-w-[1100px]">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="mb-4 text-xs uppercase tracking-[0.12em] text-ink-500">Your brief · ref {brief.id.slice(0, 8).toUpperCase()}</p>
+            <h1 className="font-display text-[clamp(3.25rem,7vw,6.5rem)] leading-[0.95] text-ink-900">Our home brief</h1>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <DownloadBriefButton />
+            <Link href="/inquiry/review" className="focus-ring inline-flex min-h-12 items-center rounded-full border border-ink-900 px-6 text-[15px] font-medium text-ink-900 hover:bg-surface">Send to a designer</Link>
+          </div>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_360px]">
-          <article className="rounded-xl bg-surface p-6 shadow-sm md:p-10">
-            <header className="border-b border-border pb-8">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-xs text-ink-500">Reference {brief.id.slice(0, 8).toUpperCase()}</p>
-                <span className="rounded-full bg-accent-tint px-3 py-1 text-xs capitalize text-ink-900">{strength.level} brief</span>
+        <article className="mt-12 rounded-md bg-surface p-[clamp(24px,5vw,56px)] shadow-[0_24px_60px_rgba(30,28,25,0.10)]">
+          {saved.length ? (
+            <div className="mb-4 grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8">
+              {saved.slice(0, 16).map((i) => (
+                <div key={i.id} className="relative aspect-square overflow-hidden rounded-sm"><Image src={i.image} alt={i.altText} fill sizes="120px" className="object-cover" /></div>
+              ))}
+            </div>
+          ) : null}
+
+          {sections.map((sec) => (
+            <section key={sec.title} className="border-b border-border py-8 last:border-0 last:pb-0">
+              <div className="mb-4 flex items-baseline justify-between gap-4">
+                <h2 className="font-display text-[30px] leading-tight text-ink-900">{sec.title}</h2>
+                <Link href={sec.edit} className="focus-ring rounded-sm text-sm font-medium text-ink-700 underline underline-offset-4 hover:text-ink-900">Edit</Link>
               </div>
-              <h1 className="mt-3 font-display text-h1 capitalize text-ink-900">{brief.project.projectCategoryIds[0] ? present(brief.project.projectCategoryIds[0]) : "Your project"}</h1>
-              <p className="mt-3 capitalize text-ink-700">{brief.style.primaryStyleId ? `${present(brief.style.primaryStyleId)} direction` : "Style not selected"}</p>
-            </header>
+              <dl className="grid gap-x-6 gap-y-3 text-[15px] leading-relaxed sm:grid-cols-[160px_1fr]">
+                {sec.rows.map(([k, v]) => (
+                  <div key={k} className="contents">
+                    <dt className="text-ink-500">{k}</dt>
+                    <dd className={v ? "break-words text-ink-900" : "text-ink-300"}>{v || "—"}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ))}
+        </article>
 
-            <BriefSection title="Style and materials" editHref="/inquiry/style">
-              <p><strong>Primary:</strong> {present(brief.style.primaryStyleId)}</p>
-              <p><strong>Accent:</strong> {brief.style.accentStyleId ? present(brief.style.accentStyleId) : "None selected"}</p>
-              <p><strong>Materials:</strong> {brief.style.materialIdsLiked.map(present).join(", ") || "None selected"}</p>
-            </BriefSection>
-
-            <BriefSection title="Project and place" editHref="/inquiry/project">
-              <p><strong>Categories:</strong> {brief.project.projectCategoryIds.map(present).join(", ") || "Not provided"}</p>
-              <p><strong>Help needed:</strong> {brief.project.helpNeeded.map(present).join(", ") || "Not provided"}</p>
-              <p><strong>Location:</strong> {[brief.project.city, brief.project.postcode, brief.project.country].filter(Boolean).join(", ") || "Not provided"}</p>
-            </BriefSection>
-
-            <BriefSection title="Goals" editHref="/inquiry/goals">
-              <p><strong>Selected:</strong> {brief.goals.goalIds.map(present).join(", ") || "Not provided"}</p>
-              <p><strong>Own words:</strong> {brief.goals.ownWords || "Not provided"}</p>
-              <p><strong>Avoid:</strong> {brief.goals.avoid || "Not provided"}</p>
-            </BriefSection>
-
-            <BriefSection title="Your space" editHref="/inquiry/space">
-              <p><strong>Property:</strong> {present(brief.space.propertyType)}</p>
-              <p><strong>Size:</strong> {brief.space.approxSize ? `${brief.space.approxSize.value} ${brief.space.approxSize.unit}` : "Not provided"}</p>
-              <p><strong>Condition:</strong> {present(brief.space.condition)}</p>
-              <p><strong>Stage:</strong> {present(brief.space.stage)}</p>
-              <p><strong>Notes:</strong> {brief.space.notes || "Not provided"}</p>
-            </BriefSection>
-
-            <BriefSection title="Budget and timeline" editHref="/inquiry/budget">
-              <p><strong>Budget:</strong> {[brief.budget.currency, brief.budget.rangeId ? present(brief.budget.rangeId) : ""].filter(Boolean).join(" ") || "Not provided"}</p>
-              <p><strong>Flexibility:</strong> {present(brief.budget.flexibility)}</p>
-              <p><strong>Preferred start:</strong> {present(brief.budget.startWindow)}</p>
-            </BriefSection>
-
-            <BriefSection title="Photos and visual references" editHref="/inquiry/photos">
-              <p><strong>Moodboard:</strong> {brief.visuals.moodboardItemIds.length} saved items</p>
-              <p><strong>Local files:</strong> {brief.visuals.localFileNames.join(", ") || "None selected"}</p>
-              <p className="text-ink-500">Only file names are recorded in M9. File bytes are not included in the PDF.</p>
-            </BriefSection>
-
-            <BriefSection title="Contact" editHref="/inquiry/review">
-              <p><strong>Name:</strong> {brief.contact.name || "Not provided"}</p>
-              <p><strong>Email:</strong> {brief.contact.email || "Not provided"}</p>
-              <p><strong>Phone:</strong> {brief.contact.phone || "Not provided"}</p>
-            </BriefSection>
-
-            <Card variant="sunken" className="mt-7">
-              <h2 className="font-display text-h3 text-ink-900">What this PDF is for</h2>
-              <p className="mt-3 text-sm leading-relaxed text-ink-700">Use the document to discuss scope and priorities. It deliberately excludes internal service-area notes, triage information and unconfirmed business claims.</p>
-            </Card>
-          </article>
-          <BriefPanel />
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-sm text-ink-500">
+          <p>Saved in this browser. The PDF leaves out internal notes. Files are listed by name only.</p>
+          <button type="button" onClick={resetBrief} className="focus-ring min-h-11 rounded-full px-2 underline underline-offset-4 hover:text-ink-900">Start over</button>
         </div>
-      </Container>
-    </main>
+      </div>
+    </div>
   );
 }

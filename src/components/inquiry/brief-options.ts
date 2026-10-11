@@ -38,3 +38,28 @@ const legacyGoals: Record<string, string> = { "better-layout": "A better layout"
 export const whoLabel = (v: string | null) => whoOptions.find((o) => o.value === v)?.label ?? null;
 export const spaceLabel = (v: string) => [...spaceOptions, ...moreSpaceOptions].find((o) => o.value === v)?.label ?? v.replaceAll("-", " ");
 export const goalLabel = (v: string) => goalOptions.find((o) => o.value === v)?.label ?? legacyGoals[v] ?? v.replaceAll("-", " ");
+
+/** Goals-step questions about the home (stored in the existing space/budget fields). */
+export const budgetOptions = [
+  { value: "under-15", label: "Under 15k" }, { value: "15-30", label: "15–30k" }, { value: "30-60", label: "30–60k" },
+  { value: "60-120", label: "60–120k" }, { value: "120-plus", label: "120k+" }, { value: "not-sure", label: "Not sure yet" },
+];
+export const propertyOptions = [
+  { value: "apartment", label: "Apartment" }, { value: "house", label: "House" }, { value: "townhouse", label: "Townhouse" },
+  { value: "holiday-home", label: "Holiday home" }, { value: "other", label: "Other" },
+];
+export const conditionOptions = [
+  { value: "new-shell", label: "New build, empty" }, { value: "cosmetic", label: "Good, needs a refresh" },
+  { value: "partial-updates", label: "Needs partial renovation" }, { value: "full-renovation", label: "Needs full renovation" },
+];
+export const stageOptions = [
+  { value: "idea", label: "Just an idea" }, { value: "sketches", label: "Sketches" }, { value: "photos", label: "Photos of the space" },
+  { value: "plans", label: "Floor plans" }, { value: "technical-documentation", label: "Full technical documentation" },
+];
+
+
+const find = (list: { value: string; label: string }[], v: string | null) => (v ? list.find((o) => o.value === v)?.label ?? v.replaceAll("-", " ") : null);
+export const budgetLabel = (v: string | null) => find(budgetOptions, v);
+export const propertyLabel = (v: string | null) => find(propertyOptions, v);
+export const conditionLabel = (v: string | null) => find(conditionOptions, v);
+export const stageLabel = (v: string | null) => find(stageOptions, v);

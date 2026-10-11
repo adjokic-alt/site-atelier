@@ -58,6 +58,7 @@ export async function renderCustomerBriefPdf(brief: ClientBrief): Promise<Uint8A
   field("Liked materials", brief.style.materialIdsLiked.map(words).join(", ") || "None selected");
 
   heading("Project and location");
+  field("Home for", brief.space.ownership ? words(brief.space.ownership) : "Not provided");
   field("Project categories", brief.project.projectCategoryIds.map(words).join(", "));
   field("Help needed", brief.project.helpNeeded.map(words).join(", "));
   field("Location", [brief.project.city, brief.project.postcode, brief.project.country].filter(Boolean).join(", "));
