@@ -5,8 +5,8 @@ export function HomeHero() {
   return (
     <section aria-label="Welcome" className="relative isolate h-[100svh] min-h-[640px] max-h-[980px] overflow-hidden bg-ink-900">
       <Image
-        src="/images/home/home-hero.png"
-        alt="Warm, light-filled living room with oak and linen"
+        src="/images/inspiration/industrial-brick-living-room.jpg"
+        alt="Industrial living room with a brick wall, leather sofa and black steel shelving"
         fill
         priority
         quality={90}
@@ -33,7 +33,7 @@ export function HomeHero() {
               Not sure of your style? Take the 45-second quiz <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <p className="text-xs uppercase tracking-[0.12em] text-white/85">Warm minimal · Living room</p>
+          <p className="text-xs uppercase tracking-[0.12em] text-white/85">Industrial · Living room</p>
         </div>
       </div>
     </section>
