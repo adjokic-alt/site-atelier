@@ -28,10 +28,11 @@ export function HomeHero() {
               <Link href="/moodboard" className="focus-ring inline-flex min-h-[52px] items-center rounded-full border border-white/70 px-7 text-[15px] font-medium text-white hover:bg-white/10">
                 Build a Moodboard
               </Link>
+              <Link href="/styles/not-sure" className="focus-ring inline-flex min-h-[52px] items-center gap-2.5 rounded-full bg-[#9c5f37] py-1.5 pl-7 pr-2 text-[15px] font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-colors hover:bg-[#844e2c]">
+                Find my style
+                <span className="rounded-full bg-white/20 px-2.5 py-1 text-xs font-medium tracking-wide">45 sec quiz</span>
+              </Link>
             </div>
-            <Link href="/styles/not-sure" className="atelier-rise focus-ring mt-6 inline-flex min-h-11 items-center gap-2 rounded-sm text-[15px] text-white/90 underline underline-offset-4 [animation-delay:350ms] hover:text-white">
-              Not sure of your style? Take the 45-second quiz <span aria-hidden="true">→</span>
-            </Link>
           </div>
           <p className="text-xs uppercase tracking-[0.12em] text-white/85">Industrial · Living room</p>
         </div>
