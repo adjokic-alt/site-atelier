@@ -5,10 +5,9 @@ import Link from "next/link";
 import { DownloadBriefButton } from "@/components/brief";
 import { budgetLabel, conditionLabel, goalLabel, propertyLabel, spaceLabel, stageLabel, whoLabel } from "@/components/inquiry/brief-options";
 import { inspirationItems } from "@/content/inspiration";
-import { styleCatalog } from "@/content/style-catalog";
 import { useBrief } from "@/providers/BriefProvider";
+import { styleCombo } from "@/components/inquiry/StyleMix";
 
-const styleName = Object.fromEntries(styleCatalog.map((s) => [s.id, s.name]));
 const words = (v: string | null | undefined) => (v ? v.replaceAll("-", " ").replace(/^./, (c) => c.toUpperCase()) : "");
 
 export default function BriefPage() {
@@ -19,17 +18,17 @@ export default function BriefPage() {
   const budget = brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "";
 
   const sections: { title: string; edit: string; rows: [string, string][] }[] = [
+    { title: "Inspiration", edit: "/inquiry/photos", rows: [
+      ["Feels like", styleCombo(brief.style.primaryStyleId, brief.style.accentStyleId) ?? ""],
+      ["Saved images", saved.length ? String(saved.length) : ""],
+      ["Board links", brief.visuals.inspirationLinks.join(", ")],
+      ["Files", brief.visuals.localFileNames.join(", ")],
+    ] },
     { title: "Who and where", edit: "/inquiry/project", rows: [
       ["For", whoLabel(brief.space.ownership) ?? ""],
       ["Where", [brief.project.city, brief.project.postcode, brief.project.country].filter(Boolean).join(", ")],
     ] },
     { title: "Spaces", edit: "/inquiry/space", rows: [["Spaces", brief.project.projectCategoryIds.map(spaceLabel).join(", ")]] },
-    { title: "Inspiration", edit: "/inquiry/photos", rows: [
-      ["Feels like", brief.style.primaryStyleId ? styleName[brief.style.primaryStyleId] : ""],
-      ["Saved images", saved.length ? String(saved.length) : ""],
-      ["Board links", brief.visuals.inspirationLinks.join(", ")],
-      ["Files", brief.visuals.localFileNames.join(", ")],
-    ] },
     { title: "Goals and the home", edit: "/inquiry/goals", rows: [
       ["Goals", brief.goals.goalIds.map(goalLabel).join(", ")],
       ["In their words", brief.goals.ownWords],

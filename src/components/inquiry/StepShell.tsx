@@ -55,7 +55,7 @@ export function StepShell({ step, title, titleAside, intro, children, canContinu
             <p className="mb-3.5 text-[13px] uppercase tracking-[0.12em] text-ink-500">
               {inFlow ? `Step ${index + 1} of ${flowSteps.length}` : "Optional details"}
             </p>
-            <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+            <div className="flex flex-wrap items-baseline gap-x-5 gap-y-3">
               <h1 tabIndex={-1} className="font-display text-[clamp(2.75rem,5.6vw,5rem)] leading-none text-ink-900">{title}</h1>
               {titleAside}
             </div>

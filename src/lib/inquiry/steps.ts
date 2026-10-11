@@ -8,9 +8,9 @@ export function isInquiryStep(value:string):value is InquiryStepId{return inquir
  * "style" and "budget" stay reachable (e.g. from the full brief's Edit links) as optional detail pages.
  */
 export const flowSteps: { id: InquiryStepId; title: string }[] = [
+  { id: "photos", title: "Inspiration" },
   { id: "project", title: "Who" },
   { id: "space", title: "Spaces" },
-  { id: "photos", title: "Inspiration" },
   { id: "goals", title: "Goals" },
   { id: "review", title: "Your brief" },
 ];

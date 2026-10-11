@@ -2,23 +2,20 @@
 
 import Image from "next/image";
 import { inspirationItems } from "@/content/inspiration";
-import { styleCatalog } from "@/content/style-catalog";
 import { useBrief } from "@/providers/BriefProvider";
+import { styleCombo } from "./StyleMix";
 import { goalLabel, spaceLabel, whoLabel } from "./brief-options";
 
-const styleName = Object.fromEntries(styleCatalog.map((s) => [s.id, s.name]));
 
 /** The paper brief beside every step — fills in as the person answers. */
 export function LiveBrief() {
   const { brief, saved } = useBrief();
   const thumbs = inspirationItems.filter((i) => brief.visuals.moodboardItemIds.includes(i.id)).slice(0, 8);
   const rows: [string, string][] = [
+    ["Feels like", styleCombo(brief.style.primaryStyleId, brief.style.accentStyleId) ?? "—"],
     ["For", whoLabel(brief.space.ownership) ?? "—"],
     ["Where", [brief.project.city, brief.project.country].filter(Boolean).join(", ") || "—"],
     ["Spaces", brief.project.projectCategoryIds.map(spaceLabel).join(", ") || "—"],
-    ["Feels like", brief.style.primaryStyleId
-      ? styleName[brief.style.primaryStyleId] + (brief.style.accentStyleId ? `, with ${styleName[brief.style.accentStyleId]}` : "")
-      : "—"],
     ["Goals", brief.goals.goalIds.map(goalLabel).join(", ") || "—"],
   ];
 
