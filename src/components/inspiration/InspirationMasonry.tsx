@@ -17,9 +17,12 @@ const rooms: { id: InspirationSpace | "all"; label: string }[] = [
 const styleName = Object.fromEntries(styleCatalog.map((s) => [s.id, s.name]));
 const spaceName: Record<string, string> = { living: "Living", kitchen: "Kitchen", bedroom: "Bedroom", bath: "Bath", outdoor: "Outdoor", exterior: "Exterior" };
 
-/** Portrait and landscape frames, mixed so the wall never looks like a grid. */
-const portrait = ["aspect-[3/4]", "aspect-[4/5]", "aspect-[2/3]"];
-const landscape = ["aspect-[4/3]", "aspect-[3/2]", "aspect-[16/10]"];
+/**
+ * Every row has the height of one portrait picture. A landscape picture spans two
+ * columns at that same height, so portrait and landscape line up edge to edge.
+ */
+const portrait = "col-span-1";
+const landscape = "col-span-2";
 
 type Tile = InspirationItem & { frame: string };
 
@@ -31,13 +34,10 @@ function shuffle<T>(list: T[]) {
 
 /** Same first paint on server and client; reshuffled in the browser on every visit. */
 function stableOrder(items: InspirationItem[]): Tile[] {
-  return items.map((item, i) => ({ ...item, frame: i % 2 ? landscape[i % 3] : portrait[i % 3] }));
+  return items.map((item, i) => ({ ...item, frame: i % 3 === 1 ? landscape : portrait }));
 }
 function randomOrder(items: InspirationItem[]): Tile[] {
-  return shuffle(items).map((item) => {
-    const set = Math.random() < 0.5 ? portrait : landscape;
-    return { ...item, frame: set[Math.floor(Math.random() * set.length)] };
-  });
+  return shuffle(items).map((item) => ({ ...item, frame: Math.random() < 0.35 ? landscape : portrait }));
 }
 
 interface Props {
@@ -80,16 +80,22 @@ export function InspirationMasonry({ limit, showStyleFilter = false }: Props) {
         ) : null}
       </div>
 
-      <div className={`columns-2 gap-3 transition-opacity duration-500 sm:gap-5 lg:columns-3 xl:columns-4 ${ready ? "opacity-100" : "opacity-0"}`}>
-        {shown.map((item) => (
-          <figure key={item.id} className="relative mb-3 break-inside-avoid sm:mb-5">
-            <button type="button" onClick={() => setOpen(item)} aria-label={`View ${item.title} larger`} className={`focus-ring group relative block w-full overflow-hidden rounded ${item.frame}`}>
-              <Image src={item.image} alt={item.altText} fill sizes="(min-width:1280px) 25vw, (min-width:1024px) 33vw, 50vw" className="object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]" />
-            </button>
-            <SaveHeart itemId={item.id} label={item.title} className="absolute right-2 top-2 sm:right-3.5 sm:top-3.5" />
-            <figcaption className="pt-2.5 text-[13px] text-ink-500">{spaceName[item.space]} · {styleName[item.styleId]}</figcaption>
-          </figure>
-        ))}
+      <div className="[container-type:inline-size]">
+        <div
+          className={`grid grid-flow-row-dense grid-cols-2 gap-3 [--cols:2] [--gap:12px] transition-opacity duration-500 sm:gap-5 sm:[--gap:20px] lg:grid-cols-3 lg:[--cols:3] xl:grid-cols-4 xl:[--cols:4] ${ready ? "opacity-100" : "opacity-0"}`}
+          style={{ gridAutoRows: "calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols) * 4 / 3)" }}
+        >
+          {shown.map((item) => (
+            <figure key={item.id} className={`relative m-0 ${item.frame}`}>
+              <button type="button" onClick={() => setOpen(item)} aria-label={`View ${item.title} larger`} className="focus-ring group relative block h-full w-full overflow-hidden rounded">
+                <Image src={item.image} alt={item.altText} fill sizes={item.frame === landscape ? "(min-width:1280px) 50vw, (min-width:1024px) 66vw, 100vw" : "(min-width:1280px) 25vw, (min-width:1024px) 33vw, 50vw"} className="object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]" />
+                <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/45 to-transparent" />
+              </button>
+              <SaveHeart itemId={item.id} label={item.title} className="absolute right-2 top-2 sm:right-3.5 sm:top-3.5" />
+              <figcaption className="pointer-events-none absolute bottom-3 left-3.5 text-[13px] text-white">{spaceName[item.space]} · {styleName[item.styleId]}</figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
       {!shown.length ? <p className="py-16 text-center text-ink-500">No rooms like that yet — try another filter.</p> : null}
 
