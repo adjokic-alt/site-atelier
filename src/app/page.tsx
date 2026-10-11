@@ -1,31 +1,20 @@
 import type { Metadata } from "next";
-import {
-  HomeAudience,
-  HomeBrief,
-  HomeFinalCta,
-  HomeHero,
-  HomeMoodboard,
-  HomeProblem,
-  HomeProcess,
-  HomeStyles,
-} from "@/components/home";
+import { HomeBrief, HomeFinalCta, HomeHero, HomeInspiration, HomeMoodboard, HomeStyles } from "@/components/home";
 
 export const metadata: Metadata = {
-  title: "Site Atelier | Turn Ideas Into a Clear Interior Direction",
-  description: "Explore interior styles, collect visual references, reveal patterns and create a structured project brief with a downloadable PDF.",
+  title: "Site Atelier | Create a home that feels like you",
+  description: "Collect interior inspiration, discover your style through your own moodboard and turn it into a simple brief for a designer.",
 };
 
 export default function HomePage() {
   return (
-    <main>
+    <>
       <HomeHero />
-      <HomeProblem />
-      <HomeProcess />
+      <HomeInspiration />
       <HomeStyles />
       <HomeMoodboard />
       <HomeBrief />
-      <HomeAudience />
       <HomeFinalCta />
-    </main>
+    </>
   );
 }

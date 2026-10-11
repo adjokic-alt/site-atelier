@@ -1,21 +1,54 @@
+import Image from "next/image";
 import Link from "next/link";
 
-const sections = ["Project scope", "Rooms and priorities", "Style direction", "Saved references", "Budget and timeline", "Goals and constraints"];
+const thumbs = [
+  "/images/studios/scandinavian/scandinavian-living-room.png",
+  "/images/studios/scandinavian/scandinavian-kitchen.png",
+  "/images/inspiration/warm-minimal-bathroom.png",
+  "/images/studios/scandinavian/scandinavian-bedroom.png",
+  "/images/inspiration/daylight-living-room.png",
+];
+
+const rows: [string, string][] = [
+  ["For", "A couple and two children"],
+  ["Spaces", "Living room, kitchen"],
+  ["Feels like", "Warm minimal, a touch of Scandinavian"],
+  ["Goal", "More light, better storage"],
+];
 
 export function HomeBrief() {
   return (
-    <section className="py-16 md:py-24">
-      <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-10">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">Project brief</p>
-          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">A better conversation starts with a clearer brief.</h2>
-          <p className="mt-5 text-base leading-8 text-ink-700">Bring practical requirements and visual preferences into one organised project document that can be reviewed, shared and downloaded.</p>
-          <Link href="/brief" className="focus-ring mt-8 inline-flex min-h-[52px] items-center rounded-sm bg-ink-900 px-6 text-sm font-semibold text-white">Build my brief</Link>
+    <section className="bg-surface-sunken px-5 py-[clamp(72px,10vw,140px)] sm:px-8 lg:px-14">
+      <div className="mx-auto grid max-w-[1328px] items-center gap-[clamp(40px,6vw,96px)] lg:grid-cols-2">
+        <div className="order-2 rounded-md bg-surface p-[clamp(28px,4vw,48px)] shadow-[0_24px_60px_rgba(30,28,25,0.10)] lg:order-1" aria-label="Example brief">
+          <div className="flex items-baseline justify-between border-b border-border pb-5">
+            <span className="font-display text-[32px] text-ink-900">Our home brief</span>
+            <span className="text-[13px] text-ink-500">Example</span>
+          </div>
+          <dl className="grid grid-cols-[110px_1fr] gap-x-5 gap-y-4 py-6 text-[15px]">
+            {rows.map(([k, v]) => (
+              <div key={k} className="contents">
+                <dt className="text-ink-500">{k}</dt>
+                <dd className="text-ink-900">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="grid grid-cols-5 gap-2">
+            {thumbs.map((src) => (
+              <div key={src} className="relative aspect-square overflow-hidden rounded-sm"><Image src={src} alt="" fill sizes="120px" className="object-cover" /></div>
+            ))}
+          </div>
         </div>
 
-        <div className="rounded-xl border border-border bg-surface p-6 shadow-sm md:p-8">
-          <div className="flex items-center justify-between border-b border-border pb-5"><div><p className="text-xs uppercase tracking-[.1em] text-accent">Project brief</p><p className="mt-2 font-display text-h2 text-ink-900">Interior direction summary</p></div><span className="rounded-full bg-surface-sunken px-3 py-1 text-xs text-ink-500">Draft</span></div>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">{sections.map((section, index) => <div key={section} className="rounded-lg bg-surface-sunken p-4"><p className="text-[10px] font-semibold tracking-[.1em] text-accent">0{index + 1}</p><p className="mt-3 text-sm font-medium text-ink-900">{section}</p><span className="mt-4 block h-1.5 rounded-full bg-border" /><span className="mt-2 block h-1.5 w-2/3 rounded-full bg-border" /></div>)}</div>
+        <div className="order-1 max-w-[480px] lg:order-2">
+          <p className="mb-3.5 text-[13px] uppercase tracking-[0.12em] text-ink-500">Your brief</p>
+          <h2 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-none text-ink-900">Turn inspiration into a plan.</h2>
+          <p className="mt-7 text-[17px] leading-[1.7] text-ink-700">
+            Five short steps. Your saved images do most of the talking. Download it, or send it to a designer when you are ready.
+          </p>
+          <Link href="/inquiry" className="focus-ring mt-9 inline-flex min-h-[52px] items-center rounded-full border border-ink-900 px-7 text-[15px] font-semibold text-ink-900 hover:bg-surface">
+            Start my brief
+          </Link>
         </div>
       </div>
     </section>

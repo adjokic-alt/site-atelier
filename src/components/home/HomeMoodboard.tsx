@@ -1,30 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const pictures = [
-  "/images/inspiration/architectural-living-space.png",
-  "/images/inspiration/refined-industrial-kitchen.png",
-  "/images/inspiration/layered-bedroom-details.png",
-];
-const palette = ["#301818", "#484830", "#787860", "#A89090", "#C0C0A8"];
+const tile = "relative overflow-hidden rounded";
 
 export function HomeMoodboard() {
   return (
-    <section className="border-y border-border bg-paper py-16 md:py-24">
-      <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[1.2fr_.8fr] lg:items-center lg:px-10">
-        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm md:p-6">
-          <div className="grid grid-cols-2 gap-3">
-            <div className="relative row-span-2 min-h-80 overflow-hidden rounded-lg"><Image src={pictures[0]} alt="Modern saved interior reference" fill sizes="40vw" className="object-cover" /></div>
-            {pictures.slice(1).map((picture, index) => <div key={picture} className="relative min-h-36 overflow-hidden rounded-lg"><Image src={picture} alt={`Saved interior reference ${index + 2}`} fill sizes="22vw" className="object-cover" /></div>)}
-          </div>
-          <div className="mt-5 flex items-center justify-between gap-5"><div><p className="text-xs uppercase tracking-[.1em] text-accent">Emerging direction</p><p className="mt-1 font-display text-h3 text-ink-900">Modern · Industrial</p></div><div className="flex gap-2">{palette.map((color) => <span key={color} className="size-7 rounded-full border border-black/10" style={{ backgroundColor: color }} />)}</div></div>
+    <section id="moodboard" className="px-5 py-[clamp(72px,10vw,140px)] sm:px-8 lg:px-14">
+      <div className="mx-auto grid max-w-[1328px] items-center gap-[clamp(40px,6vw,96px)] lg:grid-cols-2">
+        <div className="max-w-[480px]">
+          <p className="mb-3.5 text-[13px] uppercase tracking-[0.12em] text-ink-500">Your moodboard</p>
+          <h2 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-none text-ink-900">Patterns appear naturally.</h2>
+          <p className="mt-7 text-[17px] leading-[1.7] text-ink-700">
+            Save images as you browse. Your moodboard quietly finds the colours, materials and moods you keep coming back to.
+          </p>
+          <Link href="/moodboard" className="focus-ring mt-9 inline-flex min-h-[52px] items-center rounded-full bg-ink-900 px-7 text-[15px] font-semibold text-white hover:bg-ink-700">
+            Open my moodboard
+          </Link>
         </div>
 
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">Adaptive moodboard</p>
-          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">Your choices begin to reveal a pattern.</h2>
-          <p className="mt-5 text-base leading-8 text-ink-700">As references are saved, recurring styles, spaces, materials and dominant colours become visible. The board changes with the direction you create.</p>
-          <Link href="/moodboard" className="focus-ring mt-8 inline-flex min-h-[52px] items-center rounded-sm bg-ink-900 px-6 text-sm font-semibold text-white">Open the moodboard</Link>
+        <div className="relative pb-8">
+          <div className="grid grid-cols-6 auto-rows-[56px] gap-3 sm:auto-rows-[72px]">
+            <div className={`${tile} col-span-3 row-span-4`}><Image src="/images/inspiration/daylight-living-room.png" alt="" fill sizes="33vw" className="object-cover" /></div>
+            <div className={`${tile} col-span-3 row-span-3`}><Image src="/images/inspiration/warm-minimal-bathroom.png" alt="" fill sizes="33vw" className="object-cover" /></div>
+            <div className={`${tile} col-span-2 row-span-3`}><Image src="/images/inspiration/soft-bedroom-layers.png" alt="" fill sizes="22vw" className="object-cover" /></div>
+            <div className="col-span-1 row-span-3 flex flex-col gap-1.5" aria-hidden="true">
+              {["#E7DFD3", "#C9B49A", "#8C7158", "#4B4036"].map((c) => <div key={c} className="flex-1 rounded-sm" style={{ background: c }} />)}
+            </div>
+            <div className={`${tile} col-span-3 row-span-2`}><Image src="/images/inspiration/calm-concealed-kitchen.png" alt="" fill sizes="33vw" className="object-cover" /></div>
+          </div>
+          <div className="absolute -left-2 bottom-0 max-w-[300px] rounded-md bg-surface px-6 py-5 shadow-[0_18px_50px_rgba(30,28,25,0.14)] lg:-left-8">
+            <p className="mb-2.5 text-xs uppercase tracking-[0.12em] text-ink-500">You keep choosing</p>
+            <p className="font-display text-[26px] leading-[1.15] text-ink-900">Warm oak, linen and soft daylight</p>
+          </div>
         </div>
       </div>
     </section>
