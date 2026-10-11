@@ -23,7 +23,7 @@ export default function StylesPage() {
             />
 
             <Link href="/styles/not-sure" className="focus-ring self-start rounded-sm text-sm font-medium text-accent underline-offset-4 hover:underline md:mb-2">
-              Not sure? Take the visual quiz â†’
+              Not sure? Take the visual quiz →
             </Link>
           </div>
 
@@ -46,7 +46,7 @@ export default function StylesPage() {
             </p>
 
             <Link href="/inquiry/project" className="focus-ring rounded-sm font-medium text-accent underline-offset-4 hover:underline">
-              Already know what you need? Start with the project â†’
+              Already know what you need? Start with the project →
             </Link>
           </div>
         </Container>

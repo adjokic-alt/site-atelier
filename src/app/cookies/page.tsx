@@ -51,7 +51,7 @@ export default function CookiesPage() {
         <h2>4. Managing browser storage</h2>
         <p>
           Browser settings can clear site data. Clearing storage will normally remove
-          the local brief. The application also provides a â€œStart overâ€ action that
+          the local brief. The application also provides a “Start over” action that
           removes the active brief draft.
         </p>
       </section>
