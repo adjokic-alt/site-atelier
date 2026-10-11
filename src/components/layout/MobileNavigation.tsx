@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface NavigationItem {
   label: string;
@@ -96,8 +97,9 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
         </span>
       </button>
 
-      {open ? (
-        <div className="fixed inset-0 z-50">
+      {/* Rendered into <body>: the header's backdrop blur would otherwise trap this fixed panel inside the 64px header bar. */}
+      {open ? createPortal(
+        <div className="fixed inset-0 z-[60] lg:hidden">
           <button
             type="button"
             aria-label="Close main menu"
@@ -150,7 +152,8 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
               <p className="text-center text-xs text-ink-500">Your draft is stored in this browser.</p>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </div>
   );
