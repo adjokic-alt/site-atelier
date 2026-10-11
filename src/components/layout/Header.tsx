@@ -11,7 +11,7 @@ import { SavedCount } from "./SavedCount";
 
 /** Pages that open with a full-bleed photograph: the header floats over it until you scroll. */
 function hasPhotoHero(pathname: string) {
-  return pathname === "/";
+  return pathname === "/" || /^\/styles\/(?!not-sure$)[^/]+$/.test(pathname);
 }
 
 export function Header() {
