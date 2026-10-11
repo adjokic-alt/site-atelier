@@ -1,0 +1,26 @@
+import { businessConfig } from "@/config/business.config";
+
+type BusinessConfig = typeof businessConfig;
+
+export function ContactConfig({ business, emailIsPlaceholder }: { business: BusinessConfig; emailIsPlaceholder: boolean }) {
+  const rows = [
+    ["Display name", business.displayName],
+    ["Contact email", business.contactEmail],
+    ["Timezone", business.timezone],
+    ["Response promise", business.responseTimePromiseDays ? `${business.responseTimePromiseDays} working days` : "Not confirmed"],
+    ["Booking link", business.bookingUrl ? "Configured" : "Not configured"],
+  ];
+
+  return (
+    <section className="border-y border-border bg-surface-sunken py-16 md:py-24">
+      <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-10">
+        <div><p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">Current contact configuration</p><h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">Business details shown transparently.</h2><p className="mt-5 text-base leading-8 text-ink-700">These values come from the central business configuration. Placeholder values remain clearly labelled until the public business identity is confirmed.</p></div>
+        <div className="rounded-xl border border-border bg-surface p-6 shadow-sm md:p-8">
+          <dl className="divide-y divide-border text-sm">
+            {rows.map(([label, value]) => <div key={label} className="grid gap-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[180px_1fr]"><dt className="font-medium text-ink-500">{label}</dt><dd className="text-ink-900">{value}{label === "Contact email" && emailIsPlaceholder ? <span className="ml-2 rounded-full bg-accent-tint px-2 py-1 text-xs text-accent">Placeholder</span> : null}</dd></div>)}
+          </dl>
+        </div>
+      </div>
+    </section>
+  );
+}

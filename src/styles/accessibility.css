@@ -1,0 +1,45 @@
+/* M11.8 accessibility safeguards */
+
+html {
+  scroll-padding-top: 6rem;
+}
+
+:focus-visible {
+  scroll-margin-block: 7rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid CanvasText !important;
+    outline-offset: 3px !important;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    forced-color-adjust: auto;
+  }
+}
+
+@media (pointer: coarse) {
+  button,
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  a[href] {
+    min-height: 44px;
+  }
+}

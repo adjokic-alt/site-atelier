@@ -1,0 +1,6 @@
+{
+  "dependenciesToAdd": {
+    "@supabase/supabase-js": "latest",
+    "resend": "latest"
+  }
+}

@@ -1,0 +1,2 @@
+Add this line to src/types/index.ts if it is not already present:
+export * from "./submission";
