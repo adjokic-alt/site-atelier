@@ -18,7 +18,7 @@ export function SaveStyleButton({ styleId, name }: { styleId: StyleId; name: str
         saved ? "bg-ink-900 text-white ring-1 ring-white/40" : "bg-white text-ink-900 hover:bg-white/90"
       }`}
     >
-      <HeartIcon filled={saved} className="size-[18px]" />
+      <HeartIcon filled={saved} className={`size-[18px] ${saved ? "text-[#ed4956]" : ""}`} />
       {saved ? `${name} is your style` : "Save this style"}
     </button>
   );

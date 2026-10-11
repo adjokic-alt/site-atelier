@@ -15,7 +15,7 @@ export function SavedCount({ className = "" }: { className?: string }) {
       aria-label={count ? `Your moodboard, ${count} saved` : "Your moodboard"}
       className={`focus-ring inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full px-2 text-sm ${className}`}
     >
-      <HeartIcon filled={count > 0} className="size-5" />
+      <HeartIcon filled={count > 0} className={`size-5 ${count ? "text-[#ed4956]" : ""}`} />
       {count ? <span className="tabular-nums">{count}</span> : null}
     </Link>
   );

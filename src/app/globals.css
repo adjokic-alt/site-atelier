@@ -149,5 +149,7 @@
 @keyframes atelier-drift { from { transform: scale(1.06); } to { transform: scale(1); } }
 .atelier-rise { animation: atelier-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .atelier-drift { animation: atelier-drift 20s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes atelier-like-pop { 0% { transform: scale(1); } 25% { transform: scale(1.35); } 50% { transform: scale(0.9); } 75% { transform: scale(1.1); } 100% { transform: scale(1); } }
+.atelier-like-pop { animation: atelier-like-pop 0.45s ease-out; }
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
