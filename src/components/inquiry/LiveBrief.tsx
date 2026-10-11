@@ -16,7 +16,9 @@ export function LiveBrief() {
     ["For", whoLabel(brief.space.ownership) ?? "—"],
     ["Where", [brief.project.city, brief.project.country].filter(Boolean).join(", ") || "—"],
     ["Spaces", brief.project.projectCategoryIds.map(spaceLabel).join(", ") || "—"],
-    ["Feels like", brief.style.primaryStyleId ? styleName[brief.style.primaryStyleId] : "—"],
+    ["Feels like", brief.style.primaryStyleId
+      ? styleName[brief.style.primaryStyleId] + (brief.style.accentStyleId ? `, with ${styleName[brief.style.accentStyleId]}` : "")
+      : "—"],
     ["Goals", brief.goals.goalIds.map(goalLabel).join(", ") || "—"],
   ];
 

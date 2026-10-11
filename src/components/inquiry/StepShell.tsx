@@ -2,12 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { styleMix } from "@/lib/brief/style-mix";
+import { useBrief } from "@/providers/BriefProvider";
 import { flowIndex, flowSteps, type InquiryStepId } from "@/lib/inquiry/steps";
 import { LiveBrief } from "./LiveBrief";
 
 interface StepShellProps {
   step: InquiryStepId;
   title: string;
+  /** Shown beside the title on wide screens, under it on phones. */
+  titleAside?: React.ReactNode;
   intro?: string;
   children: React.ReactNode;
   canContinue?: boolean;
@@ -16,8 +21,9 @@ interface StepShellProps {
 }
 
 /** Calm five-step frame: thin step rail, one question, the brief filling in beside it. */
-export function StepShell({ step, title, intro, children, canContinue = true, onContinue, continueLabel }: StepShellProps) {
+export function StepShell({ step, title, titleAside, intro, children, canContinue = true, onContinue, continueLabel }: StepShellProps) {
   const router = useRouter();
+  useAutoStyle();
   const index = flowIndex(step);
   const inFlow = index >= 0;
   const previous = inFlow && index > 0 ? flowSteps[index - 1] : null;
@@ -49,7 +55,10 @@ export function StepShell({ step, title, intro, children, canContinue = true, on
             <p className="mb-3.5 text-[13px] uppercase tracking-[0.12em] text-ink-500">
               {inFlow ? `Step ${index + 1} of ${flowSteps.length}` : "Optional details"}
             </p>
-            <h1 tabIndex={-1} className="font-display text-[clamp(2.75rem,5.6vw,5rem)] leading-none text-ink-900">{title}</h1>
+            <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+              <h1 tabIndex={-1} className="font-display text-[clamp(2.75rem,5.6vw,5rem)] leading-none text-ink-900">{title}</h1>
+              {titleAside}
+            </div>
             {intro ? <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-ink-700">{intro}</p> : null}
             <div className="mt-9 space-y-9">{children}</div>
 
@@ -76,4 +85,20 @@ export function StepShell({ step, title, intro, children, canContinue = true, on
       </div>
     </div>
   );
+}
+
+/** "Feels like": a style from the quiz (or picked by hand) always wins. Without one, take the first impression from the saved pictures. */
+let autoStyleDone = false; // once per visit, so clearing the style by hand sticks
+function useAutoStyle() {
+  const { brief, dispatch, hydrated } = useBrief();
+  const ids = brief.visuals.moodboardItemIds;
+  const primary = brief.style.primaryStyleId;
+  useEffect(() => {
+    if (!hydrated || primary || autoStyleDone) return;
+    const mix = styleMix(ids);
+    if (!mix.length) return;
+    autoStyleDone = true;
+    dispatch({ type: "SET_PRIMARY_STYLE", styleId: mix[0].styleId });
+    if (mix[1]) dispatch({ type: "SET_ACCENT_STYLE", styleId: mix[1].styleId });
+  }, [hydrated, primary, ids, dispatch]);
 }

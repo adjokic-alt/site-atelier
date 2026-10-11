@@ -8,25 +8,25 @@ export const whoOptions = [
   { value: "guests", label: "Guests or tenants", sub: "A rental or holiday home" },
 ];
 
-/** Room cards map onto the existing project categories (no new categories). */
+/** Room cards; values are stored in the brief's existing project_categories text list. */
 export const spaceOptions: { value: ProjectCategoryId; label: string; image: string }[] = [
   { value: "whole-home-renovation", label: "Whole home", image: "/images/inspiration/luxury-open-plan-dining.jpg" },
   { value: "living-room", label: "Living room", image: "/images/inspiration/industrial-brick-living-room.jpg" },
   { value: "kitchen", label: "Kitchen", image: "/images/inspiration/luxury-marble-kitchen.jpg" },
   { value: "bedroom", label: "Bedroom", image: "/images/inspiration/rustic-linen-bedroom.jpg" },
-  // Stand-in picture until a real kids-room photo is added.
-  { value: "kids-room", label: "Kids room", image: "/images/inspiration/soft-bedroom-layers.png" },
+  { value: "bathroom", label: "Bathroom", image: "/images/studios/modern/modern-bathroom.png" },
   { value: "outdoor-garden", label: "Balcony", image: "/images/inspiration/mediterranean-olive-balcony.jpg" },
 ];
 export const moreSpaceOptions: { value: ProjectCategoryId; label: string }[] = [
-  { value: "bathroom", label: "Bathroom" },
-  { value: "interior-design", label: "Styling & decor" },
-  { value: "living-bedrooms", label: "Living & bedrooms" },
-  { value: "extension-new-build", label: "Extension or new build" },
-  { value: "facade-exterior", label: "Facade or exterior" },
-  { value: "property-search-prep", label: "Buying or preparing a property" },
-  { value: "other", label: "Something else" },
+  { value: "garden", label: "Gardening" },
+  { value: "facade-exterior", label: "Facade" },
+  { value: "interior-design", label: "Decoration only" },
 ];
+/** Names for spaces no longer offered, so older briefs still read well. */
+const legacySpaces: Record<string, string> = {
+  "living-bedrooms": "Living & bedrooms", "kids-room": "Kids room", "extension-new-build": "Extension or new build",
+  "property-search-prep": "Buying or preparing a property", "other": "Something else",
+};
 
 /** Five goals that point to a clear design direction. */
 export const goalOptions = [
@@ -40,7 +40,7 @@ export const goalOptions = [
 const legacyGoals: Record<string, string> = { "better-layout": "A better layout", energy: "Energy performance", value: "Long-term value" };
 
 export const whoLabel = (v: string | null) => whoOptions.find((o) => o.value === v)?.label ?? null;
-export const spaceLabel = (v: string) => [...spaceOptions, ...moreSpaceOptions].find((o) => o.value === v)?.label ?? v.replaceAll("-", " ");
+export const spaceLabel = (v: string) => [...spaceOptions, ...moreSpaceOptions].find((o) => o.value === v)?.label ?? legacySpaces[v] ?? v.replaceAll("-", " ");
 export const goalLabel = (v: string) => goalOptions.find((o) => o.value === v)?.label ?? legacyGoals[v] ?? v.replaceAll("-", " ");
 
 /** Goals-step questions about the home (stored in the existing space/budget fields). */

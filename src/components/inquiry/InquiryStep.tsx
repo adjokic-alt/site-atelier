@@ -14,6 +14,7 @@ import { budgetOptions, conditionOptions, goalOptions, moreSpaceOptions, propert
 import { FileDrop } from "./FileDrop";
 import { ProjectErrorSummary, useProjectValidation } from "./ProjectValidationBridge";
 import { StepShell } from "./StepShell";
+import { StyleMix } from "./StyleMix";
 
 const cardBase = "focus-ring rounded-md bg-surface text-left text-ink-900 transition-shadow";
 const cardOn = "ring-2 ring-ink-900";
@@ -242,7 +243,7 @@ function InspirationStep({ addFiles, removeFile }: { addFiles: (n: string[]) => 
   };
 
   return (
-    <StepShell step="photos" title="Your inspiration">
+    <StepShell step="photos" title="Your inspiration" titleAside={<StyleMix />}>
       {saved.length ? (
         <div>
           <p className="mb-4 text-[17px] text-ink-700">Already here from your moodboard. Untick anything that no longer feels right.</p>
