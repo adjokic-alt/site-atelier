@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, Input } from "@/components/ui";
+import Link from "next/link";
+import { Input } from "@/components/ui";
+import { DownloadBriefButton } from "@/components/brief";
 import { useBrief } from "@/providers/BriefProvider";
 import { SubmitBriefPanel } from "./SubmitBriefPanel";
 import { ValidationErrorSummary } from "./ValidationErrorSummary";
@@ -37,16 +39,15 @@ export function ReviewSubmission() {
   return (
     <>
       <ValidationErrorSummary errors={errors} />
-      <Card>
-        <dl className="grid gap-4 text-sm sm:grid-cols-2">
-          <div><dt className="text-ink-500">Style</dt><dd className="capitalize">{brief.style.primaryStyleId ?? "Not selected"}</dd></div>
-          <div><dt className="text-ink-500">Project</dt><dd>{brief.project.projectCategoryIds.join(", ") || "Not selected"}</dd></div>
-          <div><dt className="text-ink-500">Location</dt><dd>{[brief.project.city, brief.project.country].filter(Boolean).join(", ") || "Not added"}</dd></div>
-          <div><dt className="text-ink-500">Budget</dt><dd>{brief.budget.rangeId ?? "Not selected"}</dd></div>
-          <div><dt className="text-ink-500">Moodboard</dt><dd>{brief.visuals.moodboardItemIds.length} saved</dd></div>
-          <div><dt className="text-ink-500">Files</dt><dd>{brief.visuals.localFileNames.length} selected</dd></div>
-        </dl>
-      </Card>
+      <div className="flex flex-wrap items-center gap-3">
+        <DownloadBriefButton />
+        <Link href="/brief" className="focus-ring inline-flex min-h-12 items-center rounded-full border border-ink-900 px-6 text-[15px] font-medium text-ink-900 hover:bg-surface">See the full brief</Link>
+      </div>
+
+      <div>
+        <h2 className="font-display text-[28px] leading-tight text-ink-900">Send it to a designer</h2>
+        <p className="mt-1.5 text-[15px] text-ink-700">We only need a name, an email and your OK. {brief.visuals.moodboardItemIds.length} saved images, {brief.visuals.inspirationLinks.length} board links and {brief.visuals.localFileNames.length} files go with it.</p>
+      </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div id="name-field" tabIndex={-1} className={fieldError("name") ? "rounded-lg ring-2 ring-error ring-offset-2" : ""}>

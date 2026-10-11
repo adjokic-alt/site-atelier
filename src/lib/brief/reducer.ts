@@ -8,7 +8,7 @@ export type BriefAction =
   | { type:"SET_SPACE"; value:ClientBrief["space"] }
   | { type:"SET_BUDGET"; currency:CurrencyCode|null; rangeId:string|null; flexibility?:ClientBrief["budget"]["flexibility"]; startWindow?:string|null; finishBy?:ClientBrief["budget"]["finishBy"] }
   | { type:"ADD_MOODBOARD_ITEM"; itemId:string } | { type:"REMOVE_MOODBOARD_ITEM"; itemId:string }
-  | { type:"SET_LOCAL_FILES"; fileNames:string[] }
+  | { type:"SET_LOCAL_FILES"; fileNames:string[] } | { type:"SET_INSPIRATION_LINKS"; links:string[] }
   | { type:"SET_CONTACT"; name?:string; email?:string; phone?:string|null; preferredChannel?:ClientBrief["contact"]["preferredChannel"]; privacyAccepted?:boolean };
 const touch=(brief:ClientBrief):ClientBrief=>({...brief,updatedAt:new Date().toISOString()});
 export function briefReducer(state:ClientBrief,action:BriefAction):ClientBrief {
@@ -25,6 +25,7 @@ export function briefReducer(state:ClientBrief,action:BriefAction):ClientBrief {
     case"SET_BUDGET":return touch({...state,budget:{...state.budget,currency:action.currency,rangeId:action.rangeId,flexibility:action.flexibility??state.budget.flexibility,startWindow:action.startWindow??state.budget.startWindow,finishBy:action.finishBy??state.budget.finishBy}});
     case"ADD_MOODBOARD_ITEM":return state.visuals.moodboardItemIds.includes(action.itemId)?state:touch({...state,visuals:{...state.visuals,moodboardItemIds:[...state.visuals.moodboardItemIds,action.itemId]}});
     case"REMOVE_MOODBOARD_ITEM":return touch({...state,visuals:{...state.visuals,moodboardItemIds:state.visuals.moodboardItemIds.filter(id=>id!==action.itemId)}});
+    case"SET_INSPIRATION_LINKS":return touch({...state,visuals:{...state.visuals,inspirationLinks:action.links}});
     case"SET_LOCAL_FILES":return touch({...state,visuals:{...state.visuals,localFileNames:action.fileNames}});
     case"SET_CONTACT":{const{type:_type,...contact}=action;void _type;return touch({...state,contact:{...state.contact,...contact}})}
     default:return state;

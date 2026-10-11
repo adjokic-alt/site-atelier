@@ -1,14 +1,322 @@
 "use client";
-import{useMemo,useState}from"react";import Link from"next/link";import{Button,Card,Input,Select}from"@/components/ui";import{useBrief}from"@/providers/BriefProvider";import{OptionGrid}from"./OptionGrid";import{ProjectErrorSummary,useProjectValidation}from"./ProjectValidationBridge";import{StepShell}from"./StepShell";import type{InquiryStepId}from"@/lib/inquiry/steps";import{getServiceAreaMessage}from"@/lib/inquiry/service-area";import type{CurrencyCode,ProjectCategoryId,StyleId}from"@/types";
-const styleOptions=["scandinavian","modern","minimalist","industrial","luxury","rustic","mediterranean"].map(value=>({value,label:value[0].toUpperCase()+value.slice(1)}));
-const projectOptions=[{value:"interior-design",label:"Interior design"},{value:"kitchen",label:"Kitchen"},{value:"bathroom",label:"Bathroom"},{value:"living-bedrooms",label:"Living or bedrooms"},{value:"whole-home-renovation",label:"Whole-home renovation"},{value:"extension-new-build",label:"Extension or new build"},{value:"outdoor-garden",label:"Outdoor or garden"},{value:"facade-exterior",label:"Facade or exterior"},{value:"property-search-prep",label:"Property search or preparation"},{value:"other",label:"Other"}];
-export function InquiryStep({step}:{step:InquiryStepId}){const{brief,dispatch}=useBrief();const[error,setError]=useState("");const projectValidation=useProjectValidation();const service=useMemo(()=>getServiceAreaMessage(brief.project.country),[brief.project.country]);
-if(step==="style")return <StepShell step={step} title="Choose a starting style." intro="Use your quiz result or select a direction directly. You can change it later." canContinue={Boolean(brief.style.primaryStyleId)}><OptionGrid legend="Primary style" options={styleOptions} selected={brief.style.primaryStyleId?[brief.style.primaryStyleId]:[]} onChange={v=>dispatch({type:"SET_PRIMARY_STYLE",styleId:(v[0] as StyleId)??null})}/><Link href="/styles/not-sure" className="focus-ring text-sm font-medium text-accent hover:underline">Not sure? Take the visual quiz →</Link></StepShell>;
-if(step==="project")return <StepShell step={step} title="What are you planning, and where?" intro="Location changes what can be offered. Availability is generated only from confirmed service capabilities." canContinue={brief.project.projectCategoryIds.length>0&&Boolean(brief.project.country)}><ProjectErrorSummary errors={projectValidation.errors}/><OptionGrid fieldId="project-category-field" error={projectValidation.fieldError("projectCategoryIds")} legend="Project type" multiple options={projectOptions} selected={brief.project.projectCategoryIds} onChange={v=>{dispatch({type:"SET_PROJECT_CATEGORIES",categoryIds:v as ProjectCategoryId[]});if(v.length)projectValidation.resolve("projectCategoryIds")}}/><OptionGrid legend="What kind of help do you need?" multiple options={[{value:"design",label:"Design direction"},{value:"scope-definition",label:"Scope definition"},{value:"find-compare-partners",label:"Find and compare partners"},{value:"coordinate-through-completion",label:"Coordination through completion"},{value:"not-sure",label:"Not sure yet"}]} selected={brief.project.helpNeeded} onChange={v=>dispatch({type:"SET_HELP_NEEDED",values:v})}/><div className="grid gap-5 sm:grid-cols-3"><div id="country-field" tabIndex={-1} className={projectValidation.fieldError("country")?"rounded-lg ring-2 ring-error ring-offset-2":""}><Input label="Country code" value={brief.project.country} placeholder="NL" error={projectValidation.fieldError("country")} onChange={e=>{dispatch({type:"SET_LOCATION",country:e.target.value.toUpperCase()});if(e.target.value.trim())projectValidation.resolve("country")}}/></div><Input label="City" value={brief.project.city} onChange={e=>dispatch({type:"SET_LOCATION",country:brief.project.country,city:e.target.value})}/><Input label="Postcode" value={brief.project.postcode} onChange={e=>dispatch({type:"SET_LOCATION",country:brief.project.country,postcode:e.target.value})}/></div>{service?<Card variant="sunken"><p className="text-xs font-semibold uppercase tracking-[.08em] text-accent">{service.status}</p><p className="mt-2 text-sm text-ink-700">{service.message}</p></Card>:brief.project.country?<Card variant="sunken"><p className="text-sm text-ink-700">This location is not configured yet. Submit the brief for an honest review. No local coordination is implied.</p></Card>:null}</StepShell>;
-if(step==="goals")return <StepShell step={step} title="What should the project improve?" intro="Choose useful outcomes and add anything that should be avoided."><OptionGrid legend="Goals" multiple options={[{value:"better-layout",label:"A better layout"},{value:"better-light",label:"More or better light"},{value:"storage",label:"Better storage"},{value:"comfort",label:"More comfort"},{value:"energy",label:"Energy performance"},{value:"value",label:"Long-term value"}]} selected={brief.goals.goalIds} onChange={goalIds=>dispatch({type:"SET_GOALS",goalIds,topGoalIds:goalIds.slice(0,3),mustHaves:brief.goals.mustHaves,avoid:brief.goals.avoid,ownWords:brief.goals.ownWords})}/><Input label="In your own words" value={brief.goals.ownWords} onChange={e=>dispatch({type:"SET_GOALS",goalIds:brief.goals.goalIds,topGoalIds:brief.goals.topGoalIds,mustHaves:brief.goals.mustHaves,avoid:brief.goals.avoid,ownWords:e.target.value})}/><Input label="What should be avoided?" value={brief.goals.avoid} onChange={e=>dispatch({type:"SET_GOALS",goalIds:brief.goals.goalIds,topGoalIds:brief.goals.topGoalIds,mustHaves:brief.goals.mustHaves,avoid:e.target.value,ownWords:brief.goals.ownWords})}/></StepShell>;
-if(step==="space")return <StepShell step={step} title="Tell us about the property." intro="Approximate information is enough. Unknown is a valid answer."><div className="grid gap-5 sm:grid-cols-2"><Select label="Property type" value={brief.space.propertyType??""} onChange={e=>dispatch({type:"SET_SPACE",value:{...brief.space,propertyType:e.target.value||null}})} options={[{value:"",label:"Select"},{value:"apartment",label:"Apartment"},{value:"house",label:"House"},{value:"townhouse",label:"Townhouse"},{value:"commercial",label:"Commercial"},{value:"other",label:"Other"}]}/><Select label="Current condition" value={brief.space.condition??""} onChange={e=>dispatch({type:"SET_SPACE",value:{...brief.space,condition:e.target.value||null}})} options={[{value:"",label:"Select"},{value:"full-renovation",label:"Needs full renovation"},{value:"partial-updates",label:"Needs partial updates"},{value:"cosmetic",label:"Cosmetic only"},{value:"new-shell",label:"New-build shell"}]}/><Input label="Approximate size (m²)" type="number" min="0" value={brief.space.approxSize?.value??""} onChange={e=>dispatch({type:"SET_SPACE",value:{...brief.space,approxSize:e.target.value?{value:Number(e.target.value),unit:"m2"}:null}})}/><Select label="Project stage" value={brief.space.stage??""} onChange={e=>dispatch({type:"SET_SPACE",value:{...brief.space,stage:e.target.value||null}})} options={[{value:"",label:"Select"},{value:"idea",label:"Just an idea"},{value:"plans",label:"I have plans"},{value:"permits",label:"I have permits"},{value:"quotes",label:"I already have quotes"}]}/></div><Input label="Anything else about the space?" value={brief.space.notes} onChange={e=>dispatch({type:"SET_SPACE",value:{...brief.space,notes:e.target.value}})}/></StepShell>;
-if(step==="budget")return <StepShell step={step} title="Budget and timing." intro="Ranges help set a realistic scope. They are not quotes or price promises." canContinue={Boolean(brief.budget.rangeId)}><div className="grid gap-5 sm:grid-cols-2"><Select label="Currency" value={brief.budget.currency??"EUR"} onChange={e=>dispatch({type:"SET_BUDGET",currency:e.target.value as CurrencyCode,rangeId:brief.budget.rangeId})} options={["EUR","GBP","SEK","NOK","DKK","CHF"].map(value=>({value,label:value}))}/><Select label="Budget range" value={brief.budget.rangeId??""} onChange={e=>dispatch({type:"SET_BUDGET",currency:brief.budget.currency??"EUR",rangeId:e.target.value||null})} options={[{value:"",label:"Select"},{value:"under-15",label:"Under 15,000"},{value:"15-30",label:"15,000–30,000"},{value:"30-60",label:"30,000–60,000"},{value:"60-120",label:"60,000–120,000"},{value:"120-plus",label:"120,000+"},{value:"not-sure",label:"Not sure yet"}]}/><Select label="Flexibility" value={brief.budget.flexibility??""} onChange={e=>dispatch({type:"SET_BUDGET",currency:brief.budget.currency,rangeId:brief.budget.rangeId,flexibility:(e.target.value||null) as ClientBriefBudgetFlex})} options={[{value:"",label:"Select"},{value:"firm",label:"Firm"},{value:"some-flexibility",label:"Some flexibility"},{value:"depends",label:"Depends on scope"}]}/><Select label="Preferred start" value={brief.budget.startWindow??""} onChange={e=>dispatch({type:"SET_BUDGET",currency:brief.budget.currency,rangeId:brief.budget.rangeId,startWindow:e.target.value||null})} options={[{value:"",label:"Select"},{value:"asap",label:"As soon as possible"},{value:"within-3-months",label:"Within 3 months"},{value:"3-6-months",label:"3–6 months"},{value:"6-12-months",label:"6–12 months"},{value:"just-exploring",label:"Just exploring"}]}/></div></StepShell>;
-if(step==="photos")return <StepShell step={step} title="Photos and documents." intro="M8 records local file names for the draft only. Actual file storage is added later."><label className="focus-within:focus-ring block rounded-lg border border-dashed border-border-strong bg-surface-sunken p-10 text-center"><span className="font-medium text-ink-900">Choose photos or documents</span><span className="mt-2 block text-sm text-ink-500">Files remain local in this milestone.</span><input className="sr-only" type="file" multiple accept="image/*,.pdf" onChange={e=>dispatch({type:"SET_LOCAL_FILES",fileNames:Array.from(e.target.files??[]).map(file=>file.name)})}/></label>{brief.visuals.localFileNames.length?<ul className="space-y-2 text-sm text-ink-700">{brief.visuals.localFileNames.map(name=><li key={name}>✓ {name}</li>)}</ul>:null}</StepShell>;
-return <StepShell step="review" title="Review your brief." intro="Check the essentials, add contact details, and create a local demo submission. No email or external service is used yet."><Card><dl className="grid gap-4 text-sm sm:grid-cols-2"><div><dt className="text-ink-500">Style</dt><dd className="capitalize">{brief.style.primaryStyleId??"Not selected"}</dd></div><div><dt className="text-ink-500">Project</dt><dd>{brief.project.projectCategoryIds.join(", ")||"Not selected"}</dd></div><div><dt className="text-ink-500">Location</dt><dd>{[brief.project.city,brief.project.country].filter(Boolean).join(", ")||"Not added"}</dd></div><div><dt className="text-ink-500">Budget</dt><dd>{brief.budget.rangeId??"Not selected"}</dd></div><div><dt className="text-ink-500">Moodboard</dt><dd>{brief.visuals.moodboardItemIds.length} saved</dd></div><div><dt className="text-ink-500">Files</dt><dd>{brief.visuals.localFileNames.length} selected</dd></div></dl></Card><div className="grid gap-5 sm:grid-cols-2"><Input label="Name" value={brief.contact.name} onChange={e=>dispatch({type:"SET_CONTACT",name:e.target.value})}/><Input label="Email" type="email" value={brief.contact.email} onChange={e=>dispatch({type:"SET_CONTACT",email:e.target.value})}/></div><label className="flex gap-3 text-sm text-ink-700"><input type="checkbox" checked={brief.contact.privacyAccepted} onChange={e=>dispatch({type:"SET_CONTACT",privacyAccepted:e.target.checked})}/><span>I accept the placeholder privacy terms for this local demo.</span></label>{error?<p role="alert" className="text-sm text-error">{error}</p>:null}<Button size="lg" onClick={()=>{if(!brief.contact.name||!brief.contact.email||!brief.contact.privacyAccepted){setError("Add name, email and privacy consent before continuing.");return}setError("");window.alert(`Demo submission ready. Reference: ${brief.id.slice(0,8).toUpperCase()}`)}}>Complete demo inquiry</Button></StepShell>;
+
+import Image from "next/image";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { Input, Select } from "@/components/ui";
+import { inspirationItems } from "@/content/inspiration";
+import { styleCatalog } from "@/content/style-catalog";
+import { getServiceAreaMessage } from "@/lib/inquiry/service-area";
+import type { InquiryStepId } from "@/lib/inquiry/steps";
+import { useBrief } from "@/providers/BriefProvider";
+import type { ClientBrief, CurrencyCode, ProjectCategoryId, StyleId } from "@/types";
+import { goalOptions, moreSpaceOptions, spaceOptions, whoOptions } from "./brief-options";
+import { FileDrop } from "./FileDrop";
+import { ProjectErrorSummary, useProjectValidation } from "./ProjectValidationBridge";
+import { StepShell } from "./StepShell";
+
+const cardBase = "focus-ring rounded-md bg-surface text-left text-ink-900 transition-shadow";
+const cardOn = "ring-2 ring-ink-900";
+const cardOff = "ring-1 ring-inset ring-border hover:ring-ink-500";
+const chip = (on: boolean) =>
+  `focus-ring min-h-12 rounded-full border px-6 text-[15px] font-medium transition-colors ${on ? "border-ink-900 bg-ink-900 text-white" : "border-border-strong text-ink-900 hover:border-ink-900"}`;
+const sub = "font-display text-[28px] leading-tight text-ink-900";
+
+type Flex = ClientBrief["budget"]["flexibility"];
+
+export function InquiryStep({ step }: { step: InquiryStepId }) {
+  const { brief, dispatch } = useBrief();
+  const setGoals = (patch: Partial<ClientBrief["goals"]>) => {
+    const g = { ...brief.goals, ...patch };
+    dispatch({ type: "SET_GOALS", goalIds: g.goalIds, topGoalIds: g.goalIds.slice(0, 3), mustHaves: g.mustHaves, avoid: g.avoid, ownWords: g.ownWords });
+  };
+  const setSpace = (patch: Partial<ClientBrief["space"]>) => dispatch({ type: "SET_SPACE", value: { ...brief.space, ...patch } });
+  const addFiles = (names: string[]) => dispatch({ type: "SET_LOCAL_FILES", fileNames: [...new Set([...brief.visuals.localFileNames, ...names])] });
+  const removeFile = (name: string) => dispatch({ type: "SET_LOCAL_FILES", fileNames: brief.visuals.localFileNames.filter((n) => n !== name) });
+
+  if (step === "project") return <WhoStep />;
+  if (step === "space") return <SpacesStep />;
+  if (step === "photos") return <InspirationStep addFiles={addFiles} removeFile={removeFile} />;
+
+  if (step === "goals")
+    return (
+      <StepShell step={step} title="What should change?" intro="Pick what matters most. This tells us which direction to take.">
+        <div role="group" aria-label="Goals" className="flex flex-wrap gap-2.5">
+          {goalOptions.map((g) => {
+            const on = brief.goals.goalIds.includes(g.value);
+            return (
+              <button key={g.value} type="button" aria-pressed={on} className={chip(on)}
+                onClick={() => setGoals({ goalIds: on ? brief.goals.goalIds.filter((x) => x !== g.value) : [...brief.goals.goalIds, g.value] })}>
+                {g.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div>
+          <label htmlFor="own-words" className="mb-2.5 block text-[15px] font-medium text-ink-900">
+            In your own words <span className="font-normal text-ink-500">(optional)</span>
+          </label>
+          <textarea id="own-words" rows={4} value={brief.goals.ownWords} onChange={(e) => setGoals({ ownWords: e.target.value })}
+            placeholder="We cook every evening and want the kitchen to feel part of the living room."
+            className="focus-ring w-full resize-y rounded-md border border-border-strong bg-surface p-4 text-base leading-relaxed text-ink-900 placeholder:text-ink-300" />
+        </div>
+
+        <div>
+          <h2 className={sub}>Your home as it is today</h2>
+          <p className="mb-4 mt-1.5 text-[15px] text-ink-700">Floor plans, sketches, photos of the current state, or whatever you want to change — rough is perfect.</p>
+          <FileDrop title="Drop files here" hint="JPG, PNG, HEIC, PDF, DWG, DXF, SKP · up to 25 MB each" accept="image/*,.heic,.pdf,.dwg,.dxf,.skp"
+            files={brief.visuals.localFileNames} onAdd={addFiles} onRemove={removeFile} />
+        </div>
+
+        <details className="group border-t border-border pt-4">
+          <summary className="focus-ring flex min-h-11 cursor-pointer list-none items-center justify-between rounded-sm text-[15px] font-medium text-ink-900">
+            <span>Add size, budget and timing <span className="font-normal text-ink-500">— optional, helps a designer reply faster</span></span>
+            <span aria-hidden="true" className="text-xl transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div className="grid gap-5 pt-6 sm:grid-cols-2">
+            <Select label="Property type" value={brief.space.propertyType ?? ""} onChange={(e) => setSpace({ propertyType: e.target.value || null })}
+              options={[{ value: "", label: "Select" }, { value: "apartment", label: "Apartment" }, { value: "house", label: "House" }, { value: "townhouse", label: "Townhouse" }, { value: "commercial", label: "Commercial" }, { value: "other", label: "Other" }]} />
+            <Input label="Approximate size (m²)" type="number" min="0" value={brief.space.approxSize?.value ?? ""}
+              onChange={(e) => setSpace({ approxSize: e.target.value ? { value: Number(e.target.value), unit: "m2" } : null })} />
+            <Select label="Current condition" value={brief.space.condition ?? ""} onChange={(e) => setSpace({ condition: e.target.value || null })}
+              options={[{ value: "", label: "Select" }, { value: "full-renovation", label: "Needs full renovation" }, { value: "partial-updates", label: "Needs partial updates" }, { value: "cosmetic", label: "Cosmetic only" }, { value: "new-shell", label: "New-build shell" }]} />
+            <Select label="Where are you now?" value={brief.space.stage ?? ""} onChange={(e) => setSpace({ stage: e.target.value || null })}
+              options={[{ value: "", label: "Select" }, { value: "idea", label: "Just an idea" }, { value: "plans", label: "I have plans" }, { value: "permits", label: "I have permits" }, { value: "quotes", label: "I already have quotes" }]} />
+            <Select label="Budget range" value={brief.budget.rangeId ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency ?? "EUR", rangeId: e.target.value || null })}
+              options={[{ value: "", label: "Select" }, { value: "under-15", label: "Under 15,000" }, { value: "15-30", label: "15,000–30,000" }, { value: "30-60", label: "30,000–60,000" }, { value: "60-120", label: "60,000–120,000" }, { value: "120-plus", label: "120,000+" }, { value: "not-sure", label: "Not sure yet" }]} />
+            <Select label="Currency" value={brief.budget.currency ?? "EUR"} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: e.target.value as CurrencyCode, rangeId: brief.budget.rangeId })}
+              options={["EUR", "GBP", "SEK", "NOK", "DKK", "CHF"].map((value) => ({ value, label: value }))} />
+            <Select label="Flexibility" value={brief.budget.flexibility ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency, rangeId: brief.budget.rangeId, flexibility: (e.target.value || null) as Flex })}
+              options={[{ value: "", label: "Select" }, { value: "firm", label: "Firm" }, { value: "some-flexibility", label: "Some flexibility" }, { value: "depends", label: "Depends on scope" }]} />
+            <Select label="Preferred start" value={brief.budget.startWindow ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency, rangeId: brief.budget.rangeId, startWindow: e.target.value || null })}
+              options={[{ value: "", label: "Select" }, { value: "asap", label: "As soon as possible" }, { value: "within-3-months", label: "Within 3 months" }, { value: "3-6-months", label: "3–6 months" }, { value: "6-12-months", label: "6–12 months" }, { value: "just-exploring", label: "Just exploring" }]} />
+            <div className="sm:col-span-2">
+              <Input label="Anything to avoid?" value={brief.goals.avoid} onChange={(e) => setGoals({ avoid: e.target.value })} />
+            </div>
+            <fieldset className="sm:col-span-2">
+              <legend className="mb-2.5 text-sm font-medium text-ink-700">What help would you like?</legend>
+              <div className="flex flex-wrap gap-2">
+                {[["design", "Design direction"], ["scope-definition", "Scope definition"], ["find-compare-partners", "Find and compare partners"], ["coordinate-through-completion", "Coordination to completion"], ["not-sure", "Not sure yet"]].map(([value, label]) => {
+                  const on = brief.project.helpNeeded.includes(value);
+                  return (
+                    <button key={value} type="button" aria-pressed={on} className={chip(on).replace("min-h-12", "min-h-11").replace("px-6", "px-5")}
+                      onClick={() => dispatch({ type: "SET_HELP_NEEDED", values: on ? brief.project.helpNeeded.filter((x) => x !== value) : [...brief.project.helpNeeded, value] })}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          </div>
+        </details>
+      </StepShell>
+    );
+
+  /* Optional detail pages kept on their existing routes. */
+  if (step === "style")
+    return (
+      <StepShell step={step} title="Your style" intro="Pick the direction closest to your moodboard. You can change it any time.">
+        <StylePicker />
+      </StepShell>
+    );
+  if (step === "budget") {
+    return (
+      <StepShell step={step} title="Budget and timing" intro="Ranges help set a realistic scope. They are not quotes or price promises.">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Select label="Budget range" value={brief.budget.rangeId ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency ?? "EUR", rangeId: e.target.value || null })}
+            options={[{ value: "", label: "Select" }, { value: "under-15", label: "Under 15,000" }, { value: "15-30", label: "15,000–30,000" }, { value: "30-60", label: "30,000–60,000" }, { value: "60-120", label: "60,000–120,000" }, { value: "120-plus", label: "120,000+" }, { value: "not-sure", label: "Not sure yet" }]} />
+          <Select label="Preferred start" value={brief.budget.startWindow ?? ""} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: brief.budget.currency, rangeId: brief.budget.rangeId, startWindow: e.target.value || null })}
+            options={[{ value: "", label: "Select" }, { value: "asap", label: "As soon as possible" }, { value: "within-3-months", label: "Within 3 months" }, { value: "3-6-months", label: "3–6 months" }, { value: "6-12-months", label: "6–12 months" }, { value: "just-exploring", label: "Just exploring" }]} />
+        </div>
+      </StepShell>
+    );
+  }
+  return null;
 }
-type ClientBriefBudgetFlex="firm"|"some-flexibility"|"depends"|null;
+
+function WhoStep() {
+  const { brief, dispatch } = useBrief();
+  const validation = useProjectValidation("project");
+  const service = useMemo(() => getServiceAreaMessage(brief.project.country), [brief.project.country]);
+  return (
+    <StepShell step="project" title="Who is this home for?">
+      <ProjectErrorSummary errors={validation.errors} />
+      <div role="radiogroup" aria-label="Who is this home for?" className="grid gap-3.5 sm:grid-cols-2">
+        {whoOptions.map((o) => {
+          const on = brief.space.ownership === o.value;
+          return (
+            <button key={o.value} type="button" role="radio" aria-checked={on} onClick={() => dispatch({ type: "SET_SPACE", value: { ...brief.space, ownership: o.value } })}
+              className={`${cardBase} min-h-[120px] p-6 ${on ? cardOn : cardOff}`}>
+              <span className="block font-display text-[28px] leading-tight">{o.label}</span>
+              <span className="mt-1.5 block text-sm text-ink-500">{o.sub}</span>
+            </button>
+          );
+        })}
+      </div>
+      <div>
+        <h2 className={sub}>And where is it?</h2>
+        <div className="mt-4 grid gap-5 sm:grid-cols-3">
+          <div id="country-field" tabIndex={-1} className={validation.fieldError("country") ? "rounded-lg ring-2 ring-error ring-offset-2" : ""}>
+            <Input label="Country code" value={brief.project.country} placeholder="NL" maxLength={2} error={validation.fieldError("country")}
+              onChange={(e) => { dispatch({ type: "SET_LOCATION", country: e.target.value.toUpperCase() }); if (e.target.value.trim()) validation.resolve("country"); }} />
+          </div>
+          <Input label="City" value={brief.project.city} onChange={(e) => dispatch({ type: "SET_LOCATION", country: brief.project.country, city: e.target.value })} />
+          <Input label="Postcode (optional)" value={brief.project.postcode} onChange={(e) => dispatch({ type: "SET_LOCATION", country: brief.project.country, postcode: e.target.value })} />
+        </div>
+        {service ? (
+          <p className="mt-4 rounded-md bg-surface-sunken p-4 text-sm text-ink-700"><span className="font-semibold text-ink-900">{service.status}.</span> {service.message}</p>
+        ) : brief.project.country.length === 2 ? (
+          <p className="mt-4 rounded-md bg-surface-sunken p-4 text-sm text-ink-700">We don&apos;t work in this country yet, but you can still send your brief for an honest review.</p>
+        ) : null}
+      </div>
+    </StepShell>
+  );
+}
+
+function SpacesStep() {
+  const { brief, dispatch } = useBrief();
+  const validation = useProjectValidation("space");
+  const selected = brief.project.projectCategoryIds;
+  const set = (ids: ProjectCategoryId[]) => { dispatch({ type: "SET_PROJECT_CATEGORIES", categoryIds: ids }); if (ids.length) validation.resolve("projectCategoryIds"); };
+  const toggle = (id: ProjectCategoryId) => {
+    if (id === "whole-home-renovation") return set(selected.includes(id) ? [] : [id]);
+    const rest = selected.filter((x) => x !== "whole-home-renovation");
+    set(rest.includes(id) ? rest.filter((x) => x !== id) : [...rest, id]);
+  };
+  const err = validation.fieldError("projectCategoryIds");
+
+  return (
+    <StepShell step="space" title="Which spaces?" canContinue={selected.length > 0}>
+      <ProjectErrorSummary errors={validation.errors} />
+      <div id="project-category-field" tabIndex={-1} role="group" aria-label="Spaces" aria-describedby={err ? "spaces-error" : undefined}
+        className={`grid grid-cols-2 gap-3.5 lg:grid-cols-3 ${err ? "rounded-lg ring-2 ring-error ring-offset-4" : ""}`}>
+        {spaceOptions.map((o) => {
+          const on = selected.includes(o.value);
+          return (
+            <button key={o.value} type="button" aria-pressed={on} onClick={() => toggle(o.value)} className={`${cardBase} p-2 ${on ? cardOn : cardOff}`}>
+              <span className="relative block h-[clamp(110px,14vw,150px)] overflow-hidden rounded-sm"><Image src={o.image} alt="" fill sizes="(min-width:1024px) 20vw, 45vw" className="object-cover" /></span>
+              <span className="flex items-center justify-between gap-2 px-1 pb-1 pt-3 text-[15px] font-medium">
+                {o.label}
+                <span aria-hidden="true" className={`size-[18px] shrink-0 rounded-full ${on ? "bg-ink-900" : "border border-ink-300"}`} />
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      {err ? <p id="spaces-error" role="alert" className="text-sm font-medium text-error">{err}</p> : null}
+      <div>
+        <p className="mb-2.5 text-sm text-ink-500">Something bigger?</p>
+        <div className="flex flex-wrap gap-2">
+          {moreSpaceOptions.map((o) => {
+            const on = selected.includes(o.value);
+            return <button key={o.value} type="button" aria-pressed={on} onClick={() => toggle(o.value)} className={chip(on).replace("min-h-12", "min-h-11").replace("px-6", "px-5")}>{o.label}</button>;
+          })}
+        </div>
+      </div>
+    </StepShell>
+  );
+}
+
+function InspirationStep({ addFiles, removeFile }: { addFiles: (n: string[]) => void; removeFile: (n: string) => void }) {
+  const { brief, dispatch } = useBrief();
+  const [link, setLink] = useState("");
+  const [linkError, setLinkError] = useState("");
+  const saved = inspirationItems.filter((i) => brief.visuals.moodboardItemIds.includes(i.id));
+  const addLink = () => {
+    const value = link.trim();
+    if (!/^https?:\/\/\S+\.\S+/.test(value)) { setLinkError("Paste a full link, starting with https://"); return; }
+    setLinkError("");
+    dispatch({ type: "SET_INSPIRATION_LINKS", links: [...new Set([...brief.visuals.inspirationLinks, value])] });
+    setLink("");
+  };
+
+  return (
+    <StepShell step="photos" title="Your inspiration">
+      {saved.length ? (
+        <div>
+          <p className="mb-4 text-[17px] text-ink-700">Already here from your moodboard. Untick anything that no longer feels right.</p>
+          <ul className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2.5">
+            {saved.map((item) => (
+              <li key={item.id} className="relative">
+                <div className="relative h-[140px] overflow-hidden rounded-sm"><Image src={item.image} alt={item.altText} fill sizes="160px" className="object-cover" /></div>
+                <button type="button" aria-label={`Remove ${item.title}`} onClick={() => dispatch({ type: "REMOVE_MOODBOARD_ITEM", itemId: item.id })}
+                  className="focus-ring absolute right-1 top-1 inline-flex size-11 items-center justify-center rounded-full">
+                  <span className="flex size-6 items-center justify-center rounded-full bg-ink-900 text-white">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} aria-hidden="true" className="size-3.5"><path d="M5 12l5 5L20 7" /></svg>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p className="text-[17px] text-ink-700">
+          Your moodboard is empty. <Link href="/inspiration" className="font-medium text-ink-900 underline underline-offset-4">Browse inspiration</Link> and tap the heart on what you love — or add your own below.
+        </p>
+      )}
+
+      <div>
+        <label htmlFor="board-link" className="mb-2.5 block text-[15px] font-semibold text-ink-900">Add a Pinterest board</label>
+        <div className="flex flex-wrap gap-2.5">
+          <input id="board-link" type="url" inputMode="url" value={link} onChange={(e) => setLink(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addLink(); } }}
+            placeholder="https://pinterest.com/yourname/our-new-home" aria-invalid={Boolean(linkError)} aria-describedby="board-link-help"
+            className="focus-ring min-h-14 min-w-0 flex-[1_1_320px] rounded-full border border-ink-900 bg-surface px-5 text-base text-ink-900 placeholder:text-ink-300" />
+          <button type="button" onClick={addLink} className="focus-ring min-h-14 rounded-full bg-ink-900 px-7 text-[15px] font-semibold text-white hover:bg-ink-700">Add board</button>
+        </div>
+        <p id="board-link-help" className={`mt-2.5 text-[13px] ${linkError ? "font-medium text-error" : "text-ink-500"}`} role={linkError ? "alert" : undefined}>
+          {linkError || "Add as many boards as you like — Houzz and Instagram links work too."}
+        </p>
+        {brief.visuals.inspirationLinks.length ? (
+          <ul className="mt-3 space-y-2">
+            {brief.visuals.inspirationLinks.map((l) => (
+              <li key={l} className="flex items-center justify-between gap-3 rounded-md bg-surface py-1.5 pl-4 pr-1.5 text-sm">
+                <span className="truncate text-ink-900">{l}</span>
+                <button type="button" aria-label={`Remove ${l}`} onClick={() => dispatch({ type: "SET_INSPIRATION_LINKS", links: brief.visuals.inspirationLinks.filter((x) => x !== l) })}
+                  className="focus-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink-500 hover:text-ink-900">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true" className="size-4"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
+
+      <div>
+        <p className="mb-3 text-[15px] font-semibold text-ink-900">Or drop your saved pictures</p>
+        <FileDrop icon="image" title="Drop screenshots and photos" hint="JPG, PNG, HEIC, WEBP · up to 25 MB each" accept="image/*,.heic"
+          files={brief.visuals.localFileNames.filter((n) => /\.(jpe?g|png|heic|webp|gif)$/i.test(n))} onAdd={addFiles} onRemove={removeFile} />
+      </div>
+
+      <div>
+        <h2 className={sub}>Which style feels closest?</h2>
+        <p className="mb-4 mt-1.5 text-[15px] text-ink-700">Optional — your images already say a lot.</p>
+        <StylePicker />
+      </div>
+    </StepShell>
+  );
+}
+
+function StylePicker() {
+  const { brief, dispatch } = useBrief();
+  const suggested = useMemo(() => {
+    const counts = new Map<string, number>();
+    inspirationItems.filter((i) => brief.visuals.moodboardItemIds.includes(i.id)).forEach((i) => counts.set(i.styleId, (counts.get(i.styleId) ?? 0) + 1));
+    return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+  }, [brief.visuals.moodboardItemIds]);
+
+  return (
+    <div role="radiogroup" aria-label="Style" className="flex flex-wrap gap-2">
+      {styleCatalog.map((s) => {
+        const on = brief.style.primaryStyleId === s.id;
+        return (
+          <button key={s.id} type="button" role="radio" aria-checked={on} onClick={() => dispatch({ type: "SET_PRIMARY_STYLE", styleId: on ? null : (s.id as StyleId) })}
+            className={chip(on).replace("min-h-12", "min-h-11").replace("px-6", "px-5")}>
+            {s.name}
+            {suggested === s.id && !on ? <span className="ml-1.5 text-xs font-normal text-accent">suggested</span> : null}
+          </button>
+        );
+      })}
+    </div>
+  );
+}

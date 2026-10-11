@@ -19,7 +19,7 @@ export default async function Page({ params }: PageProps) {
   if (!isInquiryStep(step)) notFound();
   if (step === "review") {
     return (
-      <StepShell step="review" title="Review your brief." intro="Check the essentials and submit the demo brief. The server will validate everything again.">
+      <StepShell step="review" title="Your brief is ready." intro="Keep it, share it, or send it to a designer. You can come back and change it any time.">
         <ReviewSubmission />
       </StepShell>
     );

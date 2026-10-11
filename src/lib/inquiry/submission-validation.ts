@@ -20,7 +20,7 @@ export const INQUIRY_ERRORS_KEY = "site-atelier:inquiry-errors";
 export function validateBriefForSubmission(brief: ClientBrief): SubmissionFieldError[] {
   const errors: SubmissionFieldError[] = [];
   if (brief.project.projectCategoryIds.length === 0) {
-    errors.push({ field: "projectCategoryIds", step: "project", message: "Choose at least one project category.", targetId: "project-category-field" });
+    errors.push({ field: "projectCategoryIds", step: "space", message: "Choose at least one space.", targetId: "project-category-field" });
   }
   if (!brief.project.country.trim()) {
     errors.push({ field: "country", step: "project", message: "Add the project country.", targetId: "country-field" });

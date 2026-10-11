@@ -1,2 +1,2 @@
 import { redirect } from "next/navigation";
-export default function InquiryPage(){redirect("/inquiry/style")}
+export default function InquiryPage(){redirect("/inquiry/project")}

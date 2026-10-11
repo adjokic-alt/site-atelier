@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import type { InquiryStepId } from "@/lib/inquiry/steps";
 import {
   clearInquiryError,
   loadInquiryErrors,
@@ -8,11 +9,11 @@ import {
 } from "@/lib/inquiry/submission-validation";
 import { ValidationErrorSummary } from "./ValidationErrorSummary";
 
-export function useProjectValidation() {
+export function useProjectValidation(step: InquiryStepId = "project") {
   const [errors, setErrors] = useState<SubmissionFieldError[]>([]);
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const loaded = loadInquiryErrors().filter((error) => error.step === "project");
+      const loaded = loadInquiryErrors().filter((error) => error.step === step);
       setErrors(loaded);
       const hash = window.location.hash.slice(1);
       if (hash) {
@@ -22,7 +23,7 @@ export function useProjectValidation() {
       }
     }, 0);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [step]);
   const fieldError = (field: SubmissionField) => errors.find((error) => error.field === field)?.message;
   const resolve = (field: SubmissionField) => {
     clearInquiryError(field);
