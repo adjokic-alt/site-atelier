@@ -21,11 +21,11 @@ export function SaveHeart({ itemId, label, className = "" }: { itemId: string; l
       aria-pressed={saved}
       aria-label={saved ? `Remove ${label} from moodboard` : `Save ${label} to moodboard`}
       onClick={toggle}
-      className={`focus-ring inline-flex size-11 items-center justify-center rounded-full bg-surface/95 shadow-sm transition-colors duration-200 hover:bg-white ${
+      className={`focus-ring inline-flex size-12 items-center justify-center rounded-full bg-surface/95 sm:size-14 shadow-sm transition-colors duration-200 hover:bg-white ${
         saved ? "text-[#ed4956]" : "text-ink-900"
       } ${className}`}
     >
-      <HeartIcon key={pops} filled={saved} className={`size-5 ${pops && saved ? "atelier-like-pop" : ""}`} />
+      <HeartIcon key={pops} filled={saved} className={`size-6 sm:size-7 ${pops && saved ? "atelier-like-pop" : ""}`} />
     </button>
   );
 }
