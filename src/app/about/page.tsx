@@ -31,23 +31,14 @@ export default function AboutPage() {
     <main>
       {/* Opening */}
       <section className={`${pad} pb-[clamp(72px,10vw,140px)] pt-[clamp(56px,8vw,112px)]`}>
-        <div className={`${wrap} grid items-center gap-[clamp(48px,7vw,112px)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]`}>
-          <div>
+        <div className={wrap}>
+          <div className="max-w-[900px]">
             <p className={`${label} mb-6`}>About the studio</p>
             <h1 className="font-display text-[clamp(3.25rem,7vw,6.5rem)] leading-[0.95] text-ink-900">Homes made for one person at a time.</h1>
             <p className="mt-8 max-w-[560px] font-display text-[clamp(1.5rem,2.4vw,1.9rem)] italic leading-[1.25] text-ink-700">
               A small studio for people who want their home to feel like their own — not like anyone else’s.
             </p>
           </div>
-          <figure className="mx-auto w-full max-w-[260px] text-center lg:mx-0 lg:justify-self-end">
-            <div className="relative mx-auto aspect-square w-[min(52vw,220px)] overflow-hidden rounded-full bg-ink-900 shadow-[0_24px_60px_rgba(30,28,25,0.16)]">
-              <Image src="/images/about/aleksandar-djokic.jpg" alt="Portrait of Aleksandar Đokić" fill priority sizes="220px" className="object-cover" />
-            </div>
-            <figcaption className="mt-6">
-              <span className="block font-display text-[24px] leading-tight text-ink-900">{contact.name}</span>
-              <span className="mt-1 block text-[13px] uppercase tracking-[0.12em] text-ink-500">{contact.title}</span>
-            </figcaption>
-          </figure>
         </div>
       </section>
 
@@ -113,15 +104,20 @@ export default function AboutPage() {
               <a href={`mailto:${contact.email}`} className="focus-ring inline-flex min-h-[52px] items-center rounded-full border border-ink-900 px-7 text-[15px] font-medium text-ink-900 hover:bg-surface">Write an email</a>
             </div>
           </div>
-          <address className="rounded-md bg-surface p-8 not-italic shadow-[0_24px_60px_rgba(30,28,25,0.08)]">
+          <address className="flex items-center gap-6 rounded-md bg-surface p-6 not-italic shadow-[0_24px_60px_rgba(30,28,25,0.08)] sm:p-8">
+            <div className="min-w-0 flex-1">
             <p className="font-display text-[30px] leading-tight text-ink-900">{contact.name}</p>
             <p className="mt-1 text-[13px] uppercase tracking-[0.12em] text-ink-500">{contact.title}</p>
-            <dl className="mt-6 grid grid-cols-[72px_1fr] gap-y-3 border-t border-border pt-6 text-[15px]">
+            <dl className="mt-6 grid grid-cols-[64px_1fr] gap-y-3 border-t border-border pt-6 text-[15px]">
               <dt className="text-ink-500">Phone</dt>
               <dd><a href={contact.phoneHref} className="focus-ring rounded-sm text-ink-900 underline-offset-4 hover:underline">{contact.phone}</a></dd>
               <dt className="text-ink-500">Email</dt>
               <dd><a href={`mailto:${contact.email}`} className="focus-ring rounded-sm text-ink-900 underline-offset-4 hover:underline">{contact.email}</a></dd>
             </dl>
+            </div>
+            <div className="relative aspect-square w-[clamp(96px,22vw,168px)] shrink-0 overflow-hidden rounded-full bg-ink-900 shadow-[0_12px_32px_rgba(30,28,25,0.18)]">
+              <Image src="/images/about/aleksandar-djokic.jpg" alt="Portrait of Aleksandar Đokić" fill sizes="168px" className="object-cover" />
+            </div>
           </address>
         </div>
       </section>
