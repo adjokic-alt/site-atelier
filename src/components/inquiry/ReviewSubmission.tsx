@@ -48,16 +48,18 @@ export function ReviewSubmission() {
 
       <div>
         <h2 className="font-display text-[28px] leading-tight text-ink-900">{sr ? "Pošaljite ga dizajneru" : "Send it to a designer"}</h2>
-        <p className="mt-1.5 text-[15px] text-ink-700">{sr ? `Potrebni su nam samo ime, imejl i vaša saglasnost. Uz brief idu: sačuvane slike (${brief.visuals.moodboardItemIds.length}), linkovi ka tablama (${brief.visuals.inspirationLinks.length}) i fajlovi (${brief.visuals.localFileNames.length}).` : `We only need a name, an email and your OK. ${brief.visuals.moodboardItemIds.length} saved images, ${brief.visuals.inspirationLinks.length} board links and ${brief.visuals.localFileNames.length} files go with it.`}</p>
+        <p className="mt-1.5 text-[15px] text-ink-700">{sr ? `Potrebni su nam samo ime, imejl i vaša saglasnost — telefon nije obavezan. Uz brief idu: sačuvane slike (${brief.visuals.moodboardItemIds.length}), linkovi ka tablama (${brief.visuals.inspirationLinks.length}) i fajlovi (${brief.visuals.localFileNames.length}).` : `We only need a name, an email and your OK — a phone number is optional. ${brief.visuals.moodboardItemIds.length} saved images, ${brief.visuals.inspirationLinks.length} board links and ${brief.visuals.localFileNames.length} files go with it.`}</p>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <div id="name-field" tabIndex={-1} className={fieldError("name") ? "rounded-lg ring-2 ring-error ring-offset-2" : ""}>
           <Input label={sr ? "Ime" : "Name"} value={brief.contact.name} error={fieldError("name")} onChange={(event) => { dispatch({ type: "SET_CONTACT", name: event.target.value }); if (event.target.value.trim()) resolve("name"); }} />
         </div>
         <div id="email-field" tabIndex={-1} className={fieldError("email") ? "rounded-lg ring-2 ring-error ring-offset-2" : ""}>
           <Input label={sr ? "Imejl" : "Email"} type="email" value={brief.contact.email} error={fieldError("email")} onChange={(event) => { dispatch({ type: "SET_CONTACT", email: event.target.value }); if (/^\S+@\S+\.\S+$/.test(event.target.value)) resolve("email"); }} />
         </div>
+        <Input label={sr ? "Telefon (nije obavezno)" : "Phone (optional)"} type="tel" inputMode="tel" autoComplete="tel" value={brief.contact.phone ?? ""}
+          onChange={(event) => dispatch({ type: "SET_CONTACT", phone: event.target.value.trim() ? event.target.value : null })} />
       </div>
 
       <div id="privacy-field" tabIndex={-1} className={`rounded-lg p-3 ${fieldError("privacyAccepted") ? "border-2 border-error bg-red-50" : ""}`}>
