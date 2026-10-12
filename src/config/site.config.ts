@@ -42,7 +42,7 @@ export const siteConfig: SiteConfig = {
     { label: "Inspiration", href: "/inspiration" },
     { label: "Styles", href: "/styles" },
     { label: "Moodboard", href: "/moodboard" },
-    { label: "Services", href: "/services" },
+    { label: "How it works", href: "/how-it-works" },
     { label: "About", href: "/about" },
   ],
   footerNav: [
