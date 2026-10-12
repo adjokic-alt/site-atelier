@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { RotatingQuote } from "@/components/about/RotatingQuote";
 
 export const metadata: Metadata = {
   title: "About",
@@ -38,12 +39,12 @@ export default function AboutPage() {
               A small studio for people who want their home to feel like their own — not like anyone else’s.
             </p>
           </div>
-          <figure className="mx-auto w-full max-w-[360px] text-center lg:mx-0 lg:justify-self-end">
-            <div className="relative mx-auto aspect-square w-[min(78vw,340px)] overflow-hidden rounded-full bg-ink-900 shadow-[0_24px_60px_rgba(30,28,25,0.16)]">
-              <Image src="/images/about/aleksandar-djokic.jpg" alt="Portrait of Aleksandar Đokić" fill priority sizes="340px" className="object-cover" />
+          <figure className="mx-auto w-full max-w-[260px] text-center lg:mx-0 lg:justify-self-end">
+            <div className="relative mx-auto aspect-square w-[min(52vw,220px)] overflow-hidden rounded-full bg-ink-900 shadow-[0_24px_60px_rgba(30,28,25,0.16)]">
+              <Image src="/images/about/aleksandar-djokic.jpg" alt="Portrait of Aleksandar Đokić" fill priority sizes="220px" className="object-cover" />
             </div>
             <figcaption className="mt-6">
-              <span className="block font-display text-[28px] leading-tight text-ink-900">{contact.name}</span>
+              <span className="block font-display text-[24px] leading-tight text-ink-900">{contact.name}</span>
               <span className="mt-1 block text-[13px] uppercase tracking-[0.12em] text-ink-500">{contact.title}</span>
             </figcaption>
           </figure>
@@ -97,12 +98,7 @@ export default function AboutPage() {
             </div>
             <p className="mt-8 font-display text-[34px] italic leading-none text-ink-900">Aleksandar</p>
           </div>
-          <figure className="self-center border-l border-accent pl-8">
-            <blockquote className="font-display text-[clamp(1.9rem,3.2vw,2.75rem)] italic leading-[1.18] text-ink-900">
-              “Have nothing in your houses that you do not know to be useful, or believe to be beautiful.”
-            </blockquote>
-            <figcaption className="mt-5 text-[13px] uppercase tracking-[0.12em] text-ink-500">William Morris, 1880</figcaption>
-          </figure>
+          <RotatingQuote />
         </div>
       </section>
 
