@@ -81,13 +81,21 @@ const tr = <T extends { value: string; label: string }>(list: T[], group: string
   lang === "sr" ? list.map((o) => ({ ...o, label: sr[group][o.value] ?? o.label })) : list;
 
 /** Every option list in the visitor's language. */
-export function getBriefOptions(lang: Lang) {
+/** The budget bands are the same; in dinars the labels show the equivalent amounts. */
+const rsd: Record<Lang, Record<string, string>> = {
+  en: { "under-15": "Under 1.8M", "15-30": "1.8–3.5M", "30-60": "3.5–7M", "60-120": "7–14M", "120-plus": "14M+" },
+  sr: { "under-15": "Do 1,8 mil.", "15-30": "1,8–3,5 mil.", "30-60": "3,5–7 mil.", "60-120": "7–14 mil.", "120-plus": "Preko 14 mil." },
+};
+const forCurrency = <T extends { value: string; label: string }>(list: T[], lang: Lang, currency?: string | null): T[] =>
+  currency === "RSD" ? list.map((o) => ({ ...o, label: rsd[lang][o.value] ?? o.label })) : list;
+
+export function getBriefOptions(lang: Lang, currency?: string | null) {
   return {
     whoOptions: lang === "sr" ? whoOptions.map((o) => ({ ...o, label: sr.who[o.value] ?? o.label, sub: sr.whoSub[o.value] ?? o.sub })) : whoOptions,
     spaceOptions: tr(spaceOptions, "space", lang),
     moreSpaceOptions: tr(moreSpaceOptions, "space", lang),
     goalOptions: tr(goalOptions, "goal", lang),
-    budgetOptions: tr(budgetOptions, "budget", lang),
+    budgetOptions: forCurrency(tr(budgetOptions, "budget", lang), lang, currency),
     propertyOptions: tr(propertyOptions, "property", lang),
     conditionOptions: tr(conditionOptions, "condition", lang),
     stageOptions: tr(stageOptions, "stage", lang),
@@ -99,7 +107,8 @@ const find = (list: { value: string; label: string }[], group: string, v: string
 export const whoLabel = (v: string | null, lang: Lang = "en") => (v ? (lang === "sr" ? sr.who[v] : undefined) ?? whoOptions.find((o) => o.value === v)?.label ?? null : null);
 export const spaceLabel = (v: string, lang: Lang = "en") => (lang === "sr" ? sr.space[v] : undefined) ?? [...spaceOptions, ...moreSpaceOptions].find((o) => o.value === v)?.label ?? legacySpaces[v] ?? v.replaceAll("-", " ");
 export const goalLabel = (v: string, lang: Lang = "en") => (lang === "sr" ? sr.goal[v] : undefined) ?? goalOptions.find((o) => o.value === v)?.label ?? legacyGoals[v] ?? v.replaceAll("-", " ");
-export const budgetLabel = (v: string | null, lang: Lang = "en") => find(budgetOptions, "budget", v, lang);
+export const budgetLabel = (v: string | null, lang: Lang = "en", currency?: string | null) =>
+  currency === "RSD" && v && rsd[lang][v] ? rsd[lang][v] : find(budgetOptions, "budget", v, lang);
 export const propertyLabel = (v: string | null, lang: Lang = "en") => find(propertyOptions, "property", v, lang);
 export const conditionLabel = (v: string | null, lang: Lang = "en") => find(conditionOptions, "condition", v, lang);
 export const stageLabel = (v: string | null, lang: Lang = "en") => find(stageOptions, "stage", v, lang);

@@ -171,7 +171,7 @@ export async function renderCustomerBriefPdf(brief: ClientBrief, options: BriefP
     const facts: [string, string][] = [
       [T("Spaces", "Prostori"), brief.project.projectCategoryIds.map((v) => spaceLabel(v, lang)).join(", ") || "—"],
       [T("Home", "Dom"), [propertyLabel(brief.space.propertyType, lang), brief.space.approxSize ? `${brief.space.approxSize.value} ${brief.space.approxSize.unit === "m2" ? "m²" : "ft²"}` : ""].filter(Boolean).join(", ") || "—"],
-      [T("Budget", "Budžet"), brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId, lang)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "—"],
+      [T("Budget", "Budžet"), brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId, lang, brief.budget.currency)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "—"],
       [T("Where", "Gde"), [brief.project.city, brief.project.country].filter(Boolean).join(", ") || "—"],
     ];
     const fy = 150, colW = (W - 2 * M) / 4;
@@ -268,7 +268,7 @@ export async function renderCustomerBriefPdf(brief: ClientBrief, options: BriefP
       }
       y -= 16;
     };
-    const budget = brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId, lang)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "";
+    const budget = brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId, lang, brief.budget.currency)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "";
 
     section(T("Inspiration", "Inspiracija"), [
       [T("Feels like", "Osećaj"), combo ?? ""],

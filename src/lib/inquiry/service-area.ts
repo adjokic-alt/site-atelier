@@ -2,8 +2,8 @@ import { serviceAreas } from "@/config/service-areas.config";
 import { buildPublicMessage } from "@/lib/service-area/public-message";
 
 const statusLabel = {
-  en: { available: "Available", "review-required": "Reviewed case by case", "not-available": "Not available yet" },
-  sr: { available: "Dostupno", "review-required": "Procenjuje se pojedinačno", "not-available": "Još nije dostupno" },
+  en: { available: "We work here", "review-required": "We work here", "not-available": "Not available yet" },
+  sr: { available: "Radimo ovde", "review-required": "Radimo ovde", "not-available": "Još nije dostupno" },
 } as const;
 
 export function getServiceAreaMessage(country: string, locale: "en" | "sr" = "en") {

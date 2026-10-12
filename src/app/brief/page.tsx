@@ -18,7 +18,7 @@ export default function BriefPage() {
   if (!hydrated) return <div className="px-5 py-24 sm:px-8 lg:px-14"><p className="text-sm text-ink-500">{sr ? "Učitavamo vaš brief…" : "Loading your brief…"}</p></div>;
 
   const saved = inspirationItems.filter((i) => brief.visuals.moodboardItemIds.includes(i.id)).map((i) => localizeInspiration(i, locale));
-  const budget = brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId, locale)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "";
+  const budget = brief.budget.rangeId ? `${budgetLabel(brief.budget.rangeId, locale, brief.budget.currency)}${brief.budget.rangeId !== "not-sure" && brief.budget.currency ? ` ${brief.budget.currency}` : ""}` : "";
   const L = (en: string, srText: string) => (sr ? srText : en);
 
   const sections: { title: string; edit: string; rows: [string, string][] }[] = [

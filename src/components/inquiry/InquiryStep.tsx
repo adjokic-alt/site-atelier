@@ -86,7 +86,7 @@ export function InquiryStep({ step }: { step: InquiryStepId }) {
   const removeFile = (name: string) => dispatch({ type: "SET_LOCAL_FILES", fileNames: brief.visuals.localFileNames.filter((n) => n !== name) });
   const locale = useLocale();
   const t = pick(copy, locale);
-  const { budgetOptions, conditionOptions, goalOptions, propertyOptions, stageOptions } = getBriefOptions(locale);
+  const { budgetOptions, conditionOptions, goalOptions, propertyOptions, stageOptions } = getBriefOptions(locale, brief.budget.currency);
 
   if (step === "project") return <WhoStep />;
   if (step === "space") return <SpacesStep />;
@@ -124,7 +124,7 @@ export function InquiryStep({ step }: { step: InquiryStepId }) {
               {t.currency}
               <select value={brief.budget.currency ?? "EUR"} onChange={(e) => dispatch({ type: "SET_BUDGET", currency: e.target.value as CurrencyCode, rangeId: brief.budget.rangeId })}
                 className="focus-ring min-h-10 rounded-full border border-border-strong bg-surface px-3 text-sm text-ink-900">
-                {["EUR", "GBP", "SEK", "NOK", "DKK", "CHF"].map((c) => <option key={c} value={c}>{c}</option>)}
+                {["EUR", "USD", "RSD"].map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </label>
           } />
