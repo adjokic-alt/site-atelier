@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { getLocale } from "@/i18n/server";
 
-const services = [
+const servicesEn = [
   {
     number: "01",
     title: "Style direction",
@@ -27,13 +28,21 @@ const services = [
   },
 ];
 
-export function ServiceOfferings() {
+const servicesSr = [
+  { number: "01", title: "Pravac stila", summary: "Pretvorite vizuelne želje u jasnu polaznu tačku za to kako prostor treba da izgleda i funkcioniše.", outcome: "Jasniji glavni stil, opcioni sporedni uticaj, omiljeni materijali i sačuvan moodboard.", includes: ["Sedam studija stila", "Galerija inspiracije", "Prilagodljiv moodboard", "Signali stila i materijala"], href: "/styles", cta: "Istražite pravac stila" },
+  { number: "02", title: "Brief projekta", summary: "Organizujte prostorije, prioritete, ograničenja, budžet i rokove u jedan dokument koji se može menjati.", outcome: "Pregledan brief i PDF za klijenta koji olakšavaju poređenje i razgovor.", includes: ["Podaci o projektu i nekretnini", "Prostorije i praktični prioriteti", "Budžet i željeni rokovi", "Ciljevi, ograničenja i otvorena pitanja"], href: "/brief", cta: "Istražite brief projekta" },
+  { number: "03", title: "Upit za dizajn", summary: "Pošaljite gotov brief na iskrenu procenu obima, lokacije i tražene podrške.", outcome: "Serijski broj, sačuvan upit, potvrda imejlom i jasniji sledeći razgovor.", includes: ["Provera na serveru", "Procena lokacije i potpunosti", "PDF u prilogu", "Kontekst za ličan odgovor"], href: "/inquiry", cta: "Istražite upit za dizajn" },
+];
+
+export async function ServiceOfferings() {
+  const sr = (await getLocale()) === "sr";
+  const services = sr ? servicesSr : servicesEn.map((s) => ({ ...s, cta: `Explore ${s.title.toLowerCase()}` }));
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">What the platform supports</p>
-          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">Three layers of clarity before detailed design begins.</h2>
+          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">{sr ? "Šta platforma podržava" : "What the platform supports"}</p>
+          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">{sr ? "Tri sloja jasnoće pre početka detaljnog projektovanja." : "Three layers of clarity before detailed design begins."}</h2>
         </div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -43,7 +52,7 @@ export function ServiceOfferings() {
               <h3 className="mt-6 font-display text-h2 text-ink-900">{service.title}</h3>
               <p className="mt-4 text-sm leading-7 text-ink-700">{service.summary}</p>
               <div className="mt-6 rounded-lg bg-surface-sunken p-4">
-                <p className="text-xs font-semibold uppercase tracking-[.08em] text-ink-500">Outcome</p>
+                <p className="text-xs font-semibold uppercase tracking-[.08em] text-ink-500">{sr ? "Rezultat" : "Outcome"}</p>
                 <p className="mt-2 text-sm leading-7 text-ink-900">{service.outcome}</p>
               </div>
               <ul className="mt-6 space-y-3">
@@ -52,7 +61,7 @@ export function ServiceOfferings() {
                 ))}
               </ul>
               <Link href={service.href} className="focus-ring mt-8 inline-flex min-h-[48px] items-center justify-center rounded-sm border border-ink-900 px-5 text-sm font-semibold text-ink-900 lg:mt-auto lg:translate-y-6">
-                Explore {service.title.toLowerCase()}
+                {service.cta}
               </Link>
             </article>
           ))}

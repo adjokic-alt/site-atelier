@@ -1,2 +1,13 @@
-import{serviceAreas}from"@/config/service-areas.config";import{buildPublicMessage}from"@/lib/service-area/public-message";
-export function getServiceAreaMessage(country:string){const key=country.trim().toUpperCase();const entry=serviceAreas.find(item=>item.countryCode.toUpperCase()===key);return entry?{status:entry.status,message:buildPublicMessage(entry)}:null}
+import { serviceAreas } from "@/config/service-areas.config";
+import { buildPublicMessage } from "@/lib/service-area/public-message";
+
+const statusLabel = {
+  en: { available: "Available", "review-required": "Reviewed case by case", "not-available": "Not available yet" },
+  sr: { available: "Dostupno", "review-required": "Procenjuje se pojedinačno", "not-available": "Još nije dostupno" },
+} as const;
+
+export function getServiceAreaMessage(country: string, locale: "en" | "sr" = "en") {
+  const key = country.trim().toUpperCase();
+  const entry = serviceAreas.find((item) => item.countryCode.toUpperCase() === key);
+  return entry ? { status: statusLabel[locale][entry.status] ?? entry.status, message: buildPublicMessage(entry, locale) } : null;
+}

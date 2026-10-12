@@ -1,7 +1,7 @@
 ﻿import { z } from "zod";
 const style=z.enum(["scandinavian","modern","minimalist","industrial","luxury","rustic","mediterranean"]);
 export const clientBriefSchema=z.object({
- id:z.string().min(1),schemaVersion:z.literal(1),createdAt:z.string(),updatedAt:z.string(),locale:z.enum(["en","de","nl"]),
+ id:z.string().min(1),schemaVersion:z.literal(1),createdAt:z.string(),updatedAt:z.string(),locale:z.enum(["en","de","nl","sr"]),
  style:z.object({primaryStyleId:style.nullable(),accentStyleId:style.nullable(),materialIdsLiked:z.array(z.string()),materialIdsAvoided:z.array(z.string())}),
  project:z.object({projectCategoryIds:z.array(z.enum(["interior-design","kitchen","bathroom","living-bedrooms","whole-home-renovation","extension-new-build","outdoor-garden","facade-exterior","property-search-prep","other","living-room","bedroom","kids-room","garden"])),helpNeeded:z.array(z.string()).default([]),country:z.string(),city:z.string(),postcode:z.string()}),
  goals:z.object({goalIds:z.array(z.string()),topGoalIds:z.array(z.string()),mustHaves:z.array(z.string()),avoid:z.string(),ownWords:z.string()}),

@@ -1,3 +1,4 @@
+import { getLocale } from "@/i18n/server";
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui";
 import { LegalDraftNotice } from "./LegalDraftNotice";
@@ -10,7 +11,8 @@ interface LegalPageProps {
   children: ReactNode;
 }
 
-export function LegalPage({ eyebrow, title, introduction, version, children }: LegalPageProps) {
+export async function LegalPage({ eyebrow, title, introduction, version, children }: LegalPageProps) {
+  const sr = (await getLocale()) === "sr";
   return (
     <main>
       <section className="border-b border-border bg-surface-sunken py-16 md:py-24">
@@ -26,7 +28,7 @@ export function LegalPage({ eyebrow, title, introduction, version, children }: L
               <p className="mt-5 max-w-3xl text-base leading-8 text-ink-700">
                 {introduction}
               </p>
-              <p className="mt-5 text-xs text-ink-500">Document version: {version}</p>
+              <p className="mt-5 text-xs text-ink-500">{sr ? "Verzija dokumenta" : "Document version"}: {version}</p>
             </header>
             <LegalDraftNotice />
           </div>

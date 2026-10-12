@@ -7,11 +7,11 @@ export function isInquiryStep(value:string):value is InquiryStepId{return inquir
  * The simple brief: five visible steps, mapped onto the existing routes so no URL changes.
  * "style" and "budget" stay reachable (e.g. from the full brief's Edit links) as optional detail pages.
  */
-export const flowSteps: { id: InquiryStepId; title: string }[] = [
-  { id: "photos", title: "Inspiration" },
-  { id: "project", title: "Who" },
-  { id: "space", title: "Spaces" },
-  { id: "goals", title: "Goals" },
-  { id: "review", title: "Your brief" },
+export const flowSteps: { id: InquiryStepId; title: string; titleSr: string }[] = [
+  { id: "photos", title: "Inspiration", titleSr: "Inspiracija" },
+  { id: "project", title: "Who", titleSr: "Za koga" },
+  { id: "space", title: "Spaces", titleSr: "Prostori" },
+  { id: "goals", title: "Goals", titleSr: "Ciljevi" },
+  { id: "review", title: "Your brief", titleSr: "Vaš brief" },
 ];
 export function flowIndex(step: InquiryStepId) { return flowSteps.findIndex((s) => s.id === step); }

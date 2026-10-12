@@ -71,6 +71,79 @@ export const stylePairings: Record<StyleId, Partial<Record<StyleId, string>>> = 
   },
 };
 
-export function describeStyle(primary: StyleId, accent: StyleId | null) {
-  return (accent && stylePairings[primary][accent]) || styleAlone[primary];
+/** Serbian: one description per style. */
+export const styleAloneSr: Record<StyleId, string> = {
+  scandinavian: "Svetlo, praktično i tiho toplo. Svetlo drvo, meki tekstil i dnevna svetlost rade najveći deo posla — dom koji deluje mirno i u sivom utorku i u kojem se lako živi svaki dan.",
+  modern: "Čiste linije, sigurne proporcije i ništa suvišno. Glatke površine, uzdržana paleta i nekoliko snažnih komada daju svakoj prostoriji jasan, arhitektonski mir.",
+  minimalist: "Manje, ali bolje. Otvoren prostor, skrivene ostave i uska paleta prirodnih materijala — svaki predmet zaslužuje svoje mesto, pa prostor može da diše.",
+  industrial: "Sirovi materijali sa profinjenom notom. Opeka, čelik, beton i iznošena koža, omekšani toplim svetlom i tepisima da karakter nikada ne deluje hladno.",
+  luxury: "Bogato, uzdržano i duboko udobno. Kamen, orah, somot i mesing, pažljivo slojevito — kvalitet koji osetite pre nego što ga primetite.",
+  rustic: "Zemljano, toplo i napravljeno za život. Reciklirano drvo, malter, lan i kamen unose teksturu i osećaj istorije u svaku prostoriju.",
+  mediterranean: "Lakoća obasjana suncem. Krečom premazani zidovi, terakota, ratan i maslinasto zelena — opuštene prostorije koje podsećaju na dug ručak napolju.",
+};
+
+/** Serbian: main style (first key) combined with a secondary style (second key). */
+export const stylePairingsSr: Record<StyleId, Partial<Record<StyleId, string>>> = {
+  scandinavian: {
+    modern: "Svetao skandinavski mir u oštrijem, modernom okviru. Svetli hrast i meki tekstil susreću čiste linije, tanke crne detalje i dobro isplanirano odlaganje — lako i svetlo, samo malo krojenije.",
+    minimalist: "Nordijska toplina, svedena do kraja. Svetlo drvo, lan i beli zidovi gotovo bez ičega na pogled — spokojne, prozračne prostorije u kojima dnevno svetlo i dobro odlaganje rade posao.",
+    industrial: "Svetle nordijske prostorije sa malo grubosti. Svetli podovi i meke tkanine, prizemljeni crnim čelikom, zidom od opeke ili betona i vintage rasvetom.",
+    luxury: "Skandinavska jednostavnost, tiho unapređena. Svetlo drvo i mirne boje, podignute mermerom, buklé tkaninom i mesingom — bolji materijali, isti lak osećaj.",
+    rustic: "Topla nordijska koliba. Svetlo drvo i beli zidovi, ugrejani recikliranim drvetom, debelim pletivom, kamenom i svetlom sveća.",
+    mediterranean: "Severna svetlost susreće južnu toplinu. Svetli hrast i meke bele nijanse uz terakotu, ratan, lan i maslinasto zelenu za opušten, sunčan mir.",
+  },
+  modern: {
+    scandinavian: "Čiste, arhitektonske linije, omekšane na nordijski način. Glatke površine i uzdržana paleta, ugrejane svetlim drvetom, vunom i obiljem dnevnog svetla.",
+    minimalist: "Precizno i bez nereda. Ravne ostave, velike mirne površine i gotovo jednobojna paleta — oštar moderni dizajn bez ičega suvišnog.",
+    industrial: "Čisti moderni prostori sa urbanom notom. Jasni oblici i velika staklena površina naspram betona, crnog metala i vidljivih detalja.",
+    luxury: "Glatko i uglađeno. Snažni moderni oblici u prirodnom kamenu, tamnom drvetu, zatamnjenom staklu i mekom svetlu — sigurno, profinjeno i mirno kao u hotelu.",
+    rustic: "Moderna jasnoća sa prirodnim karakterom. Čiste linije i jednostavni oblici, ugrejani teksturisanim drvetom, kamenom i ručno rađenim komadima.",
+    mediterranean: "Moderna arhitektura sa letnjim raspoloženjem. Čisti beli volumeni otvoreni ka svetlu, uz terakotu, ratan i suncem ugrejane teksture.",
+  },
+  minimalist: {
+    scandinavian: "Tiho i toplo. Vrlo malo na pogled, ali sve meko — svetlo drvo, lan, vuna i blago svetlo čine da mir deluje kao dom.",
+    modern: "Čisto i arhitektonski. Skrivene ostave, oštre ravni i uska paleta bele, kamena i drveta — mir kroz preciznost.",
+    industrial: "Svedeno, sa sirovom iskrenošću. Malo komada, goli beton ili malter i tanke linije crnog čelika — skromno, snažno i mirno.",
+    luxury: "Tihi luksuz. Nekoliko izuzetnih komada, prirodni kamen i fine tkanine u svedenoj paleti — ništa glasno, sve promišljeno.",
+    rustic: "Wabi-sabi mir. Otvoren prostor, nesavršen malter, sirovo drvo i ručno rađena keramika — jednostavno, prirodno i puno teksture.",
+    mediterranean: "Jednostavnost obasjana suncem. Krečom premazani zidovi, ugrađene klupe i nekoliko prirodnih komada — spokoj belo okrečene letnje kuće.",
+  },
+  industrial: {
+    scandinavian: "Karakter lofta, osvetljen. Opeka, čelik i beton uravnoteženi svetlim drvetom, belim zidovima i mekim tekstilom, pa prostor ostaje svetao.",
+    modern: "Urbani loft, čisto rešen. Vidljiva konstrukcija i tamni metal uz glatku kuhinju, čiste linije i velike otvorene prostore.",
+    minimalist: "Sirovo i uzdržano. Beton, čelik i opeka sa vrlo malo predmeta — sami materijali su dekoracija.",
+    luxury: "Glamur skladišta. Opeka i čelik naglašeni kožom, somotom, mesingom i dramatičnom rasvetom — grubo, bogato i sofisticirano.",
+    rustic: "Toplina radionice. Reciklirano drvo, iznošena koža, opeka i crno gvožđe — puno karaktera, proživljeno i sa pričom.",
+    mediterranean: "Sunčan loft. Sirova opeka i čelik omekšani terakotom, biljkama, ratanom i toplim bojama obasjanim suncem.",
+  },
+  luxury: {
+    scandinavian: "Elegantno, a lako. Mermer, mesing i fine tkanine u svetlom, mirnom nordijskom okruženju — profinjeno, a nikada ukočeno.",
+    modern: "Uglađeni savremeni glamur. Glatki oblici u kamenu, laku i tamnom drvetu, sa slojevitom rasvetom i krojenim detaljima.",
+    minimalist: "Uzdržana raskoš. Manje komada vrhunskog kvaliteta — kamen sa simetričnim šarama, svila i orah u mirnom, uređenom prostoru.",
+    industrial: "Bogato, sa sirovom notom. Somot, mermer i mesing naspram vidljive opeke, čelika i betona za smelu dramu punu karaktera.",
+    rustic: "Profinjenost seoske vile. Fine tkanine i uglađeni detalji uz topao kamen, grede i ostarelo drvo — raskošno, a dobrodošlo.",
+    mediterranean: "Elegancija rivijere. Mermer, mesing i meki lan u tonovima obasjanim suncem — opušten luksuz sa primorskim sjajem.",
+  },
+  rustic: {
+    scandinavian: "Seoska kuća, osvetljena. Grubo drvo i kamen uravnoteženi svetlim zidovima, jednostavnim oblicima i nordijskom mekoćom.",
+    modern: "Moderna seoska kuća. Čist raspored i jednostavne linije, prizemljeni recikliranim drvetom, kamenom i prirodnim teksturama.",
+    minimalist: "Jednostavno i zemljano. Malo stvari, sve prirodno — sirovo drvo, krečni malter, lan i kamen u mirnom, uređenom domu.",
+    industrial: "Ambar susreće radionicu. Teško drvo, gvožđe, opeka i koža — čvrsto, toplo i puno karaktera.",
+    luxury: "Udobnost planinske kuće, uzdignuta. Grede, kamen i drvo opremljeni bogatim tkaninama, kožom i profinjenom rasvetom.",
+    mediterranean: "Selo na jugu. Podovi od terakote, grub malter, maslinovo drvo i lan — toplo, zemljano i opušteno.",
+  },
+  mediterranean: {
+    scandinavian: "Sunčano, prozračno i svetlo. Okrečeni zidovi i terakota uz svetli hrast i čistu nordijsku jednostavnost.",
+    modern: "Primorski i savremeni. Topli materijali obasjani suncem u čistim modernim oblicima, sa velikim otvorima ka svetlu.",
+    minimalist: "Spokoj okrečenih zidova. Lukovi, malter i kamen, gotovo bez ičega više — mirno, svetlo i bezvremeno.",
+    industrial: "Južna toplina sa urbanom notom. Terakota, malter i biljke prizemljeni crnim metalnim okvirima i sirovim detaljima.",
+    luxury: "Život u vili. Krečom premazani zidovi, travertin, lan i mesing — okupano suncem, velikodušno i profinjeno.",
+    rustic: "Stara seoska kuća na jugu. Terakota, grub kamen, maslinovo drvo i tkane teksture — toplo, iskreno i opušteno.",
+  },
+};
+
+export function describeStyle(primary: StyleId, accent: StyleId | null, locale: "en" | "sr" = "en") {
+  const pairs = locale === "sr" ? stylePairingsSr : stylePairings;
+  const alone = locale === "sr" ? styleAloneSr : styleAlone;
+  return (accent && pairs[primary][accent]) || alone[primary];
 }

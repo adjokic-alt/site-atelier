@@ -1,4 +1,4 @@
-export type LanguageCode = "en" | "de" | "nl";
+export type LanguageCode = "en" | "de" | "nl" | "sr";
 export type CountryCode = string;
 export type CurrencyCode = "EUR" | "GBP" | "SEK" | "NOK" | "DKK" | "CHF";
 export type StyleId = "scandinavian" | "modern" | "minimalist" | "industrial" | "luxury" | "rustic" | "mediterranean";

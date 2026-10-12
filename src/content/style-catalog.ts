@@ -26,3 +26,19 @@ export const styleCatalog: StyleCatalogItem[] = [
 export function getStyleCatalogItem(styleId: string) {
   return styleCatalog.find((style) => style.id === styleId);
 }
+
+/** Serbian wording for the catalog (ids, images and links stay the same). */
+const styleCatalogSr: Record<StyleId, Pick<StyleCatalogItem, "name" | "shortFeel" | "keywords" | "altText">> = {
+  scandinavian: { name: "Skandinavski", shortFeel: "Svetlo, mirno i praktično.", keywords: ["Prozračno", "Prirodno", "Funkcionalno"], altText: "Skandinavska dnevna soba sa prirodnom dnevnom svetlošću i svetlim drvetom" },
+  modern: { name: "Moderni", shortFeel: "Čiste linije i arhitektonska jasnoća.", keywords: ["Strukturirano", "Čisto", "Samouvereno"], altText: "Moderna dnevna soba sa arhitektonskom geometrijom i tamnim akcentima" },
+  minimalist: { name: "Minimalistički", shortFeel: "Tiho, toplo i namerno jednostavno.", keywords: ["Mirno", "Svedeno", "Taktilno"], altText: "Toplo minimalističko kupatilo sa mekim svetlom i skrivenim ostavama" },
+  industrial: { name: "Industrijski", shortFeel: "Sirovi materijali sa profinjenom notom.", keywords: ["Teksturirano", "Otvoreno", "Prizemljeno"], altText: "Industrijska dnevna soba sa zidom od opeke, kožnom sofom i crnim čeličnim policama" },
+  luxury: { name: "Luksuzni", shortFeel: "Bogati materijali, detalji po meri, uzdržanost.", keywords: ["Po meri", "Slojevito", "Precizno"], altText: "Luksuzna dnevna soba sa zidom od žilavog kamena, buklé foteljom i tamnim hrastom" },
+  rustic: { name: "Rustični", shortFeel: "Prirodna tekstura i topla atmosfera.", keywords: ["Zemljano", "Zanatski", "Toplo"], altText: "Rustična dnevna soba sa zidovima od krečnog maltera i stolom od recikliranog hrasta" },
+  mediterranean: { name: "Mediteranski", shortFeel: "Suncem obasjane površine i lakoća između unutra i napolju.", keywords: ["Svetlo", "Teksturirano", "Opušteno"], altText: "Mediteranska terasa sa maslinom i stolom od travertina" },
+};
+
+/** The catalog in the visitor's language. */
+export function getStyleCatalog(locale: "en" | "sr"): StyleCatalogItem[] {
+  return locale === "sr" ? styleCatalog.map((s) => ({ ...s, ...styleCatalogSr[s.id] })) : styleCatalog;
+}

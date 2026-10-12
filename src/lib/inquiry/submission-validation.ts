@@ -17,22 +17,28 @@ export interface SubmissionFieldError {
 
 export const INQUIRY_ERRORS_KEY = "site-atelier:inquiry-errors";
 
-export function validateBriefForSubmission(brief: ClientBrief): SubmissionFieldError[] {
+const messages = {
+  en: { space: "Choose at least one space.", country: "Add the project country.", name: "Add your name.", email: "Enter a valid email address.", privacy: "Privacy consent is required." },
+  sr: { space: "Izaberite bar jedan prostor.", country: "Unesite državu projekta.", name: "Unesite svoje ime.", email: "Unesite ispravnu imejl adresu.", privacy: "Potrebna je saglasnost za privatnost." },
+};
+
+export function validateBriefForSubmission(brief: ClientBrief, locale: "en" | "sr" = "en"): SubmissionFieldError[] {
   const errors: SubmissionFieldError[] = [];
+  const m = messages[locale];
   if (brief.project.projectCategoryIds.length === 0) {
-    errors.push({ field: "projectCategoryIds", step: "space", message: "Choose at least one space.", targetId: "project-category-field" });
+    errors.push({ field: "projectCategoryIds", step: "space", message: m.space, targetId: "project-category-field" });
   }
   if (!brief.project.country.trim()) {
-    errors.push({ field: "country", step: "project", message: "Add the project country.", targetId: "country-field" });
+    errors.push({ field: "country", step: "project", message: m.country, targetId: "country-field" });
   }
   if (!brief.contact.name.trim()) {
-    errors.push({ field: "name", step: "review", message: "Add your name.", targetId: "name-field" });
+    errors.push({ field: "name", step: "review", message: m.name, targetId: "name-field" });
   }
   if (!/^\S+@\S+\.\S+$/.test(brief.contact.email)) {
-    errors.push({ field: "email", step: "review", message: "Enter a valid email address.", targetId: "email-field" });
+    errors.push({ field: "email", step: "review", message: m.email, targetId: "email-field" });
   }
   if (!brief.contact.privacyAccepted) {
-    errors.push({ field: "privacyAccepted", step: "review", message: "Privacy consent is required.", targetId: "privacy-field" });
+    errors.push({ field: "privacyAccepted", step: "review", message: m.privacy, targetId: "privacy-field" });
   }
   return errors;
 }

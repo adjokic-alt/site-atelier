@@ -3,11 +3,13 @@
 import type { StyleId } from "@/types";
 import { useBrief } from "@/providers/BriefProvider";
 import { HeartIcon } from "@/components/ui/HeartIcon";
+import { useLocale } from "@/i18n/client";
 
 /** Marks this style as the brief's primary style (existing SET_PRIMARY_STYLE action). */
 export function SaveStyleButton({ styleId, name }: { styleId: StyleId; name: string }) {
   const { brief, dispatch } = useBrief();
   const saved = brief.style.primaryStyleId === styleId;
+  const sr = useLocale() === "sr";
 
   return (
     <button
@@ -19,7 +21,7 @@ export function SaveStyleButton({ styleId, name }: { styleId: StyleId; name: str
       }`}
     >
       <HeartIcon filled={saved} className={`size-[18px] ${saved ? "text-[#ed4956]" : ""}`} />
-      {saved ? `${name} is your style` : "Save this style"}
+      {sr ? (saved ? `${name} je vaš stil` : "Sačuvajte ovaj stil") : saved ? `${name} is your style` : "Save this style"}
     </button>
   );
 }

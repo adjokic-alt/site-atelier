@@ -4,26 +4,34 @@ import { Footer } from "@/components/layout/Footer";
 import { BriefProvider } from "@/providers/BriefProvider";
 import { SiteStructuredData } from "@/components/seo";
 import { absoluteUrl, seoConfig } from "@/config/seo.config";
+import { LocaleProvider } from "@/i18n/client";
+import { getLocale } from "@/i18n/server";
 import "./globals.css";
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const sr = (await getLocale()) === "sr";
+  const description = sr
+    ? "Sakupite inspiraciju, pronađite svoj stil i pretvorite ga u jasan brief za dizajnera enterijera."
+    : seoConfig.defaultDescription;
+  return {
   metadataBase: new URL(seoConfig.siteUrl),
   title: {
-    default: seoConfig.defaultTitle,
+    default: sr ? "Site Atelier | Pretvorite ideje u jasan brief" : seoConfig.defaultTitle,
     template: `%s | ${seoConfig.siteName}`,
   },
-  description: seoConfig.defaultDescription,
+  description,
   applicationName: seoConfig.siteName,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
-    locale: seoConfig.locale,
+    locale: sr ? "sr_RS" : seoConfig.locale,
+    alternateLocale: sr ? [seoConfig.locale] : ["sr_RS"],
     url: absoluteUrl("/"),
     siteName: seoConfig.siteName,
     title: seoConfig.defaultTitle,
-    description: seoConfig.defaultDescription,
+    description,
     images: [
       {
         url: seoConfig.ogImagePath,
@@ -36,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: seoConfig.defaultTitle,
-    description: seoConfig.defaultDescription,
+    description,
     images: [seoConfig.ogImagePath],
   },
   robots: {
@@ -51,16 +59,19 @@ export const metadata: Metadata = {
     },
   },
   category: "interior design",
-};
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
   return (
-    <html lang={seoConfig.language} className="h-full">
+    <html lang={locale === "sr" ? "sr-Latn" : "en"} className="h-full">
       <body className="flex min-h-full flex-col antialiased">
+        <LocaleProvider locale={locale}>
         <BriefProvider>
           <SiteStructuredData />
           <Header />
@@ -69,6 +80,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </BriefProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

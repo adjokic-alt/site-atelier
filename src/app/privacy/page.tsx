@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal";
 import { businessConfig } from "@/config/business.config";
 import { legalConfig } from "@/config/legal.config";
+import { getLocale } from "@/i18n/server";
 
-export const metadata: Metadata = {
-  title: "Privacy Notice | Site Atelier",
-  description: "Development-stage privacy notice for the Site Atelier project briefing application.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return (await getLocale()) === "sr"
+    ? { title: "Obaveštenje o privatnosti", description: "Nacrt obaveštenja o privatnosti za aplikaciju za brief projekta." }
+    : { title: "Privacy notice", description: "Development-stage privacy notice for the Site Atelier project briefing application." };
+}
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  if ((await getLocale()) === "sr") return <PrivacyPageSr />;
   return (
     <LegalPage
       eyebrow="Legal"
@@ -37,6 +40,7 @@ export default function PrivacyPage() {
           <li>Name, email, optional phone number and preferred contact channel.</li>
           <li>Names of locally selected files, but not the file contents in the current milestone.</li>
           <li>Technical request data normally processed by the hosting platform when a server route is called.</li>
+          <li>The site language you chose, kept in a cookie named “locale”.</li>
         </ul>
       </section>
 
@@ -108,6 +112,63 @@ export default function PrivacyPage() {
           legally binding decision, automatically accept a project or replace human
           professional review.
         </p>
+      </section>
+    </LegalPage>
+  );
+}
+
+/** Serbian version of the draft privacy notice. */
+function PrivacyPageSr() {
+  return (
+    <LegalPage
+      eyebrow="Pravno"
+      title="Obaveštenje o privatnosti"
+      introduction="Ovaj nacrt objašnjava koje podatke koristi trenutni demo u pregledaču i navodi odluke koje moraju biti konačno donete pre pokretanja."
+      version={legalConfig.privacyPolicyVersion}
+    >
+      <section>
+        <h2>1. Rukovalac podacima</h2>
+        <p>Predloženi rukovalac: {businessConfig.legalName}. Registrovana adresa:{` ${businessConfig.registeredAddress}`}. Kontakt imejl:{` ${businessConfig.contactEmail}`}.</p>
+        <p>Ovi podaci su privremeni i moraju se zameniti potvrđenim pravnim i kontakt podacima pre nego što se lični podaci počnu prikupljati u produkciji.</p>
+      </section>
+      <section>
+        <h2>2. Podaci koje demo koristi</h2>
+        <ul>
+          <li>Željeni stil, materijali i moodboard.</li>
+          <li>Vrsta projekta, lokacija, ciljevi, podaci o nekretnini, budžet i rokovi.</li>
+          <li>Ime, imejl, opcioni broj telefona i željeni način kontakta.</li>
+          <li>Nazivi lokalno izabranih fajlova, ali ne i njihov sadržaj u ovoj fazi.</li>
+          <li>Tehnički podaci o zahtevu koje hosting platforma uobičajeno obrađuje kada se pozove serverska ruta.</li>
+          <li>Izabrani jezik sajta, sačuvan u kolačiću „locale“.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>3. Gde se nacrt čuva</h2>
+        <p>Pre slanja, aktivni brief se čuva u localStorage-u trenutnog pregledača. Ne sinhronizuje se automatski između pregledača ili uređaja. Brisanjem podataka pregledača lokalni nacrt može biti obrisan.</p>
+      </section>
+      <section>
+        <h2>4. Obrada na serveru u demo režimu</h2>
+        <p>Rute za PDF i demo slanje primaju brief radi provere i obrade u memoriji. Trenutni demo ispisuje preglede imejlova u serverski log i ne pravi namerno trajan zapis o klijentu niti šalje pravi imejl.</p>
+      </section>
+      <section>
+        <h2>5. Svrhe i pravni osnovi</h2>
+        <p>Svrhe i pravni osnovi za produkciju moraju se dokumentovati pre pokretanja. Moguće svrhe uključuju odgovaranje na upite za projekte, izradu traženih PDF-ova, sprečavanje zloupotrebe, održavanje bezbednosti i ispunjavanje zakonskih obaveza. Odgovarajući pravni osnov mora se potvrditi za svaku svrhu i nadležnost.</p>
+      </section>
+      <section>
+        <h2>6. Čuvanje podataka</h2>
+        <p>Trenutna konfiguracija predlaže {legalConfig.retention.draftRetentionDays} dana za nacrte i {legalConfig.retention.submittedBriefRetentionDays} dana za poslate briefove. Automatsko brisanje je trenutno {legalConfig.retention.autoDeleteEnabled ? "uključeno" : "isključeno"}. Ovo su razvojna podešavanja, a ne konačna politika čuvanja.</p>
+      </section>
+      <section>
+        <h2>7. Primaoci i prenos u inostranstvo</h2>
+        <p>Pružaoci usluga hostinga, imejla, analitike, skladištenja fajlova i baze podataka još nisu svi izabrani. Pre pokretanja ovo obaveštenje mora navesti kategorije primalaca, lokacije obrade, ugovore o obradi podataka i zaštitne mere za svaki prenos u inostranstvo.</p>
+      </section>
+      <section>
+        <h2>8. Vaša prava</h2>
+        <p>U zavisnosti od važećeg zakona, imate pravo na informacije, pristup, ispravku, brisanje, ograničenje obrade, prigovor, prenosivost, povlačenje saglasnosti i pritužbu nadzornom organu. Kontakt i postupak za zahteve u produkciji moraju se potvrditi pre pokretanja.</p>
+      </section>
+      <section>
+        <h2>9. Automatizovane odluke</h2>
+        <p>Kviz stila i oznake usklađenosti koriste determinisana pravila. Oni ne donose pravno obavezujuće odluke, ne prihvataju projekat automatski i ne zamenjuju stručnu procenu čoveka.</p>
       </section>
     </LegalPage>
   );

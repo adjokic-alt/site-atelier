@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { useLocale } from "@/i18n/client";
 
 export default function ErrorPage({
   error,
@@ -10,6 +11,7 @@ export default function ErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const sr = useLocale() === "sr";
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -17,14 +19,13 @@ export default function ErrorPage({
   return (
     <main className="mx-auto max-w-3xl px-5 py-20 text-center md:py-32">
       <p className="text-xs font-semibold uppercase tracking-[.08em] text-error">
-        Something went wrong
+        {sr ? "Nešto nije u redu" : "Something went wrong"}
       </p>
       <h1 className="mt-4 font-display text-4xl text-ink-900">
-        The page could not be completed.
+        {sr ? "Stranica nije mogla da se učita do kraja." : "The page could not be completed."}
       </h1>
       <p className="mt-5 text-ink-700">
-        Your browser draft has not been intentionally deleted. Try the page
-        again or return to the home page.
+        {sr ? "Vaš nacrt u pregledaču nije obrisan. Pokušajte ponovo ili se vratite na početnu stranu." : "Your browser draft has not been intentionally deleted. Try the page again or return to the home page."}
       </p>
 
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -33,13 +34,13 @@ export default function ErrorPage({
           onClick={reset}
           className="focus-ring min-h-12 rounded-sm bg-ink-900 px-5 text-sm font-medium text-white"
         >
-          Try again
+          {sr ? "Pokušajte ponovo" : "Try again"}
         </button>
         <Link
           href="/"
           className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-ink-900 px-5 text-sm font-medium text-ink-900"
         >
-          Go home
+          {sr ? "Na početnu" : "Go home"}
         </Link>
       </div>
 

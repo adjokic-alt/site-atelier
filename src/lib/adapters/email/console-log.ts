@@ -4,7 +4,7 @@ export const consoleEmailAdapter: EmailAdapter = {
   async sendCustomerConfirmation({ brief, result, pdfFileName, pdfSizeBytes }) {
     console.log("\n=== DEMO CUSTOMER EMAIL ===");
     console.log(`To: ${brief.contact.email}`);
-    console.log(`Subject: We received your project brief - ${result.referenceCode}`);
+    console.log(`Subject: ${brief.locale === "sr" ? "Vaš brief doma" : "Your home brief"} ${result.referenceCode}`);
     console.log(`Reference: ${result.referenceCode}`);
     console.log(`Brief strength: ${result.strengthLevel}`);
     console.log("Next steps: review, honest availability check, response after review.");

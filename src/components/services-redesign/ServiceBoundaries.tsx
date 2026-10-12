@@ -1,4 +1,5 @@
-const included = [
+import { getLocale } from "@/i18n/server";
+const includedEn = [
   "A structured browser-based project draft",
   "Clearly labelled illustrative references",
   "A customer-safe downloadable PDF",
@@ -6,7 +7,7 @@ const included = [
   "A human-readable reference code",
 ];
 
-const notIncluded = [
+const notIncludedEn = [
   "Construction or permit drawings",
   "Structural, legal or engineering advice",
   "Automatic product specification or ordering",
@@ -14,18 +15,22 @@ const notIncluded = [
   "Automatic acceptance of the project",
 ];
 
-export function ServiceBoundaries() {
+const includedSr = ["Strukturisan nacrt projekta u pregledaču", "Jasno označene ilustrativne reference", "PDF za preuzimanje, bezbedan za klijenta", "Čuvanje i slanje imejlom posle predaje", "Čitljiv serijski broj"];
+const notIncludedSr = ["Izvođačke crteže ili crteže za dozvole", "Statičke, pravne ili inženjerske savete", "Automatsku specifikaciju ili naručivanje proizvoda", "Zagarantovan termin ili ponudu", "Automatsko prihvatanje projekta"];
+
+export async function ServiceBoundaries() {
+  const sr = (await getLocale()) === "sr";
   return (
     <section className="border-y border-border bg-surface-sunken py-16 md:py-24">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">Clear boundaries</p>
-          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">Know what the brief can and cannot do.</h2>
+          <p className="text-xs font-semibold uppercase tracking-[.1em] text-accent">{sr ? "Jasne granice" : "Clear boundaries"}</p>
+          <h2 className="mt-4 font-display text-3xl leading-tight text-ink-900 md:text-h1">{sr ? "Znajte šta brief može, a šta ne može." : "Know what the brief can and cannot do."}</h2>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
-          <BoundaryCard title="Included" items={included} positive />
-          <BoundaryCard title="Not included" items={notIncluded} />
+          <BoundaryCard title={sr ? "Uključeno" : "Included"} items={sr ? includedSr : includedEn} positive />
+          <BoundaryCard title={sr ? "Nije uključeno" : "Not included"} items={sr ? notIncludedSr : notIncludedEn} />
         </div>
       </div>
     </section>

@@ -8,6 +8,8 @@ import { siteConfig } from "@/config/site.config";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { MobileNavigation } from "./MobileNavigation";
 import { SavedCount } from "./SavedCount";
+import { LanguageSwitch } from "./LanguageSwitch";
+import { useLocale } from "@/i18n/client";
 
 /** Pages that open with a full-bleed photograph: the header floats over it until you scroll. */
 function hasPhotoHero(pathname: string) {
@@ -16,6 +18,7 @@ function hasPhotoHero(pathname: string) {
 
 export function Header() {
   const pathname = usePathname();
+  const locale = useLocale();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ export function Header() {
         href="#main-content"
         className="focus-ring fixed left-4 top-4 z-[70] -translate-y-24 rounded-full bg-ink-900 px-5 py-3 text-sm font-medium text-white transition-transform focus:translate-y-0"
       >
-        Skip to main content
+        {locale === "sr" ? "Pređi na sadržaj" : "Skip to main content"}
       </a>
 
       <header
@@ -46,7 +49,7 @@ export function Header() {
           <Link
             href="/"
             className="focus-ring min-w-0 shrink rounded-sm font-display text-2xl leading-none md:text-[28px]"
-            aria-label={`${siteConfig.name} home`}
+            aria-label={locale === "sr" ? `${siteConfig.name}, početna` : `${siteConfig.name} home`}
           >
             <span className="block truncate">{siteConfig.name}</span>
           </Link>
@@ -54,6 +57,7 @@ export function Header() {
           <DesktopNavigation items={siteConfig.primaryNav} overPhoto={overPhoto} />
 
           <div className="flex shrink-0 items-center gap-2">
+            <LanguageSwitch overPhoto={overPhoto} className="hidden sm:flex" />
             <SavedCount />
             <Link
               href="/inquiry"
@@ -61,7 +65,7 @@ export function Header() {
                 overPhoto ? "bg-white text-ink-900 hover:bg-white/90" : "bg-ink-900 text-white hover:bg-ink-700"
               }`}
             >
-              Start my brief
+              {locale === "sr" ? "Započnite brief" : "Start my brief"}
             </Link>
             <MobileNavigation items={siteConfig.primaryNav} overPhoto={overPhoto} />
           </div>

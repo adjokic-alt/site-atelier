@@ -4,6 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLocale } from "@/i18n/client";
+import { pick } from "@/i18n/locales";
+import { navLabel } from "@/i18n/names";
+import { LanguageSwitch } from "./LanguageSwitch";
+
+const copy = {
+  en: { open: "Open main menu", close: "Close main menu", title: "Menu", nav: "Mobile primary", brief: "Start my brief", board: "Open my moodboard", note: "Your draft is stored in this browser." },
+  sr: { open: "Otvorite meni", close: "Zatvorite meni", title: "Meni", nav: "Glavni meni", brief: "Započnite brief", board: "Otvorite moodboard", note: "Vaš nacrt se čuva u ovom pregledaču." },
+};
 
 interface NavigationItem {
   label: string;
@@ -21,6 +30,8 @@ const focusableSelector = [
 
 export function MobileNavigation({ items, overPhoto = false }: { items: NavigationItem[]; overPhoto?: boolean }) {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = pick(copy, locale);
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -86,7 +97,7 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
         type="button"
         aria-expanded={open}
         aria-controls="mobile-navigation"
-        aria-label="Open main menu"
+        aria-label={t.open}
         onClick={() => setOpen(true)}
         className={`focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border ${overPhoto ? "border-white/60 text-white" : "border-border-strong bg-surface text-ink-900"}`}
       >
@@ -102,7 +113,7 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
         <div className="fixed inset-0 z-[60] lg:hidden">
           <button
             type="button"
-            aria-label="Close main menu"
+            aria-label={t.close}
             className="absolute inset-0 bg-ink-900/45 backdrop-blur-[2px]"
             onClick={() => closeMenu()}
           />
@@ -115,11 +126,11 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
             className="absolute inset-y-0 right-0 flex w-[min(88vw,390px)] flex-col overflow-y-auto bg-paper p-5 shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
-              <h2 id="mobile-menu-title" className="font-display text-2xl text-ink-900">Menu</h2>
+              <h2 id="mobile-menu-title" className="font-display text-2xl text-ink-900">{t.title}</h2>
               <button
                 ref={closeButtonRef}
                 type="button"
-                aria-label="Close main menu"
+                aria-label={t.close}
                 onClick={() => closeMenu()}
                 className="focus-ring inline-flex min-h-12 min-w-12 items-center justify-center rounded-full border border-border-strong text-2xl text-ink-900"
               >
@@ -127,7 +138,7 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
               </button>
             </div>
 
-            <nav aria-label="Mobile primary" className="mt-6">
+            <nav aria-label={t.nav} className="mt-6">
               <ul className="divide-y divide-border">
                 {items.map((item) => {
                   const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
@@ -138,7 +149,7 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
                         aria-current={active ? "page" : undefined}
                         className={`focus-ring flex min-h-14 items-center justify-between rounded-sm px-2 font-display text-2xl ${active ? "text-accent" : "text-ink-900"}`}
                       >
-                        {item.label}<span aria-hidden="true">→</span>
+                        {navLabel(item.href, item.label, locale)}<span aria-hidden="true">→</span>
                       </Link>
                     </li>
                   );
@@ -147,9 +158,10 @@ export function MobileNavigation({ items, overPhoto = false }: { items: Navigati
             </nav>
 
             <div className="mt-auto grid gap-3 border-t border-border pt-6">
-              <Link href="/inquiry" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-ink-900 px-5 text-sm font-semibold text-white">Start my brief</Link>
-              <Link href="/moodboard" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-ink-900 px-5 text-sm font-medium text-ink-900">Open my moodboard</Link>
-              <p className="text-center text-xs text-ink-500">Your draft is stored in this browser.</p>
+              <Link href="/inquiry" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-ink-900 px-5 text-sm font-semibold text-white">{t.brief}</Link>
+              <Link href="/moodboard" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-ink-900 px-5 text-sm font-medium text-ink-900">{t.board}</Link>
+              <LanguageSwitch className="justify-center" />
+              <p className="text-center text-xs text-ink-500">{t.note}</p>
             </div>
           </div>
         </div>,

@@ -6,11 +6,13 @@ import {
   ContactRoutes,
 } from "@/components/company-redesign";
 import { businessConfig } from "@/config/business.config";
+import { getLocale } from "@/i18n/server";
 
-export const metadata: Metadata = {
-  title: "Contact | Site Atelier",
-  description: "Choose the right route for a new project inquiry, an existing brief or a general question about Site Atelier.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return (await getLocale()) === "sr"
+    ? { title: "Kontakt", description: "Izaberite pravi put za novi upit, postojeći brief ili opšte pitanje." }
+    : { title: "Contact", description: "Choose the right route for a new project inquiry, an existing brief or a general question." };
+}
 
 const emailIsPlaceholder = businessConfig.contactEmail.endsWith("@example.com");
 

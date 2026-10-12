@@ -1,27 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
-import { styleCatalog } from "@/content/style-catalog";
+import { getStyleCatalog } from "@/content/style-catalog";
+import { getLocale } from "@/i18n/server";
+import { pick } from "@/i18n/locales";
 
-const feel: Record<string, string> = {
-  scandinavian: "Light and practical",
-  modern: "Crisp and architectural",
-  minimalist: "Quiet and warm",
-  industrial: "Raw, refined edge",
-  luxury: "Rich, restrained",
-  rustic: "Earthy and warm",
-  mediterranean: "Sun-washed ease",
+const copy = {
+  en: {
+    eyebrow: "Style discovery", title: "Find your style by feel.", quiz: "Not sure? Take the 45-second quiz",
+    feel: { scandinavian: "Light and practical", modern: "Crisp and architectural", minimalist: "Quiet and warm", industrial: "Raw, refined edge", luxury: "Rich, restrained", rustic: "Earthy and warm", mediterranean: "Sun-washed ease" } as Record<string, string>,
+  },
+  sr: {
+    eyebrow: "Otkrivanje stila", title: "Pronađite stil po osećaju.", quiz: "Niste sigurni? Uradite kviz od 45 sekundi",
+    feel: { scandinavian: "Svetlo i praktično", modern: "Čisto i arhitektonski", minimalist: "Tiho i toplo", industrial: "Sirovo, a profinjeno", luxury: "Bogato, uzdržano", rustic: "Zemljano i toplo", mediterranean: "Suncem obasjana lakoća" } as Record<string, string>,
+  },
 };
 
-export function HomeStyles() {
+export async function HomeStyles() {
+  const locale = await getLocale();
+  const t = pick(copy, locale);
+  const styleCatalog = getStyleCatalog(locale);
   return (
     <section id="styles" className="bg-surface pb-[clamp(72px,10vw,140px)] pt-20">
       <div className="mx-auto flex max-w-[1328px] flex-wrap items-end justify-between gap-6 px-5 sm:px-8 lg:px-0">
         <div>
-          <p className="mb-3.5 text-[13px] uppercase tracking-[0.12em] text-ink-500">Style discovery</p>
-          <h2 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-none text-ink-900">Find your style by feel.</h2>
+          <p className="mb-3.5 text-[13px] uppercase tracking-[0.12em] text-ink-500">{t.eyebrow}</p>
+          <h2 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-none text-ink-900">{t.title}</h2>
         </div>
         <Link href="/styles/not-sure" className="focus-ring inline-flex min-h-11 items-center text-[15px] font-medium text-ink-900 underline underline-offset-4">
-          Not sure? Take the 45-second quiz
+          {t.quiz}
         </Link>
       </div>
 
@@ -35,7 +41,7 @@ export function HomeStyles() {
               </div>
               <div className="flex items-baseline justify-between gap-3 pt-4">
                 <span className="font-display text-[32px] leading-none">{style.name}</span>
-                <span className="text-[13px] text-ink-500">{feel[style.id]}</span>
+                <span className="text-[13px] text-ink-500">{t.feel[style.id]}</span>
               </div>
             </Link>
           </li>

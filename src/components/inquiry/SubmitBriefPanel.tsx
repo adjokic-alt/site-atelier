@@ -7,9 +7,14 @@ import { useBrief } from "@/providers/BriefProvider";
 import type { SubmissionErrorResponse, SubmissionSuccessResponse } from "@/types/submission";
 import { saveInquiryErrors, validateBriefForSubmission } from "@/lib/inquiry/submission-validation";
 import { TurnstileWidget } from "./TurnstileWidget";
+import { useLocale } from "@/i18n/client";
 
 export function SubmitBriefPanel() {
-  const { brief } = useBrief();
+  const { brief: draft } = useBrief();
+  const locale = useLocale();
+  const sr = locale === "sr";
+  // The brief travels with the language it was written in, so the PDF and email match.
+  const brief = { ...draft, locale };
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -20,7 +25,7 @@ export function SubmitBriefPanel() {
 
   async function submit() {
     if (status === "submitting") return;
-    const clientErrors = validateBriefForSubmission(brief);
+    const clientErrors = validateBriefForSubmission(brief, locale);
     if (clientErrors.length) {
       saveInquiryErrors(clientErrors);
       const first = clientErrors[0];
@@ -30,7 +35,7 @@ export function SubmitBriefPanel() {
 
     if (turnstileEnabled && !turnstileToken) {
       setStatus("error");
-      setMessage("Complete the bot verification before sending.");
+      setMessage(sr ? "Pre slanja dovršite proveru da niste robot." : "Complete the bot verification before sending.");
       return;
     }
 
@@ -47,9 +52,11 @@ export function SubmitBriefPanel() {
         const details = !data.success && data.fieldErrors
           ? Object.values(data.fieldErrors).slice(0, 3).join(" ")
           : "";
-        const errorMessage = "message" in data
-          ? data.message
-          : "The brief could not be submitted.";
+        const errorMessage = sr
+          ? "Brief nije mogao da bude poslat."
+          : "message" in data
+            ? data.message
+            : "The brief could not be submitted.";
         throw new Error(`${errorMessage} ${details}`.trim());
       }
 
@@ -58,7 +65,7 @@ export function SubmitBriefPanel() {
       router.push(`/inquiry/thank-you?reference=${encodeURIComponent(data.referenceCode)}`);
     } catch (error) {
       setStatus("error");
-      setMessage(error instanceof Error ? error.message : "The brief could not be submitted.");
+      setMessage(error instanceof Error ? error.message : sr ? "Brief nije mogao da bude poslat." : "The brief could not be submitted.");
       setResetSignal((current) => current + 1);
     }
   }
@@ -73,14 +80,14 @@ export function SubmitBriefPanel() {
       <TurnstileWidget onToken={setTurnstileToken} resetSignal={resetSignal} />
 
       <Button size="lg" isLoading={status === "submitting"} disabled={status === "submitting"} onClick={submit}>
-        Send my brief
+        {sr ? "Pošaljite moj brief" : "Send my brief"}
       </Button>
       <p className="text-sm text-ink-500">
-        Your brief is validated securely before it is stored and sent for review.
+        {sr ? "Vaš brief se bezbedno proverava pre nego što se sačuva i pošalje na pregled." : "Your brief is validated securely before it is stored and sent for review."}
       </p>
       {status === "error" ? (
         <p role="alert" className="text-sm text-error">
-          {message} Your brief remains saved in this browser.
+          {message} {sr ? "Vaš brief ostaje sačuvan u ovom pregledaču." : "Your brief remains saved in this browser."}
         </p>
       ) : null}
     </div>

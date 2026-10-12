@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { businessConfig } from "@/config/business.config";
+import { getLocale } from "@/i18n/server";
 
 type BusinessConfig = typeof businessConfig;
 
-export function ContactRoutes({ business, emailIsPlaceholder }: { business: BusinessConfig; emailIsPlaceholder: boolean }) {
+export async function ContactRoutes({ business, emailIsPlaceholder }: { business: BusinessConfig; emailIsPlaceholder: boolean }) {
+  const sr = (await getLocale()) === "sr";
   const generalHref = emailIsPlaceholder ? "/about" : `mailto:${business.contactEmail}`;
-  const routes = [
+  const routes = sr ? [
+    { eyebrow: "Novi projekat", title: "Počnite od vođenog briefa", text: "Zabeležite stil, lokaciju, ciljeve, nekretninu, budžet, rokove i kontakt pre slanja.", href: "/inquiry", label: "Započnite brief projekta", primary: true },
+    { eyebrow: "Postojeći nacrt", title: "Pregledajte ili nastavite brief", text: "Otvorite nacrt sačuvan u ovom pregledaču, izmenite delove i preuzmite aktuelni PDF.", href: "/brief", label: "Otvorite moj brief" },
+    { eyebrow: "Opšte pitanje", title: emailIsPlaceholder ? "Javni kontakt još nije aktivan" : "Pošaljite opšti imejl", text: emailIsPlaceholder ? "Javna imejl adresa je još privremena. Upiti za projekte već mogu da koriste vođeni brief." : `Za pitanja kojima ne treba brief pišite na ${business.contactEmail}.`, href: generalHref, label: emailIsPlaceholder ? "Pročitajte o nama" : "Pošaljite imejl" },
+  ] : [
     { eyebrow: "New project", title: "Start with the guided brief", text: "Record the style, location, goals, property, budget, timing and contact details before submission.", href: "/inquiry", label: "Start my project brief", primary: true },
     { eyebrow: "Existing draft", title: "Review or continue your brief", text: "Open the project draft stored in this browser, edit sections and download the current PDF.", href: "/brief", label: "Open my brief" },
     { eyebrow: "General question", title: emailIsPlaceholder ? "Public contact details are not live yet" : "Send a general email", text: emailIsPlaceholder ? "The configured public email is still a placeholder. Project inquiries can already use the guided brief and production submission flow." : `Use ${business.contactEmail} for questions that do not require a project brief.`, href: generalHref, label: emailIsPlaceholder ? "Read about Site Atelier" : "Send an email" },

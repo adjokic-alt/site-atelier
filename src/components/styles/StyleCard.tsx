@@ -1,18 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { StyleCatalogItem } from "@/content/style-catalog";
+import { getLocale } from "@/i18n/server";
 
 interface StyleCardProps {
   style: StyleCatalogItem;
   priority?: boolean;
 }
 
-export function StyleCard({ style, priority = false }: StyleCardProps) {
+export async function StyleCard({ style, priority = false }: StyleCardProps) {
+  const sr = (await getLocale()) === "sr";
   return (
     <Link
       href={style.href}
       className="focus-ring group block overflow-hidden rounded-xl bg-surface shadow-sm transition-[box-shadow,transform] hover:-translate-y-1 hover:shadow-md"
-      aria-label={`Explore ${style.name} style`}
+      aria-label={sr ? `Istražite stil: ${style.name}` : `Explore ${style.name} style`}
       data-priority={priority || undefined}
     >
       <article className="relative aspect-[4/5] overflow-hidden">
@@ -38,12 +40,12 @@ export function StyleCard({ style, priority = false }: StyleCardProps) {
         />
 
         <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-3 py-1 text-xs text-ink-700 shadow-sm backdrop-blur-sm">
-          Illustrative direction
+          {sr ? "Ilustrativni pravac" : "Illustrative direction"}
         </span>
 
         {style.status === "preview" ? (
           <span className="absolute right-3 top-3 rounded-full border border-white/50 bg-ink-900/55 px-3 py-1 text-xs text-white backdrop-blur-sm">
-            Preview
+            {sr ? "Pregled" : "Preview"}
           </span>
         ) : null}
 
@@ -53,7 +55,7 @@ export function StyleCard({ style, priority = false }: StyleCardProps) {
             {style.shortFeel}
           </p>
           <ul
-            aria-label={`${style.name} qualities`}
+            aria-label={sr ? `Odlike: ${style.name}` : `${style.name} qualities`}
             className="mt-4 flex flex-wrap gap-2"
           >
             {style.keywords.map((keyword) => (
@@ -66,7 +68,7 @@ export function StyleCard({ style, priority = false }: StyleCardProps) {
             ))}
           </ul>
           <span className="mt-5 inline-flex text-sm font-medium">
-            Explore style
+            {sr ? "Istražite stil" : "Explore style"}
             <span
               aria-hidden="true"
               className="ml-2 transition-transform group-hover:translate-x-1"
