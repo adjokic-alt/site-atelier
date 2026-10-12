@@ -14,7 +14,7 @@ const wrap = "mx-auto max-w-[1328px]";
 export default function HowItWorksPage() {
   return (
     <main>
-      <div className={`${pad} pb-[clamp(72px,10vw,140px)] pt-[clamp(56px,8vw,112px)]`}>
+      <div className={`${pad} pb-[clamp(72px,10vw,140px)] pt-[clamp(28px,4vw,56px)]`}>
         <div className={wrap}>
           <header className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
             <h1 className="font-display text-[clamp(3.5rem,8vw,6.5rem)] leading-[0.95] text-ink-900">How it works</h1>
@@ -23,7 +23,7 @@ export default function HowItWorksPage() {
             </p>
           </header>
 
-          <div className="mt-[clamp(48px,7vw,96px)]">
+          <div className="mt-[clamp(24px,3.5vw,48px)]">
             <HowItWorksSteps />
           </div>
 

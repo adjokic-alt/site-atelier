@@ -79,7 +79,7 @@ export function HowItWorksSteps() {
         ))}
       </div>
 
-      <div id="hiw-panel" role="tabpanel" aria-labelledby={`hiw-tab-${active}`} className="grid items-center gap-[clamp(32px,5vw,80px)] pt-[clamp(40px,6vw,72px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+      <div id="hiw-panel" role="tabpanel" aria-labelledby={`hiw-tab-${active}`} className="grid items-center gap-[clamp(32px,5vw,80px)] pt-[clamp(20px,3vw,36px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         <div key={active} className="atelier-rise">
           <p className="text-[13px] uppercase tracking-[0.12em] text-ink-500">Step 0{active + 1} of 04</p>
           <h2 className="mt-4 font-display text-[clamp(2.5rem,4.6vw,4rem)] leading-[1.02] text-ink-900">{step.title}</h2>
