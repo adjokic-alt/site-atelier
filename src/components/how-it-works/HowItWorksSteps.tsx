@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { SaveHeart } from "@/components/ui/SaveHeart";
 import { useBrief } from "@/providers/BriefProvider";
 
-const STEP_MS = 7000;
+const STEP_MS = 4500;
 
 const steps = [
   {
