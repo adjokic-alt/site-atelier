@@ -43,9 +43,14 @@ const legacyGoals: Record<string, string> = { "better-layout": "A better layout"
 
 /** Goals-step questions about the home (stored in the existing space/budget fields). */
 export const budgetOptions = [
-  { value: "under-15", label: "Under 15k" }, { value: "15-30", label: "15–30k" }, { value: "30-60", label: "30–60k" },
-  { value: "60-120", label: "60–120k" }, { value: "120-plus", label: "120k+" }, { value: "not-sure", label: "Not sure yet" },
+  { value: "under-10", label: "Under 10k" }, { value: "10-20", label: "10–20k" }, { value: "20-50", label: "20–50k" },
+  { value: "50-plus", label: "50k+" }, { value: "not-sure", label: "Not sure yet" },
 ];
+/** Bands used before October 2026, so older briefs still read correctly. */
+const legacyBudget: Record<"en" | "sr", Record<string, string>> = {
+  en: { "under-15": "Under 15k", "15-30": "15–30k", "30-60": "30–60k", "60-120": "60–120k", "120-plus": "120k+" },
+  sr: { "under-15": "Do 15 hilj.", "15-30": "15–30 hilj.", "30-60": "30–60 hilj.", "60-120": "60–120 hilj.", "120-plus": "Preko 120 hilj." },
+};
 export const propertyOptions = [
   { value: "apartment", label: "Apartment" }, { value: "house", label: "House" }, { value: "townhouse", label: "Townhouse" },
   { value: "holiday-home", label: "Holiday home" }, { value: "other", label: "Other" },
@@ -72,7 +77,7 @@ const sr: Record<string, Record<string, string>> = {
     "living-bedrooms": "Dnevna i spavaće sobe", "kids-room": "Dečja soba", "extension-new-build": "Dogradnja ili novogradnja", "property-search-prep": "Kupovina ili priprema nekretnine", other: "Nešto drugo",
   },
   goal: { "better-light": "Više svetla", storage: "Bolje odlaganje", comfort: "Toplije i prijatnije", "more-style": "Više stila", "fresh-start": "Novi početak", "better-layout": "Bolji raspored", energy: "Energetska efikasnost", value: "Dugoročna vrednost" },
-  budget: { "under-15": "Do 15 hilj.", "15-30": "15–30 hilj.", "30-60": "30–60 hilj.", "60-120": "60–120 hilj.", "120-plus": "Preko 120 hilj.", "not-sure": "Još nisam siguran/na" },
+  budget: { "under-10": "Do 10 hilj.", "10-20": "10–20 hilj.", "20-50": "20–50 hilj.", "50-plus": "Preko 50 hilj.", "not-sure": "Još nisam siguran/na" },
   property: { apartment: "Stan", house: "Kuća", townhouse: "Kuća u nizu", "holiday-home": "Kuća za odmor", other: "Drugo" },
   condition: { "new-shell": "Novogradnja, prazno", cosmetic: "Dobro, treba osvežiti", "partial-updates": "Potrebno delimično renoviranje", "full-renovation": "Potrebno potpuno renoviranje" },
   stage: { ideas: "Ideje i pravac", sketches: "Skice", visualisations: "3D vizualizacije", "technical-documentation": "Kompletna tehnička dokumentacija" },
@@ -83,8 +88,8 @@ const tr = <T extends { value: string; label: string }>(list: T[], group: string
 /** Every option list in the visitor's language. */
 /** The budget bands are the same; in dinars the labels show the equivalent amounts. */
 const rsd: Record<Lang, Record<string, string>> = {
-  en: { "under-15": "Under 1.8M", "15-30": "1.8–3.5M", "30-60": "3.5–7M", "60-120": "7–14M", "120-plus": "14M+" },
-  sr: { "under-15": "Do 1,8 mil.", "15-30": "1,8–3,5 mil.", "30-60": "3,5–7 mil.", "60-120": "7–14 mil.", "120-plus": "Preko 14 mil." },
+  en: { "under-10": "Under 1.2M", "10-20": "1.2–2.3M", "20-50": "2.3–5.9M", "50-plus": "5.9M+" },
+  sr: { "under-10": "Do 1,2 mil.", "10-20": "1,2–2,3 mil.", "20-50": "2,3–5,9 mil.", "50-plus": "Preko 5,9 mil." },
 };
 const forCurrency = <T extends { value: string; label: string }>(list: T[], lang: Lang, currency?: string | null): T[] =>
   currency === "RSD" ? list.map((o) => ({ ...o, label: rsd[lang][o.value] ?? o.label })) : list;
@@ -108,7 +113,7 @@ export const whoLabel = (v: string | null, lang: Lang = "en") => (v ? (lang === 
 export const spaceLabel = (v: string, lang: Lang = "en") => (lang === "sr" ? sr.space[v] : undefined) ?? [...spaceOptions, ...moreSpaceOptions].find((o) => o.value === v)?.label ?? legacySpaces[v] ?? v.replaceAll("-", " ");
 export const goalLabel = (v: string, lang: Lang = "en") => (lang === "sr" ? sr.goal[v] : undefined) ?? goalOptions.find((o) => o.value === v)?.label ?? legacyGoals[v] ?? v.replaceAll("-", " ");
 export const budgetLabel = (v: string | null, lang: Lang = "en", currency?: string | null) =>
-  currency === "RSD" && v && rsd[lang][v] ? rsd[lang][v] : find(budgetOptions, "budget", v, lang);
+  currency === "RSD" && v && rsd[lang][v] ? rsd[lang][v] : (v && legacyBudget[lang][v]) || find(budgetOptions, "budget", v, lang);
 export const propertyLabel = (v: string | null, lang: Lang = "en") => find(propertyOptions, "property", v, lang);
 export const conditionLabel = (v: string | null, lang: Lang = "en") => find(conditionOptions, "condition", v, lang);
 export const stageLabel = (v: string | null, lang: Lang = "en") => find(stageOptions, "stage", v, lang);
